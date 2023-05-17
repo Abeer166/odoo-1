@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <record id="view_users_form_branches" model="ir.ui.view">
+            <field name="name">view.users.form.branch</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[2]/group[1]" position="before">
+                    <group name="branch">
+                        <field name="branch_ids" widget="many2many_tags"  attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                        <field name="is_branch" invisible="1"/>
+                        <field name="branches" widget="many2many_tags" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    </group>
+                    <group>
+                        <field name="default_branches"  invisible="1" />
+                        <field name="default_branches" groups="branches.group_branch_user"   invisible="1" context="{'default_branches':default_branches}" readonly="0" />
+                        <field name="branch_id2" invisible="1"  readonly="0"/>
+                        <field name="branch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" invisible="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='property_warehouse_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_branch', '=',True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_user_preference_form_extended" model="ir.ui.view">
+            <field name="name">res.user.preference.form.extended</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='tz']" position="after">
+                        <field name="is_branch" invisible="1"/>
+                        <field name="branch_id" invisible="1" context="{'branch_id':branch_id}" readonly="0" />
+                        <field name="default_branches" groups="branches.group_branch_user"  invisible="1" context="{'default_branches':default_branches}" readonly="0" />
+                        <field name="branch_id2"   attrs="{'invisible': [('is_branch', '=',False)]}" context="{'branch_id2':branch_id2}" groups="base.group_multi_company,branches.group_branch_user" readonly="0"/>
+                </xpath>
+                <xpath expr="//field[@name='property_warehouse_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_branch', '=',True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

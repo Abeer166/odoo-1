@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="view_location_form_inter_locations_accounts" model="ir.ui.view">
+            <field name="name">view.location.form.inter.locations.accounts</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[@name='additional_info']/field[@name='company_id']" position="after">
+                        <field name="location_acc_valuation" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'invisible':[('usage','in',('inventory','production'))]}"/>
+                        <field name="location_stock_journal" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'invisible':[('usage','in',('inventory','production'))]}"/>
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" force_save="1" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'invisible': [('is_branch', '=',False)],'readonly': [('scrap_location', '=',False)]}"/>
+                    <field name="branch_type_id" invisible="1"/>
+                    <field name="branch_group_id" invisible="1"/>
+                    <field name="branch_state_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="branch_view_location_tree2" model="ir.ui.view">
+            <field name="name">branch.stock.location.tree</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_tree2"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='complete_name']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+              </xpath>
+
+            </field>
+        </record>
+        <record id="branch_view_location_search" model="ir.ui.view">
+            <field name="name">branch.stock.location.search</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_search"/>
+            <field name="arch" type="xml">  
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <group name="group_by_branch">
+                  <filter name="by_branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </group>
+              </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

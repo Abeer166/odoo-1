@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="product_template_form_view_branch" model="ir.ui.view">
+            <field name="name">product_extended.product.form.branch</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" domain="[('user_ids', '=', uid)]" widget="many2many_tags" attrs="{'invisible': [('is_branch', '=',False)]}" options="{'no_create':True,'no_edit':True,'no_open':True}" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="branch_product_template_tree_view" model="ir.ui.view">
+            <field name="name">product.template.tree.branch</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="is_branch" invisible="1" force_save="1"/>
+                    <field name="branch_ids" widget="many2many_tags" optional="hide"  groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_product_view_form_branch" model="ir.ui.view">
+            <field name="name">product.product.view.form.branch</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" domain="[('user_ids', '=', uid)]" widget="many2many_tags" attrs="{'invisible': [('is_branch', '=',False)]}" options="{'no_create':True,'no_edit':True,'no_open':True}" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="branch_product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree.branch</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="before">
+                <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" widget="many2many_tags" optional="hide"  groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="branch_product_template_search" model="ir.ui.view">
+            <field name="name">branch.product.template.search</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_search_form_view_stock" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='warehouse_id']" position="after">
+                <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" attrs="{'invisible': [('is_branch', '=',False)]}" widget="many2many_tags" optional="show" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="branch_product_product_search" model="ir.ui.view">
+            <field name="name">branch.product.product.search</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.stock_product_search_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='warehouse_id']" position="after">
+                <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" attrs="{'invisible': [('is_branch', '=',False)]}" widget="many2many_tags" optional="show" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

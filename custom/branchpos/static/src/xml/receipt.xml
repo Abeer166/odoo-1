@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="branchpos_extended" inherit_id="point_of_sale.template" xml:space="preserve">
+		<t t-extend="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+		    <xpath expr="//div[hasclass('cashier')]" t-operation="after">
+                        <t t-if="env.pos.config.branch_id">
+                                <div>Branch: <t t-esc="env.pos.config.branch_name" /></div>
+                        </t>
+                        <t t-if="env.pos.config.branch_phone">
+                                <div>Phone:<t t-esc="env.pos.config.branch_phone" /></div>
+                        </t>
+                        <t t-if="env.pos.config.branch_mobile">
+                                <div>Mobile:<t t-esc="env.pos.config.branch_mobile" /></div>
+                        </t>
+                        <t t-if="env.pos.config.branch_email">
+                                <div>Email:<t t-esc="env.pos.config.branch_email" /></div>
+                        </t>
+		    </xpath>
+		</t> 
+</templates>
+
