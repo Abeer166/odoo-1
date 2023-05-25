@@ -5,7 +5,7 @@ from odoo import fields, models
 
 
 class ResBranch(models.Model):
-    _name = "res.branch"
+    _inherit = 'res.branch'
     _description = "branch"
 
     name = fields.Char(required=True)
