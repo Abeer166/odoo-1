@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class ResBranch(models.Model):
-    _name = "res.branch"
+class ResBranchservice(models.Model):
+    _name = "res.branch.service"
     _description = "branch"
 
     name = fields.Char(required=True)

@@ -168,7 +168,7 @@ class FSMOrder(models.Model):
         store=True,
     )
     branch_id = fields.Many2one(
-        "res.branch", string="Branch", related="location_id.branch_id", store=True
+        "res.branch.service", string="Branch", related="location_id.branch_id", store=True
     )
     district_id = fields.Many2one(
         "res.district", string="District", related="location_id.district_id", store=True

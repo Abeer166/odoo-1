@@ -6,7 +6,7 @@
         <field name="name">Test District</field>
         <field name="region_id" eval="ref('test_region')" />
     </record>
-    <record id="test_branch" model="res.branch">
+    <record id="test_branch" model="res.branch.service">
         <field name="name">Test Branch</field>
         <field name="district_id" eval="ref('test_district')" />
     </record>

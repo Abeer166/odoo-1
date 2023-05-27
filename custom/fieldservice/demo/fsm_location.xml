@@ -15,7 +15,8 @@
         <field name="sequence">3</field>
         <field name="stage_type">location</field>
     </record>
-    <!-- fsm.location -->
+
+    <!-- fsm.location
     <record id="test_location" model="fsm.location">
         <field name="name">Test Location</field>
         <field name="phone">123</field>
@@ -29,7 +30,7 @@
         <field name="direction">New the old inventory</field>
         <field name="street">14 Tower A, main street</field>
         <field name="street2">Bangkok, Thailand</field>
-    </record>
+    </record>-->
     <!-- Other locations -->
     <record id="location_1" model="fsm.location">
         <field name="name">Location 1</field>
