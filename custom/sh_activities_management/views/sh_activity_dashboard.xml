@@ -115,7 +115,7 @@
     	<t t-if="request.env.company.sh_display_planned_activities_table">
 	        <div>
 	            <div id="js_id_sh_crm_activity_todo_tbl_div">
-					
+
 	                <t t-if="not activities">
 						<div class="sh_tbl_div">
 	                    <table class="table table-bordered">
@@ -173,7 +173,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
@@ -304,7 +304,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
@@ -594,7 +594,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 												<button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
@@ -671,7 +671,7 @@
 							<div class="sh_tbl_div">
 							<table class="table table-bordered">
 								<tr style="font-size: 15px;">
-	
+
 									<th colspan="7" class="text-left">Cancelled Activities</th>
 								</tr>
 								<tr style="font-size: 15px;">
