@@ -173,7 +173,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
@@ -304,7 +304,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
@@ -594,7 +594,7 @@
 												&amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-view">View</button>
 	                                            &amp;nbsp;
-	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager">Edit</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-edit" groups="sh_activities_management.group_activity_manager">Edit</button>
 	                                            &amp;nbsp;
 												<button style="cursor: pointer;" class="btn-success mark-origin">Origin</button>
 	                                        </td>
