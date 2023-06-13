@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_element_pos_qr_saudi_res_config" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.qr.saudi</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div id="pos_interface_section" position="after">
+                <h2 class="mt16">Arabic Receipt Configuration</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane" >
+                            <field name="pos_display_qr_code" />
+                        </div>
+                        <div class="o_setting_right_pane" >
+                            <label for="pos_display_qr_code" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_display_qr_code', '=', False)]}">
+                        <div class="o_setting_left_pane" >
+                            <field name="pos_sh_display_arabic_name" />
+                        </div>
+                        <div class="o_setting_right_pane" >
+                            <label for="pos_sh_display_arabic_name" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_display_qr_code', '=', False)]}">
+                        <div class="o_setting_left_pane">
+                            <field name="pos_sh_display_arabic_address" />
+                        </div>
+                        <div class="o_setting_right_pane" >
+                            <label for="pos_sh_display_arabic_address" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_display_qr_code', '=', False)]}">
+                        <div class="o_setting_left_pane" >
+                        </div>
+                        <div class="o_setting_right_pane" >
+                            <label for="pos_qr_code_setting" /><br/>
+                            <field name="pos_qr_code_setting" widget="radio" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt16 o_settings_container" attrs="{'invisible': [('pos_display_qr_code', '=', False)]}">
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane" style='width: 130px !important;'>
+                            <label for="pos_qr_code_height" />
+                        </div>
+                        <div class="o_setting_right_pane" style='margin-left: 150px ;'>
+                            <field name="pos_qr_code_width" placeholder='Width' />
+                            <field name="pos_qr_code_height" placeholder='height' /> 
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_display_qr_code', '=', False)]}">
+                        <div class="o_setting_left_pane" >
+                            <field name="pos_show_return_order_ref" />
+                        </div>
+                        <div class="o_setting_right_pane" >
+                            <label for="pos_show_return_order_ref" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </field>
+    </record>
+    
+</odoo>
