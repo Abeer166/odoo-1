@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="FullScreenTemplate">
+        <div class="o_full_screen">
+        <a class="open_full_screen float-right" role="button">
+            
+                <!-- <img src="/sh_backmate_theme/static/src/icons/full screen.png"  class="expand_img icon-expand" style="height: 15px;width: 15px;"/>
+                <img src="/sh_backmate_theme/static/src/icons/windowed.png"  class="compress_img icon-compress" style="height: 15px;width: 15px;"/> -->
+                <span class="fa fa-expand expand_img" style="font-size: 15px;"></span>
+                <span class=" fa fa-compress compress_img" style="font-size: 15px;"></span>
+                
+            <input type="checkbox" id="fullscreen_checkbox"/>
+        </a>
+    </div>
+    </t>
+</templates>
