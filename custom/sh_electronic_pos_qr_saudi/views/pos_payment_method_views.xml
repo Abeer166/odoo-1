@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="sh_element_payment_method_arebic_name_view_inheri" model="ir.ui.view">
+        <field name="name">sh.elemetns.payment.method.arabic.name.view</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sh_payment_method_arabic_name" placeholder='Payment Method Arabic Name'></field>
+            </field>
+        </field>
+    </record>
+    
+</odoo>
