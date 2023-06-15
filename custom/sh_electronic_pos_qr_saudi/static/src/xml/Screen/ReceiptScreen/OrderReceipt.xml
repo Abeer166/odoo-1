@@ -8,6 +8,52 @@
 		            <t t-if="receipt.company.logo">
 		                <img class="sh-pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" />
 		            </t>
+                    	<!-- company address -->
+					   <div class="sh_address">
+		                <t t-if="receipt.company.street">
+		                    <div>
+		                        <t t-esc="receipt.company.street" />
+		                        <t t-if='receipt.company.city'>
+		                            <t t-esc='receipt.company.city' />
+		                        </t>
+		                        <t t-if='receipt.company.zip'>
+		                            <t t-esc='receipt.company.zip' />
+		                        </t>
+		                    </div>
+		                </t>
+		                <div class='sh-company-name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <h5>
+		                    	<t t-if="env and env.pos and env.pos.company and env.pos.company.sh_arabic_name">
+		                    		<t t-esc='env.pos.company.sh_arabic_name'></t>
+		                    	</t>
+		                        <!-- <t t-esc='receipt.company.sh_arabic_name'></t> -->
+		                    </h5>
+		                </div>
+		                <div clas='arabic_name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street'>
+		                        <t t-esc='env.pos.company.arabic_street' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street2'>
+		                        <t t-esc='env.pos.company.arabic_street2' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_city'>
+		                        <t t-esc='env.pos.company.arabic_city' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_zip'>
+		                        <t t-esc='env.pos.company.arabic_zip' />
+		                        ,
+		                    </t>
+		                </div>
+		                <t t-if="!receipt.header_html and receipt.header">
+		                    <div style="white-space:pre-line">
+		                        <t t-esc="receipt.header" />
+		                    </div>
+		                </t>
+		            </div>
+					<!-- company address -->
 					<!--
 		            <t t-if="!receipt.company.logo">
 		                <h2 class="pos-receipt-center-align">
@@ -572,52 +618,7 @@
 		                    <!-- </tbody> -->
 		                </table>
 		            </div>
-					<!-- company address -->
-					   <div class="sh_address">
-		                <t t-if="receipt.company.street">
-		                    <div>
-		                        <t t-esc="receipt.company.street" />
-		                        <t t-if='receipt.company.city'>
-		                            <t t-esc='receipt.company.city' />
-		                        </t>
-		                        <t t-if='receipt.company.zip'>
-		                            <t t-esc='receipt.company.zip' />
-		                        </t>
-		                    </div>
-		                </t>
-		                <div class='sh-company-name' t-if='env.pos.config.sh_display_arabic_address'>
-		                    <h5>
-		                    	<t t-if="env and env.pos and env.pos.company and env.pos.company.sh_arabic_name">
-		                    		<t t-esc='env.pos.company.sh_arabic_name'></t>
-		                    	</t>
-		                        <!-- <t t-esc='receipt.company.sh_arabic_name'></t> -->
-		                    </h5>
-		                </div>
-		                <div clas='arabic_name' t-if='env.pos.config.sh_display_arabic_address'>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street'>
-		                        <t t-esc='env.pos.company.arabic_street' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street2'>
-		                        <t t-esc='env.pos.company.arabic_street2' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_city'>
-		                        <t t-esc='env.pos.company.arabic_city' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_zip'>
-		                        <t t-esc='env.pos.company.arabic_zip' />
-		                        ,
-		                    </t>
-		                </div>
-		                <t t-if="!receipt.header_html and receipt.header">
-		                    <div style="white-space:pre-line">
-		                        <t t-esc="receipt.header" />
-		                    </div>
-		                </t>
-		            </div>
-					<!-- company address -->
+
 
 
 		            <div t-if="!receipt.footer_html and receipt.footer" class="pos-receipt-center-align" style="white-space:pre-line">
