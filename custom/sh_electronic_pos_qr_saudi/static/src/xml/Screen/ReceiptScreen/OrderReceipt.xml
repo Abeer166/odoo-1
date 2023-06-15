@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    
+
     <t t-extend="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('pos-receipt')]" position='replace'>
             <t t-if='env.pos.config.display_qr_code'>
@@ -8,6 +8,7 @@
 		            <t t-if="receipt.company.logo">
 		                <img class="sh-pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" />
 		            </t>
+					<!--
 		            <t t-if="!receipt.company.logo">
 		                <h2 class="pos-receipt-center-align">
 		                    <t t-esc="receipt.company.name" />
@@ -17,53 +18,10 @@
 		                <h5>
 		                    <t t-esc='receipt.company.name'></t>
 		                </h5>
-		            </div>
-		            <div class="sh_address">
-		                <t t-if="receipt.company.street">
-		                    <div>
-		                        <t t-esc="receipt.company.street" />
-		                        <t t-if='receipt.company.city'>
-		                            <t t-esc='receipt.company.city' />
-		                        </t>
-		                        <t t-if='receipt.company.zip'>
-		                            <t t-esc='receipt.company.zip' />
-		                        </t>
-		                    </div>
-		                </t>
-		                <div class='sh-company-name' t-if='env.pos.config.sh_display_arabic_address'>
-		                    <h5>
-		                    	<t t-if="env and env.pos and env.pos.company and env.pos.company.sh_arabic_name">
-		                    		<t t-esc='env.pos.company.sh_arabic_name'></t>
-		                    	</t>
-		                        <!-- <t t-esc='receipt.company.sh_arabic_name'></t> -->
-		                    </h5>
-		                </div>
-		                <div clas='arabic_name' t-if='env.pos.config.sh_display_arabic_address'>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street'>
-		                        <t t-esc='env.pos.company.arabic_street' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street2'>
-		                        <t t-esc='env.pos.company.arabic_street2' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_city'>
-		                        <t t-esc='env.pos.company.arabic_city' />
-		                        ,
-		                    </t>
-		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_zip'>
-		                        <t t-esc='env.pos.company.arabic_zip' />
-		                        ,
-		                    </t>
-		                </div>
-		                <t t-if="!receipt.header_html and receipt.header">
-		                    <div style="white-space:pre-line">
-		                        <t t-esc="receipt.header" />
-		                    </div>
-		                </t>
-		            </div>
+		            </div> -->
+
 		            <br />
-		
+
 		            <div class='pos-receipt-header'>
 		                <table class='sh-receipt-header'>
 		                <!-- <tbody> -->
@@ -264,6 +222,7 @@
 		                                </td>
 		                            </tr>
 		                        </t>
+		                       <!--
 		                        <tr>
 		                            <td class="sh_text_left sh_width_28">
 		                                <span>Customer </span>
@@ -349,7 +308,7 @@
 		                                    <t t-if='receipt.partner'>
 		                                        <t t-if='receipt.partner.street'>
 		                                            <t t-esc='receipt.partner.address'></t>
-		
+
 		                                        </t>
 		                                        <t t-else=''>
 		                                            -
@@ -363,11 +322,11 @@
 		                            <td class="sh_text_right sh_width_28">
 		                                <span>عنوان</span>
 		                            </td>
-		                        </tr>
+		                        </tr> -->
 		                    <!-- </tbody> -->
 		                </table>
 		            </div>
-		
+
 		            <div class='sh-orderline-header '>
 		                <table class='orderline-tbl sh_orderline_table'>
 		                    <!-- <thead> -->
@@ -446,6 +405,7 @@
 		            <div class='pos-amount-content'>
 		                <table class='sh-amount-content sh-receipt-header'>
 		                    <!-- <tbody> -->
+							<!--
 		                        <tr>
 		                            <td class="sh_text_left sh_width_28">
 		                                <span>Total Before Discount </span>
@@ -464,7 +424,9 @@
 		                            <td class="sh_text_right sh_width_28">
 		                                <span>الإجمالي قبل الخصم</span>
 		                            </td>
-		                        </tr>
+		                        </tr> -->
+
+							<!--
 		                        <tr>
 		                            <td class="sh_text_left sh_width_28">
 		                                <span>Total Discount Value </span>
@@ -487,6 +449,9 @@
 		                                <span>إجمالي الخصم</span>
 		                            </td>
 		                        </tr>
+		                        -->
+
+
 		                        <tr>
 		                            <td class="sh_text_left sh_width_28">
 		                                <span>Total After Discount </span>
@@ -508,7 +473,7 @@
 		                                <span class="sh_separator">:</span>
 		                            </td>
 		                            <td class="sh_text_right sh_width_28">
-		                                <span>الإحمالي</span>
+		                                <span> الإحمالي قبل الضريبة</span>
 		                            </td>
 		                        </tr>
 		                        <tr>
@@ -554,7 +519,7 @@
 		                    <!-- </tbody> -->
 		                </table>
 		            </div>
-		
+
 		            <div class='sh-change'>
 		                <table class='sh-change-content sh-receipt-header'>
 		                    <!-- <tbody> -->
@@ -570,7 +535,7 @@
 		                            <td class="sh_text_center sh_width_38">
 		                                <span>
 		                                    <span t-esc="env.pos.format_currency_no_symbol(line.amount)" />
-		
+
 		                                </span>
 		                            </td>
 		                            <td class="sh_text_center sh_width_3">
@@ -607,6 +572,54 @@
 		                    <!-- </tbody> -->
 		                </table>
 		            </div>
+					<!-- company address -->
+					   <div class="sh_address">
+		                <t t-if="receipt.company.street">
+		                    <div>
+		                        <t t-esc="receipt.company.street" />
+		                        <t t-if='receipt.company.city'>
+		                            <t t-esc='receipt.company.city' />
+		                        </t>
+		                        <t t-if='receipt.company.zip'>
+		                            <t t-esc='receipt.company.zip' />
+		                        </t>
+		                    </div>
+		                </t>
+		                <div class='sh-company-name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <h5>
+		                    	<t t-if="env and env.pos and env.pos.company and env.pos.company.sh_arabic_name">
+		                    		<t t-esc='env.pos.company.sh_arabic_name'></t>
+		                    	</t>
+		                        <!-- <t t-esc='receipt.company.sh_arabic_name'></t> -->
+		                    </h5>
+		                </div>
+		                <div clas='arabic_name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street'>
+		                        <t t-esc='env.pos.company.arabic_street' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street2'>
+		                        <t t-esc='env.pos.company.arabic_street2' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_city'>
+		                        <t t-esc='env.pos.company.arabic_city' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_zip'>
+		                        <t t-esc='env.pos.company.arabic_zip' />
+		                        ,
+		                    </t>
+		                </div>
+		                <t t-if="!receipt.header_html and receipt.header">
+		                    <div style="white-space:pre-line">
+		                        <t t-esc="receipt.header" />
+		                    </div>
+		                </t>
+		            </div>
+					<!-- company address -->
+
+
 		            <div t-if="!receipt.footer_html and receipt.footer" class="pos-receipt-center-align" style="white-space:pre-line">
 		                <t t-esc="receipt.footer" />
 		                <br />
@@ -660,15 +673,15 @@
 		                <t t-if="receipt.cashier">
 		                    <div class="cashier">
 		                        <div>--------------------------------</div>
-		                        
-		                        
+
+
 		                        	<div t-if="receipt.is_gcc_country" t-translation="off">
 						                <div>Served by/خدم بواسطة <t t-esc="receipt.cashier"/></div>
 						            </div>
 						            <div t-else="">
 						            	Served by <t t-esc="receipt.cashier" />
 						            </div>
-		                        
+
 		                    </div>
 		                </t>
 		            </div>
@@ -686,9 +699,9 @@
 		            <div class="orderlines">
 		                <t t-call="OrderLinesReceipt"/>
 		            </div>
-		
+
 		            <!-- Subtotal -->
-		
+
 		            <t t-if="!isTaxIncluded">
 		                <div class="pos-receipt-right-align">--------</div>
 		                <br/>
@@ -704,16 +717,16 @@
 		                    </div>
 		                </t>
 		            </t>
-		
+
 		            <!-- Total -->
 		            <div class="pos-receipt-right-align">--------</div>
 		            <br/>
-		            
+
 		            <div t-if="receipt.is_gcc_country" class="pos-receipt-amount pos-receipt-amount-arabic" t-translation="off">
 		                TOTAL/الإجمالي
 		                <span t-esc="env.pos.format_currency(receipt.total_with_tax)" class="pos-receipt-right-align"/>
 		            </div>
-		            
+
 		            <div t-else="" class="pos-receipt-amount">
 		                TOTAL
 		                <span t-esc="env.pos.format_currency(receipt.total_with_tax)" class="pos-receipt-right-align"/>
@@ -737,9 +750,9 @@
 		              </div>
 		            </t>
 		            <br/><br/>
-		
+
 		            <!-- Payment Lines -->
-		
+
 		            <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
 		                <div>
 		                    <t t-esc="line.name" />
@@ -747,20 +760,20 @@
 		                </div>
 		            </t>
 		            <br/>
-					
+
 					<div t-if="receipt.is_gcc_country" class="pos-receipt-amount receipt-change pos-receipt-amount-arabic" t-translation="off">
 		                CHANGE/الباقي
 		                <span t-esc="env.pos.format_currency(receipt.change)" class="pos-receipt-right-align"/>
 		            </div>
-					
+
 		            <div t-else="" class="pos-receipt-amount receipt-change">
 		                CHANGE
 		                <span t-esc="env.pos.format_currency(receipt.change)" class="pos-receipt-right-align"/>
 		            </div>
 		            <br/>
-		
+
 		            <!-- Extra Payment Info -->
-		
+
 		            <t t-if="receipt.total_discount">
 		            	<div t-if="receipt.is_gcc_country" t-translation="off">
 			               Discounts/الخصومات
@@ -778,7 +791,7 @@
 		                        <span t-esc="env.pos.format_currency_no_symbol(tax.amount)" class="pos-receipt-right-align"/>
 		                    </div>
 		                </t>
-		                
+
 		                <div t-if="receipt.is_gcc_country" t-translation="off">
 			               Total Taxes/إجمالي الضرائب
 			               <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
@@ -788,21 +801,21 @@
 		                    <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
 		                </div>
 		            </t>
-		
+
 		            <div class="before-footer" />
-		
+
 		            <!-- Footer -->
 		            <div t-if="receipt.footer_html"  class="pos-receipt-center-align">
 		                <t t-raw="receipt.footer_html" />
 		            </div>
-		
+
 		            <div t-if="!receipt.footer_html and receipt.footer"  class="pos-receipt-center-align" style="white-space:pre-line">
 		                <br/>
 		                <t t-esc="receipt.footer" />
 		                <br/>
 		                <br/>
 		            </div>
-		
+
 		            <div class="after-footer">
 		                <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.ticket">
 		                    <t t-if="line.ticket">
@@ -813,7 +826,7 @@
 		                    </t>
 		                </t>
 		            </div>
-		
+
 		            <br/>
 		            <div class="pos-receipt-order-data">
 		                <div><t t-esc="receipt.name" /></div>
@@ -828,5 +841,5 @@
             </t>
         </xpath>
     </t>
-    
+
 </templates>
