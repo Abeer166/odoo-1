@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_shift_type,access_shift_type,model_shift_type,base.group_user,1,1,1,1
+access_shift_allocation,access_shift_allocation,model_shift_allocation,base.group_user,1,1,1,1
+access_hr_shift,access_hr_shift,model_hr_shift,base.group_user,1,1,1,1
+access_allocation_wizard,access_allocation_wizard,model_allocation_wizard,base.group_user,1,1,1,1
