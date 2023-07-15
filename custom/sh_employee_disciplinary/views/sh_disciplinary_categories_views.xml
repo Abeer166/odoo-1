@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Disciplinary Categories views and action -->
+    <record id="sh_disciplinary_categories_form_view" model="ir.ui.view">
+        <field name="name">sh.disciplinary.categories.form</field>
+        <field name="model">sh.disciplinary.categories</field>
+        <field name="arch" type="xml">
+            <form string="Disciplinary Categories">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="sh_category_type" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sh_disciplinary_categories_tree_view" model="ir.ui.view">
+        <field name="name">sh.disciplinary.categories.tree</field>
+        <field name="model">sh.disciplinary.categories</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Disciplinary Categories" />
+                <field name="sh_category_type" string="Categories Type" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="sh_disciplinary_categorie_search_view" model="ir.ui.view">
+        <field name="name">sh.disciplinary.categories.search</field>
+        <field name="model">sh.disciplinary.categories</field>
+        <field name="arch" type="xml">
+            <search string="Disciplinary Categories">
+                <field name="name" />
+                <field name="sh_category_type" />
+                <group expand="0" string="Group by...">
+                    <filter string="Categories Type" name="sh_category_type"
+                        context="{'group_by': 'sh_category_type'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="sh_disciplinary_categories_view_actions" model="ir.actions.act_window">
+        <field name="name">Disciplinary Categories</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sh.disciplinary.categories</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="sh_emp_disciplinary_main_menu" name="Manage Disciplinary"
+        parent="hr.menu_hr_root" sequence="3" />
+
+    <menuitem id="sh_disciplinary_menu" name="Disciplinary" action="sh_disciplinary_view_actions"
+        parent="sh_emp_disciplinary_main_menu" sequence="7" />
+
+    <menuitem id="sh_disciplinary_category_menu" name=" Disciplinary Category"
+        parent="sh_emp_disciplinary_main_menu" action="sh_disciplinary_categories_view_actions"
+        sequence="4" groups="hr.group_hr_user" />
+
+</odoo>
