@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_autocomplete_address" xml:space="preserve">
+
+	<t t-name="ClientDetailsEditInherit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
+		<xpath expr="//section[hasclass('partner-details')]" position="inside">
+			<div style="min-height:50px;" class="address_box">
+				<span class='address-searchbox'>
+					<input placeholder='Search Address' id="address_search"/>
+				</span>
+			</div>
+			<div>
+				<div id="geomap" class="geomap" style="width: 90%;border: solid black;margin: 10px 30px;height: 350px;position: relative;overflow: hidden;"></div>
+			</div>
+		</xpath>
+	</t>
+</templates>
+
+
