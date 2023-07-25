@@ -36,10 +36,10 @@
                                     <t t-esc='line.product' />
                                 </td>
                                 <td>
-                                    <t t-esc='line.qty' />
+                                    <t t-esc='line.qty' group="group_pos_manager"/>
                                 </td>
                                 <td>
-                                    <t t-esc='line.amount' />
+                                    <t t-esc='line.amount' group="group_pos_manager" />
                                 </td>
                             </tr>
                         </t>
