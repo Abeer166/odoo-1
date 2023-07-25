@@ -1,0 +1,32 @@
+.client-order-line-history {
+    height: auto;
+    position: relative;
+}
+
+.client-order-line-history .heading_line {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230) !important;
+}
+
+.client-order-line-history .prev_line {
+    background: rgb(247, 247, 247) !important;
+}
+
+.subwindow-container-fix-height {
+    padding: 0px 16px 0px 16px;
+    height: 150px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+.subwindow-container-fix-height .client-list {
+    font-size: 14px !important;
+    width: 100%;
+    line-height: 25px !important;
+}
+
+.subwindow-container-fix-height .main_label {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+}

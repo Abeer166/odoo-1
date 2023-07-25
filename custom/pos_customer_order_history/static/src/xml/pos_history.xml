@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ClientDetails">
+        <div class="client_details_container subwindow-container-fix-height">
+            <section>
+                <h1>
+                    <t t-esc='partner.name' />
+                </h1>
+            </section>
+            <t t-if="partner.lines != ''">
+                <span class="main_label">Recent Order History</span>
+                <table class="client-list">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Order Ref.</th>
+                            <th>Order Time</th>
+                            <th>Products</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="client-order-line-history">
+                        <t t-foreach='partner.lines' t-as='line'>
+                            <tr t-attf-class="#{ line.line_heading ? 'heading_line' : 'prev_line' }">
+                                <td>
+                                    <t t-esc='line.no' />
+                                </td>
+                                <td>
+                                    <t t-esc='line.order_name' />
+                                </td>
+                                <td>
+                                    <t t-esc='line.order_time' />
+                                </td>
+                                <td>
+                                    <t t-esc='line.product' />
+                                </td>
+                                <td>
+                                    <t t-esc='line.qty' />
+                                </td>
+                                <td>
+                                    <t t-esc='line.amount' />
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+            <t t-else="">
+                <h2 style="text-align: center;">NO ORDER HISTORY</h2>
+            </t>
+        </div>
+    </t>
+</templates>
