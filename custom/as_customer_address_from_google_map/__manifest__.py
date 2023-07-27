@@ -19,6 +19,7 @@
             'as_customer_address_from_google_map/static/src/xml/google_map_template_view.xml',
         ],
     },
+    'images': ['static/description/images.png'],
     'installable': True,
     'auto_install': False,
     'application': True,

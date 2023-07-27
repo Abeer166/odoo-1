@@ -35,6 +35,8 @@ class Google_Map(http.Controller):
                 for i in range(0, addres_component_length):
                     if address[i].get('types')[0] == 'administrative_area_level_3':
                         perfect_address.update({'city': address[i].get('long_name') or False})
+                    elif 'administrative_area_level_3' not in address[i].get('types') and address[i].get('types')[0] == 'locality':
+                        perfect_address.update({'city': address[i].get('long_name') or False})
                     elif address[i].get('types')[0] == 'administrative_area_level_1':
                         state_id = request.env['res.country.state'].search([('name', '=ilike', address[i].get('long_name'))])
                         perfect_address.update({'state_id': state_id.id or False})
@@ -43,23 +45,26 @@ class Google_Map(http.Controller):
                         perfect_address.update({'country_id': country_id.id or False})
                     elif address[i].get('types')[0] == 'postal_code':
                         perfect_address.update({'zip': address[i].get('long_name') or False})
-
+                    elif address[i].get('types')[0] == 'plus_code':
+                        perfect_address.update({'street': address[i].get('long_name') or False})
 
                 location_list = location_name.split(', ')
-                index = location_list.index(perfect_address['city'])
-
-                if index:
-                    location_list.pop(index)
-                country = request.env['res.country'].browse(perfect_address['country_id']).name
-                index1 = location_list.index(country)
-                if index1:
-                    location_list.pop(index1)
-
-                remove_state = location_list.pop(-1)
-
-                perfect_address.update({'street': ', '.join(location_list[:2])})
-                perfect_address.update({'street2': ', '.join(location_list[2:])})
-
+                if perfect_address['city'] and perfect_address['city'] in location_list:
+                    index = location_list.index(perfect_address['city'])
+                    if index:
+                        location_list.pop(index)
+                if perfect_address['country_id']:
+                    country = request.env['res.country'].browse(perfect_address['country_id']).name
+                    if country and country in location_list:
+                        index1 = location_list.index(country)
+                        if index1:
+                            location_list.pop(index1)
+                if location_list:
+                    remove_state = location_list.pop(-1)
+                if location_list[:2]:
+                    perfect_address.update({'street': ', '.join(location_list[:2])})
+                if location_list[2:]:
+                    perfect_address.update({'street2': ', '.join(location_list[2:])})
                 if perfect_address and get_partner_rec:
                     get_partner_rec.update(perfect_address)
         except:
