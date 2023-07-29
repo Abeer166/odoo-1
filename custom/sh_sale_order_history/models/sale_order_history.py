@@ -63,6 +63,11 @@ class SaleOrderHistory(models.Model):
         related="name.product_uom_qty",
         readonly=True
     )
+
+    product_uom_qtyy = fields.Float(
+        "العدد",
+
+    )
     discount = fields.Float('Discount',
                             related='name.discount',
                             readonly=True)
