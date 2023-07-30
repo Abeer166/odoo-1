@@ -11,7 +11,7 @@
                 	<field name="enable_reorder" invisible="1" />
                     <button name="action_all_sale_reorder" type="object" string="All Lines Reorder" attrs="{'invisible':[('enable_reorder','=',False)]}" style="margin-top: 12px; margin-bottom: 12px;" />
                     <field name="order_history_line">
-                        <tree editable="bottom" create="false" decoration-danger="product_uom_qty &lt;= product_uom_qtyy">
+                        <tree editable="bottom" create="false" decoration-danger="product_uom_qty &lt; product_uom_qtyy">
                             <field name="sale_reorder" nolabel="1" optional="show" />
                             <field name="so_id" string="Sale Order" optional="show" />
                             <field name="date_order" string="Order Date" optional="show" />
