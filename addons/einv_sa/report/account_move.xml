@@ -33,11 +33,13 @@
                         <div class="col-4 text-center"><span t-field="doc.invoice_date"></span></div>
                         <div class="col-4 text-right"><Strong>تاريخ الفاتورة</Strong></div>
                     </div>
+                    <!--
                     <div class="row">
                         <div class="col-4"><Strong>Date of Supply</Strong></div>
                         <div class="col-4 text-center"><span t-field="doc.einv_sa_delivery_date"></span></div>
                         <div class="col-4 text-right"><Strong>تاريخ التوريد</Strong></div>
                     </div>
+                    -->
                 </div>
                 <div class="col-3" >
 <!--                    <span t-esc="doc.einv_sa_qr_code_str"></span>-->
@@ -52,7 +54,9 @@
             <div class="oe_structure"/>
         </template>
 
+       <!-- -->
         <template id="einv_sa.partner_info">
+            <!--
             <div class="row p-1 mt-1  bg-light">
                 <div class="col-6"><Strong>Buyer</Strong></div>
                 <div class="col-6 text-right"><Strong>العميل</Strong></div>
@@ -113,7 +117,9 @@
                 <div class="oe_structure"/>
             </div>
             <div class="oe_structure"/>
+            -->
         </template>
+
 
         <template id="einv_sa.inv_lines">
             <div class="row p-1 mt-3 bg-light">
@@ -171,32 +177,39 @@
                     <div class="col-10">
                         <div class="row border border-top-0">
                             <div class="col-4">Total (Excluding VAT)</div>
-                            <div class="col-6 text-right">الاجمالي غير شامل ضريبة القيمة المضافة</div>
+                            <div class="col-6 text-right">الاجمالي قبل الضريبة</div>
                             <div class="col-2 text-center"><span t-field="doc.einv_amount_sale_total"></span></div>
                         </div>
+
+                        <!--
                         <div class="row border border-top-0">
                             <div class="col-4">Discount</div>
                             <div class="col-6 text-right">إجمالي الخصومات</div>
                             <div class="col-2 text-center"><span
                                     t-field="doc.einv_amount_discount_total"></span></div>
                         </div>
+                        -->
+                         <div class="row border border-top-0">
+                            <div class="col-4">Total VAT</div>
+                            <div class="col-6 text-right">قيمة الضريبة</div>
+                            <div class="col-2 text-center"><span t-field="doc.amount_tax_signed"></span></div>
+                        </div>
+
+                           <div class="row border border-top-0">
+                            <div class="col-4">Total Amount Due</div>
+                            <div class="col-6 text-right"> الصافي </div>
+                            <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
+                        </div>
+                    </div>
+                          <!--
                         <div class="row border border-top-0">
                             <div class="col-4">Total Taxable Amount (Excluding VAT)</div>
                             <div class="col-6 text-right">الإجمالي الخاضع للضريبة غير شامل ضريبة القيمة
                                 المضافة</div>
                             <div class="col-2 text-center"><span t-field="doc.amount_untaxed"></span></div>
                         </div>
-                        <div class="row border border-top-0">
-                            <div class="col-4">Total VAT</div>
-                            <div class="col-6 text-right">إجمالي الضريبة المضافة</div>
-                            <div class="col-2 text-center"><span t-field="doc.amount_tax_signed"></span></div>
-                        </div>
-                        <div class="row border border-top-0">
-                            <div class="col-4">Total Amount Due</div>
-                            <div class="col-6 text-right"> الإجمالي المستحق </div>
-                            <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
-                        </div>
-                    </div>
+                          -->
+
 
                 </div>
             </div>
