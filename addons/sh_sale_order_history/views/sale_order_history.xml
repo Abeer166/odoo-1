@@ -46,7 +46,7 @@
                                         <field name="product_id" />
                                         <field name="pricelist_id" />
                                         <field name="product_uom_qty" />
-                                          <field name="product_uom_qtyy" attrs="{'readonly': [('product_uom_qtyy', '!=', 0)]}" />
+                                          <field name="product_uom_qtyy" attrs="{'readonly': [('product_uom_qtyy', '!=', 0)]}"/>
                                         <field name="price_subtotal" />
                                         <field name="status" decoration-success="status == 'sale' or status == 'done'" decoration-info="status == 'draft' or status == 'sent'" widget="badge" />
                                     </group>
