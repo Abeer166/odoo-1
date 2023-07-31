@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+         <record id="view_invoice_form_inherit" model="ir.ui.view">
+            <field name="name">Invoice Order Custom</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+              <xpath expr="//button[@name='button_draft']" position="after">
+                  <!-- <button name="send_invoice_whatsapp_msg" string="Send Whatsapp Msg" type="object" class="oe_highlight"/> -->
+                  <button name="send_invoice_whatsapp_msg"
+                                type="object"
+                                string="Send Whatsapp Msg"
+                                attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('is_move_sent', '=', True), ('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                                class="oe_highlight"
+                                groups="base.group_user"/>
+              </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

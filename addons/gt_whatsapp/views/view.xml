@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="whatsapp_res_partner" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="whatsappp_number"/>
+                    <!-- <button name="send_msg" string="Send Whatsapp Msg" type="object" class="oe_highlight"/>  -->
+                    <div>
+                    <button name="send_msg" type="object" class="oe_stat_button" icon="fa-whatsapp"/>
+                    </div> 
+                </xpath>
+                <xpath expr="//field[@name='image_1920']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="send_msg" string="Message On Whatsapp" type="object" class="oe_stat_button" icon="fa-whatsapp"/>
+                    </div>
+                </xpath>     
+            </field>
+        </record>
+         <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">Sale Order Custom</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+              <xpath expr="//button[@name='action_cancel']" position="after">
+                  <button name="send_whatsapp_msg" string="Send Whatsapp Msg" type="object" class="oe_highlight"/>
+              </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
