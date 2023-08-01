@@ -22,7 +22,7 @@ class AccountMove(models.Model):
         # print(",.,.,.,.,.,.invoice_msg_content>>>>>>>>>>>>>>.", invoice_msg_content)
         invoice_msg = re.sub('<[^>]*>', ' ', invoice_msg_content)
         # print(",.,.,.,.,.,.invoice_msg>>>>>>>>>>>>>>.", invoice_msg)
-        url_content = "  In the below link, You can see and download the invoice.  " + "http://104.248.37.2:8069"+invoice_url
+        url_content = "  In the below link, You can see and download the invoice.  " + "http://cxz9898.store"+invoice_url
         url = re.sub('<[^>]*>', ' ', url_content)
         return {'type': 'ir.actions.act_window',
                 'name': _('Whatsapp Message'),
