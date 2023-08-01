@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sh_sale_details_report_wizard_form" model="ir.ui.view">
+        <field name="name">sh.sale.details.report.wizard.form</field>
+        <field name="model">sh.sale.details.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sale Details">
+                <group>
+                    <group>
+                        <field name="start_date" />
+                        <field name="state" />
+                    </group>
+                    <group>
+                        <field name="end_date" />
+                    </group>
+                </group>
+
+                <group>
+                    <field name="team_ids" options="{'no_create': True}" widget="many2many_tags" />
+                    <field name="company_ids" options="{'no_create': True}" widget="many2many_tags"
+                        groups="base.group_multi_company" />
+                </group>
+                <footer>
+                    <button name="display_report" string="View" type="object" class="btn-primary" />
+                    <button name="print_report" string="Print" type="object" class="btn-primary" />
+                    <button name="print_sale_detail_xls_report" string="Print Xls" type="object"
+                        class="oe_highlight" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="sh_sale_details_wizard_action" model="ir.actions.act_window">
+        <field name="name">Sales Details Report</field>
+        <field name="res_model">sh.sale.details.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_sale_report"
+        name="Reporting"
+        groups="sales_team.group_sale_manager"
+        sequence="40" />
+
+    <menuitem id="sh_menu_sale_report"
+        name="Sales"
+        parent="sale.menu_sale_report"
+        action="sale.action_order_report_all"
+        groups="sales_team.group_sale_manager"
+        sequence="1" />
+
+    <menuitem id="sh_sale_details_report_menuitem" action="sh_sale_details_wizard_action"
+        parent="sale.menu_sale_report" groups="sh_sale_details_report.sh_group_sale_detail_report"
+        sequence="2" />
+</odoo>
