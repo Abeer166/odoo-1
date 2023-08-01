@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_hr_attendance_inherit_custom_field_tree">
+            <field name="name">hr.attendance.inherit.tree.custom</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-danger">office_hours &gt;= worked_hours</attribute>
+                    <attribute name="decoration-success">office_hours &lt; worked_hours</attribute>
+                    <attribute name="decoration-info">office_hours == 0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='worked_hours']" position="after">
+                    <field name="office_hours" widget="float_time"/>
+                    <field name="different_hours" widget="float_time" invisible="1"/>
+                    <field name="late_comers" force_save="1"/>
+                    <field name="early_go" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='worked_hours']" position="attributes">
+                    <attribute name="string">Employee Work Hours</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resource_calendar_type_attendance_view_tree" model="ir.ui.view">
+            <field name="name">resource.calendar.attendance.tree.inherit.hr.work.entry</field>
+            <field name="model">resource.calendar.attendance</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree"/>
+            <field name="arch" type="xml">
+                <field name="hour_to" position="after">
+                    <field name="worked_hours" force_save="1"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
