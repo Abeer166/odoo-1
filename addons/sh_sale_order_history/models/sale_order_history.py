@@ -38,6 +38,14 @@ class SaleOrderHistory(models.Model):
         string="Status", related="name.order_id.state", readonly=True)
     date_order = fields.Datetime("Date", )
     so_id = fields.Char("Sale Order")
+
+     #adding customer
+    customer = fields.Many2one(
+        "res.partner",
+        related="name.order_id.partner_id",
+    )
+
+
     product_id = fields.Many2one(
         "product.product",
         related="name.product_id",
@@ -64,6 +72,7 @@ class SaleOrderHistory(models.Model):
         readonly=True
     )
 
+    # adding الجرد
     product_uom_qtyy = fields.Float(
         "الجرد",
 
