@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) Softhealer Technologies.
+import this
 
 from odoo import fields, models, api
 from dateutil.relativedelta import relativedelta
@@ -32,15 +33,16 @@ class SaleOrderHistory(models.Model):
     order_id = fields.Many2one(
         "sale.order",
         "Current Sale Order",
-        readonly=True
+        readonly=False
     )
+
     status = fields.Selection(
         string="Status", related="name.order_id.state", readonly=True)
     date_order = fields.Datetime("Date", )
     so_id = fields.Char("Sale Order")
 
      #adding customer
-    customer = fields.Many2one(
+    partner_id = fields.Many2one(
         "res.partner",
         related="name.order_id.partner_id",
     )
@@ -75,11 +77,12 @@ class SaleOrderHistory(models.Model):
     # adding الجرد
     product_uom_qtyy = fields.Float(
         "الجرد",
-
+        related="name.x_field",
     )
+
     discount = fields.Float('Discount',
                             related='name.discount',
-                            readonly=True)
+                            readonly=False)
     product_uom = fields.Many2one(
         "uom.uom",
         "Unit",
@@ -153,6 +156,12 @@ class SaleOrderHistory(models.Model):
             'target': 'current',
             'res_id': self.name.order_id.id,
         }
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    x_field = fields.Float('X Field')
 
 
 class SaleOrder(models.Model):
@@ -232,7 +241,7 @@ class SaleOrder(models.Model):
                 domain.append(("partner_id", "in", partners),)
 
             if self._origin:
-                domain.append(("id", "!=", self._origin.id))
+                domain.append(("id", "=", self._origin.id))
 
             sale_order_search = self.env["sale.order"].search(
                 domain,
@@ -256,6 +265,7 @@ class SaleOrder(models.Model):
                                 "pricelist_id": record.pricelist_id.id,
                                 "price_unit": rec.price_unit,
                                 "product_uom_qty": rec.product_uom_qty,
+                                "rec.product_uom_qtyy":rec.product_uom_qtyy,
                                 "product_uom": rec.product_uom.id,
                                 "price_subtotal": rec.price_subtotal,
                                 "status": rec.state,
@@ -308,7 +318,7 @@ class SaleOrder(models.Model):
                         ('order_id.partner_id', 'in', partners),)
 
                 if vals.id:
-                    domain.append(("id", "!=", vals.id))
+                    domain.append(("id", "=", vals.id))
 
                 sale_order_search = self.env["sale.order"].search(
                     domain,
@@ -341,9 +351,12 @@ class SaleOrder(models.Model):
                                         "pricelist_id": record.pricelist_id.id,
                                         "price_unit": rec.price_unit,
                                         "product_uom_qty": rec.product_uom_qty,
+                                        "product_uom_qtyy":rec.product_uom_qtyy,
                                         "product_uom": rec.product_uom.id,
                                         "price_subtotal": rec.price_subtotal,
                                         "status": rec.state,
                                     }
                                     res = self.env['sale.order.history'].sudo().create(
                                         history_vals)
+
+

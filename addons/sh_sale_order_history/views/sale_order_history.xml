@@ -11,7 +11,7 @@
                 	<field name="enable_reorder" invisible="1" />
                     <button name="action_all_sale_reorder" type="object" string="All Lines Reorder" attrs="{'invisible':[('enable_reorder','=',False)]}" style="margin-top: 12px; margin-bottom: 12px;" />
                     <field name="order_history_line">
-                        <tree editable="bottom" create="false" decoration-danger="product_uom_qtyy &gt; product_uom_qty">
+                        <tree editable="bottom"  creat="false" delet="false" readonly="false" >
                             <field name="sale_reorder" nolabel="1" optional="show" />
                             <field name="so_id" string="Sale Order" optional="show" />
                             <field name="date_order" string="Order Date" optional="show" />
@@ -21,12 +21,12 @@
                             <field name="price_unit" string="Price" optional="show" />
                             <field name="new_price_unit" string="New Price" optional="show" />
                             <field name="product_uom_qty" optional="show" />
-                              <field name="product_uom_qtyy" optional="show" />
                             <field name="product_uom" string="Unit" optional="show" />
                             <field name="discount" optional="show" />
                             <field name="price_subtotal" optional="show" />
                             <field name="enable_reorder" invisible="1" />
                             <field name="status" decoration-success="status == 'sale' or status == 'done'" decoration-info="status == 'draft' or status == 'sent'" widget="badge" />
+                             <field name="product_uom_qtyy"   attrs="{'readonly': [('status', '!=', 'draft')]}"/>
                             <button name="sales_reorder" class="fa fa-retweet btn btn-light text-primary" title=" " type="object" attrs="{'invisible':[('enable_reorder','=',False)]}" />
                             <button name="view_sales_reorder" class="fa fa-eye btn btn-light text-primary" title=" " type="object" />
                         </tree>
@@ -44,17 +44,20 @@
                                     <group>
                                         <field name="product_id" />
                                         <field name="pricelist_id" />
-                                        <field name="product_uom_qty" />
-                                          <field name="product_uom_qtyy" attrs="{'readonly': [('product_uom_qtyy', '!=', 0)]}"/>
+                                        <field name="product_uom_qty" attrs="{'readonly':[('status','!=','draft')]}"/>
                                         <field name="price_subtotal" />
                                         <field name="status" decoration-success="status == 'sale' or status == 'done'" decoration-info="status == 'draft' or status == 'sent'" widget="badge" />
+                                        <field name="product_uom_qtyy"  attrs="{'readonly':[('status','!=','draft')]}"/>
+
                                     </group>
                                 </group>
                             </sheet>
                         </form>
                     </field>
+
                 </page>
             </xpath>
         </field>
     </record>
+
 </odoo>

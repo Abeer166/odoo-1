@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
+
+ <!--show field to enter the number of quantity inhert from order_line-->
+
+    <record model="ir.ui.view" id="sale_order_view_inherit">
+    <field name="name">sale.order.view.inherit1</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
+            <field name="x_field"/>
+        </xpath>
+    </field>
+</record>
          <!-- step2 window action -->
 
         <record id="sale_order_history_report_action" model="ir.actions.act_window">
@@ -24,7 +37,7 @@
         <field name="arch" type="xml">
 
             <tree editable="bottom" create="false" decoration-danger="product_uom_qtyy &gt; product_uom_qty">
-                            <field name="customer" string="customer" optional="show" />
+                            <field name="partner_id" string="partner_id" optional="show" />
                            <!-- <field name="sale_reorder" nolabel="1" optional="show" /> -->
                             <field name="so_id" string="Sale Order" optional="show" />
                             <field name="date_order" string="Order Date" optional="show" />
@@ -57,7 +70,7 @@
 
             <search>
                  <!-- search by field -->
-                            <field name="customer" string="customer"/>
+                            <field name="partner_id" string="partner_id"/>
                             <field name="so_id" string="Sale Order"/>
                             <field name="date_order" string="Order Date"/>
                             <field name="product_id" string="product" />
@@ -67,7 +80,7 @@
                             <field name="product_uom_qtyy" string="الجرد" />
                  <!-- search by group by -->
                 <group expand="0" string="Group by">
-                   <filter string="customer" name="customer_group" context="{'group_by':'customer'}"/>
+                   <filter string="partner_id" name="partner_id_group" context="{'group_by':'partner_id'}"/>
                     <filter string="Sale Order" name="so_id_group" context="{'group_by':'so_id'}"/>
                     <filter string="Order Date" name="date_order" context="{'group_by':'date_order'}"/>
                     <filter string="product" name="product_id" context="{'group_by':'product_id'}"/>
@@ -89,8 +102,8 @@
             <field name="res_model">sale.order.history</field>
             <field name="view_mode">tree</field>
             <field name="context">{}</field>
-         <field name="domain">[('customer', '=', 'Active_id')]</field>
-        </record>
+
+</record>
 
 
     <!-- button -->
