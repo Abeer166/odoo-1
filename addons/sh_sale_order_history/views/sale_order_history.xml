@@ -48,7 +48,6 @@
                                         <field name="price_subtotal" />
                                         <field name="status" decoration-success="status == 'sale' or status == 'done'" decoration-info="status == 'draft' or status == 'sent'" widget="badge" />
                                         <field name="product_uom_qtyy"  attrs="{'readonly':[('status','!=','draft')]}"/>
-
                                     </group>
                                 </group>
                             </sheet>
@@ -59,5 +58,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

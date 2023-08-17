@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-
  <!--show field to enter the number of quantity inhert from order_line-->
-
     <record model="ir.ui.view" id="sale_order_view_inherit">
     <field name="name">sale.order.view.inherit1</field>
     <field name="model">sale.order</field>

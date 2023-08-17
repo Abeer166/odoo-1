@@ -315,7 +315,6 @@ class SaleOrder(models.Model):
                     domain.append(("partner_id", "in", partners),)
                     history_domain.append(
                         ('order_id.partner_id', 'in', partners),)
-
                 if vals.id:
                     domain.append(("id", "=", vals.id))
 
