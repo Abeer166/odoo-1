@@ -104,6 +104,18 @@ class SaleOrderHistory(models.Model):
     enable_reorder = fields.Boolean(
         "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
 
+    alsarf = fields.Float("الصرف", compute="_compute_alsarf", store=True)
+
+    @api.depends("order_id", "product_id", "product_uom_qtyy", "product_uom_qty")
+    def _compute_alsarf(self):
+        for x in self:
+            for y in self:
+                if y.order_id < x.order_id and y.order_id - x.order_id == 1:
+                    if x.product_id == y.product_id:
+                        y.alsarf = (x.product_uom_qtyy + y.product_uom_qty) - y.product_uom_qtyy
+
+
+
     @api.depends('order_id.pricelist_id')
     def _compute_new_unit_price(self):
 

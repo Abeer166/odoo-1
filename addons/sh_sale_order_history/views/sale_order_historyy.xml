@@ -47,6 +47,8 @@
                             <field name="product_uom_qty" optional="show" />
                             <field name="product_uom" string="Unit" optional="show" />
                             <field name="product_uom_qtyy" optional="show" />
+                           <field name="alsarf" optional="show" />
+
 
                   <!--
                             <field name="discount" optional="show" />
