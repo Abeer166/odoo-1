@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) Softhealer Technologies.
 import this
+from typing import Union, Any
 
 from odoo import fields, models, api
 from dateutil.relativedelta import relativedelta
@@ -38,20 +39,21 @@ class SaleOrderHistory(models.Model):
 
     status = fields.Selection(
         string="Status", related="name.order_id.state", readonly=True)
-    date_order = fields.Datetime("Date", )
-    so_id = fields.Char("Sale Order")
+    date_order = fields.Datetime("Date", store=True)
+    so_id = fields.Char("Sale Order", store=True)
 
      #adding customer
     partner_id = fields.Many2one(
         "res.partner",
-        related="name.order_id.partner_id",
+        related="name.order_id.partner_id", store=True
     )
 
 
     product_id = fields.Many2one(
         "product.product",
         related="name.product_id",
-        readonly=True
+        readonly=True,
+        store=True
     )
     pricelist_id = fields.Many2one(
         "product.pricelist",
@@ -71,13 +73,15 @@ class SaleOrderHistory(models.Model):
     product_uom_qty = fields.Float(
         "Quantity",
         related="name.product_uom_qty",
-        readonly=True
+        readonly=True,
+        store=True
     )
 
     # adding الجرد
     product_uom_qtyy = fields.Float(
         "الجرد",
-        related="name.x_field",
+        related="name.aljard",
+        store=True
     )
 
     discount = fields.Float('Discount',
@@ -87,7 +91,8 @@ class SaleOrderHistory(models.Model):
         "uom.uom",
         "Unit",
         related="name.product_uom",
-        readonly=True
+        readonly=True,
+        store=True
     )
     currency_id = fields.Many2one(
         "res.currency",
@@ -101,18 +106,28 @@ class SaleOrderHistory(models.Model):
     )
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company)
-    enable_reorder = fields.Boolean(
-        "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
+    enable_reorder = fields.Boolean("Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
 
-    alsarf = fields.Float("الصرف", compute="_compute_alsarf", store=True)
-
-    @api.depends("order_id", "product_id", "product_uom_qtyy", "product_uom_qty")
+    alsarf = fields.Float("الصرف", compute="_compute_alsarf",store=True)
+    @api.depends("product_uom_qty", "product_uom_qtyy", "alsarf", "order_id.partner_id")
     def _compute_alsarf(self):
-        for x in self:
-            for y in self:
-                if y.order_id < x.order_id and y.order_id - x.order_id == 1:
-                    if x.product_id == y.product_id:
-                        y.alsarf = (x.product_uom_qtyy + y.product_uom_qty) - y.product_uom_qtyy
+        for record in self:
+
+                   previous_record = self.search([('id', '<', record.id),('partner_id', '=', record.partner_id.id),('product_id', '=', record.product_id.id)],limit=1, order='id desc')
+                   if previous_record:
+                       record.alsarf = (previous_record.product_uom_qty + previous_record.product_uom_qtyy) - record.product_uom_qtyy
+                   else:
+                       record.alsarf = 0
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,7 +188,7 @@ class SaleOrderHistory(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    x_field = fields.Float('X Field')
+    aljard = fields.Float('الجرد',store=True)
 
 
 class SaleOrder(models.Model):
