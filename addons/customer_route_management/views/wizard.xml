@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="route_report_form" model="ir.ui.view">
+        <field name="name">Route Report</field>
+        <field name="model">route.report</field>
+        <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="route" widget="many2many_tags"/>
+            </group>
+                   <group>
+                        <field name="payment"/>
+                   </group>
+            <group>
+                        <field name="consolidated" attrs="{'invisible': [('payment', '=', False)]}"/>
+                   </group>
+            <footer>
+                    <button name="print_route_details" string="PDF" type="object" class="oe_highlight"/>
+                    <button name="print_xlsx_report_route" string="Print Excel" type="object" class="oe_highlight"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+        <record id="route_report_action" model="ir.actions.act_window">
+            <field name="name">Routes</field>
+            <field name="res_model">route.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="route_report_form"/>
+            <field name="target">new</field>
+        </record>
+    <menuitem id="report_wizard" name="Report" parent="customer_route_management.delivery_route_menu" action="route_report_action"/>
+    </data>
+</odoo>

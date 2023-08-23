@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
 
+
 class SaleOrderStges(models.Model):
     _name = "sale.order.stages"
     _description = "Sale Order Stages"
@@ -48,6 +49,12 @@ class SaleOrderHistory(models.Model):
         related="name.order_id.partner_id", store=True
     )
 
+
+    invoice_status = fields.Selection(
+        "sale.order",
+        string="Invoice Status",
+        related="name.order_id.invoice_status",
+        store=True)
 
     product_id = fields.Many2one(
         "product.product",

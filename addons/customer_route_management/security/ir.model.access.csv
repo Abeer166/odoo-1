@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_routes,delivery.route.user,model_delivery_route,,1,1,1,1
+access_route_lines,route.lines.user,model_route_lines,,1,1,1,1
+access_route_report,route_report.route_report,model_route_report,,1,1,1,1
