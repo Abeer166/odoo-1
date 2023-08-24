@@ -7,7 +7,6 @@ class DeliveryRoute(models.Model):
     name = fields.Char(string='Name')
     route_lines = fields.One2many('route.lines', 'delivery_route_link', string='Route Lines')
 
-
 class RouteLines(models.Model):
     _name = 'route.lines'
     _rec_name = 'route'
@@ -25,3 +24,16 @@ class chatter(models.Model):
 class chatterr(models.Model):
     _name = 'route.lines'
     _inherit = ['route.lines','mail.thread','mail.activity.mixin']
+
+
+
+
+
+
+
+
+
+
+
+
+

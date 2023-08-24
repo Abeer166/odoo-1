@@ -26,12 +26,21 @@
                             <field name="route"/>
                             <field name="delivery_route_link" invisible="1"/>
                             <field name="cust_tree" attrs="{'invisible': [('delivery_route_link', '=', False)]}">
-                                <tree create="false">
-                                    <field name="sequence" widget="handle"/>
-                                      <field name="name" />
-
+                                <tree editable="bottom">
+                                      <field name="sequence" widget="handle"/>
+                                      <field name="name"/>
+                                       <field name="statuss" widget="checkbox"/>
+                                       <button name="%(sale.act_res_partner_2_sale_order)d"
+                                               string="بيع   "
+                                               class="btn-primary"
+                                               style="background-color: red; border-radius: 50%; padding: 10px;"
+                                               type="action" icon="fa-file-text-o"
+                                               context="{'search_default_quotation': 1, 'default_type': 'quotation'}"/>
                                 </tree>
+
                             </field>
+
+
                         </group>
                     </sheet>
                        <!-- adding chatter to route lines -->
@@ -46,5 +55,6 @@
                 </form>
             </field>
         </record>
+
     </data>
 </odoo>

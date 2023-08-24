@@ -7,10 +7,12 @@ from odoo.exceptions import UserError
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
-    _order = 'sequence'
+    #_order = 'sequence'
 
     locations = fields.Many2one('route.lines', string='Location')
     sequence = fields.Integer(default=10)
+
+    statuss = fields.Boolean(string="الحالة")
 
     def get_all_dues(self):
         query = """select name,invoice_date_due,amount_residual_signed from account_move where partner_id in
