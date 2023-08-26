@@ -26,7 +26,7 @@
                             <field name="route"/>
                             <field name="delivery_route_link" invisible="1"/>
                             <field name="cust_tree" attrs="{'invisible': [('delivery_route_link', '=', False)]}">
-                                <tree editable="bottom">
+                                <tree  delete="false" editable="bottom">
                                       <field name="sequence" widget="handle"/>
                                       <field name="name"/>
                                        <field name="statuss" widget="checkbox"/>
