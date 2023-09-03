@@ -129,6 +129,20 @@ class MailActivity(models.Model):
     sh_activity_id = fields.Many2one("sh.recurring.activities", ondelete="cascade")
     reference = fields.Reference(string='Related Document',
         selection='_reference_models')
+    next_activity_id = fields.Many2one(
+        comodel_name="mail.activity",
+        string="Next Activity",
+     )
+
+    def mark_as_done(self):
+
+        for record in self:
+            previous_record = self.search([('id', '<', record.id)], limit=1,
+                                                order='id desc')
+            if previous_record.state == 'done':
+                       record.write({'active': True})
+            else:
+                record.write({'active': False})
 
     @api.model
     def _reference_models(self):
@@ -171,6 +185,8 @@ class MailActivity(models.Model):
                 record.state = 'done'
         for activity_record in self.filtered(lambda activity: activity.active):
             activity_record.sh_state = activity_record.state
+
+
 
     def write(self, vals):
         if self:
@@ -351,6 +367,8 @@ class MailActivity(models.Model):
                                         notify_create_user_template.send_mail(
                                             record.id, force_send=True)
 
+
+
     def action_view_activity(self):
         self.ensure_one()
         try:
@@ -394,6 +412,7 @@ class MailActivity(models.Model):
             'context': {'default_done_button_pressed': True},
             'target': 'new',
         }
+
 
     def action_feedback(self, feedback=False, attachment_ids=None):
         messages, _next_activities = self.with_context(

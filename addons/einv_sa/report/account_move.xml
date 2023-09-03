@@ -41,15 +41,7 @@
                     </div>
                     -->
                 </div>
-                <div class="col-3" >
-<!--                    <span t-esc="doc.einv_sa_qr_code_str"></span>-->
-                    <img t-if="doc.einv_sa_qr_code_str"
-                         style="display:block;"
-                         t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"/>
-<!--                      <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"   class="float-right my-1"/>-->
 
-
-                </div>
             </div>
             <div class="oe_structure"/>
         </template>
@@ -212,7 +204,18 @@
 
 
                 </div>
+                 <!-- changes -->
+                <div class="row">
+                          <div class="col-5"/>
+                          <div class="col-5">
+<!--                      <span t-esc="doc.einv_sa_qr_code_str"></span>-->
+                           <img t-if="doc.einv_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"/>
+<!--                      <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.einv_sa_qr_code_str, 130, 130)"   class="float-right my-1"/>-->
+                          </div>
+                </div>
+                <!--changes -->
             </div>
+
             <div class="oe_structure"/>
 
         </template>

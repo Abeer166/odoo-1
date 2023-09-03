@@ -588,7 +588,7 @@
 	                                    </td>
 	                                    <t t-if="activity.state in ['overdue','planned','today']">
 	                                        <td>
-	                                            <button style="cursor: pointer;" class="btn-success mark-done">Mark As Done</button>
+	                                            <button style="cursor: pointer;" class="btn-success mark-done" >Mark As Done</button>
 	                                            &amp;nbsp;
 	                                            <button style="cursor: pointer;" class="btn-success mark-cancel">Cancel</button>
 												&amp;nbsp;
