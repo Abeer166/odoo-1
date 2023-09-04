@@ -3,6 +3,7 @@
     <record id="sh_action_activity_dashboard" model="ir.actions.client">
         <field name="name">Activity Dashboard</field>
         <field name="tag">activity_dashboard.dashboard</field>
+
     </record>
     <menuitem id="sh_menu_activity_dashboard" name="Dashboard" action="sh_action_activity_dashboard" parent="sh_activity_dashboard" sequence="1" />
     <template id="sh_crm_db_activity_count_box" name="SH Activity To Do">
@@ -42,7 +43,7 @@
 	                                    </h3>
 	                                    <p>Planned Activities</p>
 	                                </div>
-	                                <input type="text" id="planned_activity" t-att-value="planned_activities" style="display: none;" />
+	                                <input type="text" id="planned_activity" t-att-value="planned_activities" style="display: none;"  />
 	                            </div>
 	                        </div>
 	                    </div>
@@ -111,8 +112,10 @@
             </div>
         </div>
     </template>
-    <template id="sh_crm_db_activity_todo_tbl" name="SH Activity To Do">
-    	<t t-if="request.env.company.sh_display_planned_activities_table">
+
+    <template id="sh_crm_db_activity_todo_tbl" name="SH Activity To Do" >
+    	<t t-if="request.env.company.sh_display_planned_activities_table"  >
+			<order string="Deadline" name="date_deadline" />
 	        <div>
 	            <div id="js_id_sh_crm_activity_todo_tbl_div">
 
@@ -193,55 +196,13 @@
 	                        </tbody>
 	                    </table>
 					</div>
-	                    <nav aria-label="Page navigation example">
-	                        <ul class="pagination sh_pagination">
-	                            <t t-if="current_page &lt;= total_pages and current_page &gt; 1">
-	                                <li class="page-item">
-	                                    <button class="planned_previous_page page-link" t-att-data-bs-bs-planned-previous-page="current_page" aria-label="Previous" style="z-index:1;padding: 10px 12px;font-size: 14px;cursor: pointer;">
-	                                        <span>&amp;laquo;</span>
-	                                        <span class="sr-only">Previous</span>
-	                                    </button>
-	                                </li>
-	                            </t>
-	                            <t t-foreach="range(1, total_pages+1)" t-as="i">
-	                                <t t-if="current_page==i">
-	                                    <li class="page-item active">
-	                                        <button class="planned_page_number page-link" t-att-data-bs-bs-current-page='i' style="z-index:1;padding: 10px 12px;font-size: 14px;cursor: pointer;">
-	                                            <span class="planned_current_page_value" t-att-data-bs-value="i" t-esc="i" />
-	                                        </button>
-	                                    </li>
-	                                </t>
-	                                <t t-else="">
-	                                    <li class="page-item">
-	                                        <button class="planned_page_number page-link" t-att-data-bs-bs-current-page='i' style="z-index:1;padding: 10px 12px;font-size: 14px;">
-	                                            <span class="planned_current_page_value" t-att-data-bs-value="i" t-esc="i" />
-	                                        </button>
-	                                    </li>
-	                                </t>
-	                            </t>
-	                            <t t-if="current_page == total_pages">
-	                                <li class="page-item o_hidden">
-	                                    <button class="planned_next_page page-link" t-att-data-bs-bs-planned-current-page="current_page" href="#" aria-label="Next" style="z-index:1;padding: 10px 12px;font-size: 14px;">
-	                                        <span>&amp;raquo;</span>
-	                                        <span class="sr-only">Next</span>
-	                                    </button>
-	                                </li>
-	                            </t>
-	                            <t t-if="current_page != total_pages">
-	                                <li class="page-item">
-	                                    <button class="planned_next_page page-link" t-att-data-bs-bs-planned-current-page="current_page" href="#" aria-label="Next" style="z-index:1;padding: 10px 12px;font-size: 14px;">
-	                                        <span>&amp;raquo;</span>
-	                                        <span class="sr-only">Next</span>
-	                                    </button>
-	                                </li>
-	                            </t>
-	                        </ul>
-	                    </nav>
+
 	                </t>
 	            </div>
 	        </div>
 	    </t>
     </template>
+	
     <template id="sh_crm_db_activity_all_tbl" name="SH Activity All">
     	<t t-if="request.env.company.sh_display_all_activities_table">
 	        <div>

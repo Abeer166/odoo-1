@@ -91,7 +91,6 @@ class MailActivityMixin(models.AbstractModel):
             for vals in data
         ]
 
-
 class MailActivity(models.Model):
     """ Inherited Mail Acitvity to add custom field"""
     _inherit = 'mail.activity'
@@ -129,20 +128,9 @@ class MailActivity(models.Model):
     sh_activity_id = fields.Many2one("sh.recurring.activities", ondelete="cascade")
     reference = fields.Reference(string='Related Document',
         selection='_reference_models')
-    next_activity_id = fields.Many2one(
-        comodel_name="mail.activity",
-        string="Next Activity",
-     )
 
-    def mark_as_done(self):
 
-        for record in self:
-            previous_record = self.search([('id', '<', record.id)], limit=1,
-                                                order='id desc')
-            if previous_record.state == 'done':
-                       record.write({'active': True})
-            else:
-                record.write({'active': False})
+
 
     @api.model
     def _reference_models(self):
@@ -412,7 +400,6 @@ class MailActivity(models.Model):
             'context': {'default_done_button_pressed': True},
             'target': 'new',
         }
-
 
     def action_feedback(self, feedback=False, attachment_ids=None):
         messages, _next_activities = self.with_context(
