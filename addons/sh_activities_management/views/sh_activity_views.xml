@@ -59,8 +59,9 @@
             	<field name="user_id" widget="many2one_avatar_user"/>
             </field>
             <xpath expr="//tree" position="inside">
-            	<button type="object" string="Edit" name="action_edit_activity" class="btn btn-primary" icon="fa-pencil" attrs="{'invisible':[('active','=',False)]}"/>
-            	<button type="object" string="Origin" name="action_view_activity" class="btn btn-primary" icon="fa-history"/>
+            	<button type="object" string="تعديل" name="action_edit_activity" class="btn btn-primary" icon="fa-pencil" attrs="{'invisible':[('active','=',False)]}"/>
+            	<button type="object" string="تنفيذ" name="action_view_activity" class="btn btn-primary" icon="fa-history"/>
+                <button attrs="{'invisible': [('state', '=', 'done')]}" string="إنهاء" name="action_done" type="object" class="btn btn-primary" context="{'mail_activity_quick_update': True}"  />
 
             </xpath>
             <xpath expr="//tree" position="attributes">
@@ -269,6 +270,7 @@
         <field name="name">My Activities</field>
         <field name="res_model">mail.activity</field>
         <field name="view_mode">tree,kanban,form,pivot,calendar,graph</field>
+        <field name="limit">1</field>
         <field name="view_ids" eval="[(5, 0, 0),
             	(0, 0, {'view_mode': 'tree', 'view_id': ref('sh_mail_activity_view_tree')}),
                 (0,0,{'view_mode':'form','view_id':ref('mail.mail_activity_view_form')}),
