@@ -95,12 +95,18 @@ class MailActivity(models.Model):
     """ Inherited Mail Acitvity to add custom field"""
     _inherit = 'mail.activity'
 
+    res_name = fields.Char(
+      string="إسم المسار ")
+    activity_type_id = fields.Many2one(string="إسم المهمه")
+    user_id = fields.Many2one(string="مسنده ل")
+
     @api.model
     def default_company_id(self):
         return self.env.company
 
+
     active = fields.Boolean(default=True)
-    supervisor_id = fields.Many2one('res.users', string="Supervisor",domain=[('share','=',False)])
+    supervisor_id = fields.Many2one('res.users', string="المشرف الثانوي",domain=[('share','=',False)])
     sh_activity_tags = fields.Many2many(
         "sh.activity.tags", string='Activity Tags')
     state = fields.Selection(

@@ -4,8 +4,8 @@ from odoo import models, fields, api
 class DeliveryRoute(models.Model):
     _name = 'delivery.route'
 
-    name = fields.Char(string='Name')
-    route_lines = fields.One2many('route.lines', 'delivery_route_link', string='Route Lines')
+    name = fields.Char(string='المنطقه')
+    route_lines = fields.One2many('route.lines', 'delivery_route_link', string='القائمه')#route line
 
 class RouteLines(models.Model):
     _name = 'route.lines'
@@ -13,7 +13,7 @@ class RouteLines(models.Model):
     _order = 'sequence'
 
     sequence = fields.Integer(default=10)
-    route = fields.Char(string='Routes')
+    route = fields.Char(string='المسارات')#route
     delivery_route_link = fields.Many2one('delivery.route')
     cust_tree = fields.One2many('res.partner', 'locations', string='Customers')
 

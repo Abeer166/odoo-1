@@ -9,10 +9,10 @@
 
             <tree string="Activities" decoration-danger="date_deadline &lt; current_date" decoration-success="date_deadline == current_date"  create="false"  >
 
-                <field name="res_name" />
-                <field name="activity_type_id" />
-                <field name="summary" />
-                <field name="date_deadline" />
+                <field name="res_name" invisible="1"/>
+                <field name="activity_type_id" invisible="1" />
+                <field name="summary" invisible="1"/>
+                <field name="date_deadline" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -45,7 +45,7 @@
                 <field name="res_model" optional="hide"/>
                 <field name="res_model_id" optional="hide"/>
                 <field name="supervisor_id" optional="hide" widget="many2one_avatar_user"/>
-                <field name="sh_user_ids" optional="hide"/>
+                <field name="sh_user_ids" optional="hide" string="مسنده ل "/>
                 <field name="active" invisible="1"/>
                 <field name="activity_cancel" invisible="1"/>
                	<field name="activity_done" invisible="1"/>
@@ -279,7 +279,7 @@
                 (0, 0, {'view_mode': 'pivot', 'view_id': ref('sh_mail_schedule_activity_view_pivot')}),
                 (0, 0, {'view_mode': 'calendar', 'view_id': ref('sh_mail_schedule_activity_view_calendar')}),
                 (0, 0, {'view_mode': 'graph', 'view_id': ref('sh_mail_schedule_activity_view_graph')})]" />
-        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid])]</field>
+        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid])] </field>
     </record>
 
     <record id="sh_supervisor_activity_action" model="ir.actions.act_window">

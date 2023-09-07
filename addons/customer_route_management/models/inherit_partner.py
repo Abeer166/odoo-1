@@ -11,6 +11,7 @@ class ResPartner(models.Model):
 
     locations = fields.Many2one('route.lines', string='Location')
     sequence = fields.Integer(default=10)
+    name=fields.Char("أسم العميل")
 
     statuss = fields.Boolean(string="الحالة")
 
