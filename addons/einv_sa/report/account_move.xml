@@ -14,25 +14,51 @@
         </record>
 
         <template id="einv_sa.inv_header">
-            <div class="row p-1 my-2 border-bottom bg-light">
+            <div class="row p-1 my-2">
+
+
                 <div class="col-12 text-center" style="font-size:1.2rem;">
-                    <Strong>Tax Invoice فاتورة ضريبية</Strong>
+                    <Strong>فاتورة ضريبية مبسطة</Strong>
                     <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
                     <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
                 </div>
             </div>
-            <div class="row my-1">
-                <div class="col-9">
+
+
+
+
+            <div class="row p-1 my-2">
+                <div class="col-12 text-center">
+
                     <div class="row">
-                        <div class="col-4"><Strong>Invoice Number</Strong></div>
-                        <div class="col-4 text-center"><span t-field="doc.name"></span></div>
-                        <div class="col-4 text-right"><Strong>رقم الفاتورة</Strong></div>
+                        <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
+                        <div class="col-14 text-center" style="font-size: 10px;">
+                            <span t-field="doc.name"></span>
+                            <Strong>رقم الفاتورة</Strong>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4"><Strong>Invoice Date</Strong></div>
-                        <div class="col-4 text-center"><span t-field="doc.invoice_date"></span></div>
-                        <div class="col-4 text-right"><Strong>تاريخ الفاتورة</Strong></div>
+
+                     <div class="row">
+                        <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
+                        <div class="col-14 text-center" style="font-size: 18px;">
+                            <span t-field="doc.company_id.namee"></span>
+                            <!--<Strong>اسم المتجر</Strong>-->
+                        </div>
                     </div>
+
+                     <div class="row">
+                        <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
+                        <div class="col-14 text-center" style="font-size: 18px;">
+                           <!-- <Strong>عنوان المتجر</Strong>-->
+                            <span t-field="doc.company_id.street"></span>
+                        </div>
+                    </div>
+
+
+
+
+
+
                     <!--
                     <div class="row">
                         <div class="col-4"><Strong>Date of Supply</Strong></div>
@@ -43,8 +69,34 @@
                 </div>
 
             </div>
-            <div class="oe_structure"/>
+
+              <div class="row p-1 my-2">
+                <div class="col-20 text-center" style="font-size:1.2rem;">
+                     <div class="row">
+                        <!--<div class="col-4"><Strong>Invoice Date</Strong></div>-->
+                        <div class="col-20 text-right" style="font-size: 10px;">
+                            <span t-field="doc.invoice_date"></span>
+                            <Strong>تاريخ </Strong>
+                        </div>
+                     </div>
+
+                    <div class="row">
+                        <div class="col-20 text-right" style="font-size: 10px;">
+                            <span t-field="doc.company_id.vat"></span>
+                            <Strong> رقم تسجيل ضريبة القيمة المضافة</Strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+           <!-- <div class="oe_structure"/>  -->
         </template>
+
+
 
        <!-- -->
         <template id="einv_sa.partner_info">
@@ -114,15 +166,14 @@
 
 
         <template id="einv_sa.inv_lines">
-            <div class="row p-1 mt-3 bg-light">
+           <!-- <div class="row p-1 mt-3 bg-light">
                 <div class="col-6"><Strong>Invoice Lines</Strong></div>
-                <div class="col-6 text-right"><Strong>الاصناف</Strong></div>
-            </div>
+                <div class="col-12 text-center"><Strong>الاصناف</Strong></div>
+            </div> -->
             <table class="table table-sm o_main_table " name="invoice_line_ids_table">
                 <thead class="bg-light text-center">
                     <tr>
-                        <td class="text-left"><div class="mw-100">Name</div><div class="mw-100 ">
-                            الصنف</div></td>
+                        <!-- <td class="text-left"><div class="mw-100">Name</div><div class="mw-100 ">الصنف</div></td>
                         <td><div class="mw-100">Price Unit</div><div class="mw-100 "> سعر الوحدة</div></td>
                         <td><div class="mw-100">Quantity</div><div class="mw-100 "> الكمية</div></td>
                         <td><div class="mw-100">Discount</div><div class="mw-100 "> الخصم</div></td>
@@ -131,25 +182,38 @@
                         <td><div class="mw-100">Taxable Amount</div><div class="mw-100 "> المبلغ الخاضع
                             للضريبة</div></td>
                         <td><div class="mw-100">Price Total (with Vat)</div><div class="mw-100 "> الاجمالي شامل
-                            الضريبة المضافة</div></td>
+                            الضريبة المضافة</div></td> -->
+
+                        <td><div class="mw-100"></div><div class="mw-100 "> السعر شامل ضريبة القيمة المضافة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 ">ضريبة القيمة المضافة</div></td>
+                       <td><div class="mw-100"></div><div class="mw-100 "> سعر الوحدة</div></td>
+                       <td><div class="mw-100"></div><div class="mw-100 "> الكمية</div></td>
+                       <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td>
 
                     </tr>
                 </thead>
                 <tbody class="invoice_line_ids_tbody text-center">
                     <!-- foreach-->
                     <tr t-foreach="doc.invoice_line_ids" t-as="line">
-                        <td class="text-left"><span t-field="line.name"/></td>
+                        <!--<td class="text-left"><span t-field="line.name"/></td>
                         <td><span t-field="line.price_unit"/></td>
                         <td><span t-field="line.quantity"/></td>
-                        <td><span t-field="line.einv_amount_discount"/></td>
+                        <td><span t-field="line.einv_amount_discount"/></td> -->
                         <!--                            <td><span t-field="line.tax_ids[0].name"/></td>-->
-                        <td t-attf-class="{{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                        <!--<td t-attf-class="{{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                             <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"
                                   id="line_tax_ids"/>
                         </td>
                         <td><span t-field="line.einv_amount_tax"/></td>
                         <td><span t-field="line.price_subtotal"/></td>
+                        <td><span t-field="line.price_total"/></td> -->
+
                         <td><span t-field="line.price_total"/></td>
+                        <td><span t-field="line.einv_amount_tax"/></td>
+                        <td><span t-field="line.price_unit"/></td>
+                        <td><span t-field="line.quantity"/></td>
+                        <td class="text-left"><span t-field="line.name"/></td>
+
 
                     </tr>
                 </tbody>
@@ -160,17 +224,19 @@
 
         <template id="einv_sa.inv_total">
             <div style="page-break-inside: avoid;">
-                <div class="row p-1 mt-1 bg-light">
+               <!-- <div class="row p-1 mt-1 bg-light">
                     <div class="col-6"><Strong>Total Amount: </Strong></div>
                     <div class="col-6 text-right"><Strong>:الاجمالي</Strong></div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-2"></div>
-                    <div class="col-10">
+                    <div class="col-12 text-center">
                         <div class="row border border-top-0">
-                            <div class="col-4">Total (Excluding VAT)</div>
-                            <div class="col-6 text-right">الاجمالي قبل الضريبة</div>
+                           <!-- <div class="col-4">Total (Excluding VAT)</div>-->
                             <div class="col-2 text-center"><span t-field="doc.einv_amount_sale_total"></span></div>
+                            <div class="col-6 text-right">اجمالي المبلغ الخاضع للضريبة</div>
+                            <!--<div class="col-6 text-right">الاجمالي قبل الضريبة</div>-->
+
                         </div>
 
                         <!--
@@ -182,15 +248,18 @@
                         </div>
                         -->
                          <div class="row border border-top-0">
-                            <div class="col-4">Total VAT</div>
-                            <div class="col-6 text-right">قيمة الضريبة</div>
-                            <div class="col-2 text-center"><span t-field="doc.amount_tax_signed"></span></div>
+                           <!-- <div class="col-4">Total VAT</div> -->
+                             <div class="col-2 text-center"><span t-field="doc.amount_tax_signed"></span></div>
+                            <!--<div class="col-6 text-right">قيمة الضريبة</div> -->
+                             <div class="col-6 text-right">ضريبة القيمة المضافة %15</div>
+
                         </div>
 
                            <div class="row border border-top-0">
-                            <div class="col-4">Total Amount Due</div>
-                            <div class="col-6 text-right"> الصافي </div>
-                            <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
+                           <!-- <div class="col-4">Total Amount Due</div> -->
+                               <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
+                               <div class="col-6 text-right"> المجموع مع الضريبة %15 </div>
+
                         </div>
                     </div>
                           <!--
@@ -204,6 +273,14 @@
 
 
                 </div>
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
+                &amp;nbsp;
                  <!-- changes -->
                 <div class="row">
                           <div class="col-5"/>

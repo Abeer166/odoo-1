@@ -9,6 +9,7 @@ class BaseDocumentLayout(models.TransientModel):
     _name = "base.document.layout"
     _description = "einv.base_document_layout"
     _inherit = "base.document.layout"
+
     company_registry = fields.Char(string="CR", related='company_id.company_registry', help="")
     vat = fields.Char(related='company_id.vat', readonly=True)
 
