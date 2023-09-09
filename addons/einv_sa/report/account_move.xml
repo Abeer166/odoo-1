@@ -14,15 +14,24 @@
         </record>
 
         <template id="einv_sa.inv_header">
+
             <div class="row p-1 my-2">
+                <div class="col-12 text-center">
+		               <img src='/web/binary/company_logo' class="float-center" style="max-height: 150px; margin-top:5px;" alt="Logo"/>
+                </div>
+            </div>
 
-
+            <div class="row p-1 my-2">
                 <div class="col-12 text-center" style="font-size:1.2rem;">
                     <Strong>فاتورة ضريبية مبسطة</Strong>
                     <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
                     <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
                 </div>
             </div>
+
+          
+
+
 
 
 
@@ -53,8 +62,6 @@
                             <span t-field="doc.company_id.street"></span>
                         </div>
                     </div>
-
-
 
 
 
