@@ -279,7 +279,8 @@
                 (0, 0, {'view_mode': 'pivot', 'view_id': ref('sh_mail_schedule_activity_view_pivot')}),
                 (0, 0, {'view_mode': 'calendar', 'view_id': ref('sh_mail_schedule_activity_view_calendar')}),
                 (0, 0, {'view_mode': 'graph', 'view_id': ref('sh_mail_schedule_activity_view_graph')})]" />
-        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid])] </field>
+        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid]),('sh_state','=',['today','overdue'])] </field>
+
     </record>
 
     <record id="sh_supervisor_activity_action" model="ir.actions.act_window">
