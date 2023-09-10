@@ -23,7 +23,7 @@
 
             <div class="row p-1 my-2">
                 <div class="col-12 text-center" style="font-size:1.2rem;">
-                    <Strong>فاتورة ضريبية مبسطة</Strong>
+                    <Strong>فاتورة ضريبية </Strong>
                     <span t-if="doc.move_type=='out_refund'"> - Credit Note إشعار دائن</span>
                     <span t-if="doc.move_type=='in_refund'"> - Debit Note إشعار مدين</span>
                 </div>
@@ -111,12 +111,37 @@
             <div class="row p-1 mt-1  bg-light">
                 <div class="col-6"><Strong>Buyer</Strong></div>
                 <div class="col-6 text-right"><Strong>العميل</Strong></div>
-            </div>
+            </div> -->
+
             <div class="px-2">
-                <div class="row">
-                    <div class="col-3"><Strong>Name</Strong></div>
-                    <div class="col-5 text-center"><span t-field="doc.partner_id.name"></span></div>
-                    <div class="col-4 text-right"><Strong>الاسم</Strong></div>
+
+               <div class="row p-1 mt-3 bg-light">
+                   <div class="col-12 text-center"><Strong>بيانات المشتري</Strong></div>
+               </div>
+
+                <div class="row border border-top-0" style="font-size: 11px;">
+                   <!-- <div class="col-3"><Strong>Name</Strong></div>-->
+
+                    <div class="col-6 text-center">
+                        <span t-field="doc.partner_id.vat"></span>
+                        &#x2063;
+                        &#x2063;
+                        <Strong>رقم تسجيل ضريبة القيمة المضافة</Strong>
+                    </div>
+
+                    <div class="col-5 text-center">
+                        <span t-field="doc.partner_id.name"></span>
+                        &#x2063;
+                        &#x2063;
+                        <Strong>    اسم المشتري</Strong>
+                    </div>
+                </div>
+
+                  <!--<div class="row border border-top-0">
+                   <div class="col-3"><Strong>Vat Number</Strong></div>
+                    <div class="col-5 text-center"><span t-field="doc.partner_id.vat"></span></div>
+                    <div class="col-4 text-right"><Strong>رقم تسجيل ضريبة القيمة المضافة</Strong></div>
+
                 </div>
                 <div class="row">
                     <div class="col-3"><Strong>Building No</Strong></div>
@@ -154,21 +179,16 @@
                     <div class="col-5 text-center"><span t-field="doc.partner_id.additional_no"></span></div>
                     <div class="col-4 text-right"><Strong>الرقم الاضافي للعنوان</Strong></div>
                 </div>
-                <div class="row">
-                    <div class="col-3"><Strong>Vat Number</Strong></div>
-                    <div class="col-5 text-center"><span t-field="doc.partner_id.vat"></span></div>
-                    <div class="col-4 text-right"><Strong>رقم تسجيل ضريبة القيمة المضافة</Strong></div>
 
-                </div>
                 <div class="row">
                     <div class="col-3"><Strong>Other ID</Strong></div>
                     <div class="col-5 text-center"><span t-field="doc.partner_id.other_id"></span></div>
                     <div class="col-4 text-right"><Strong>معرف آخر</Strong></div>
-                </div>
+                </div>-->
                 <div class="oe_structure"/>
             </div>
             <div class="oe_structure"/>
-            -->
+
         </template>
 
 
