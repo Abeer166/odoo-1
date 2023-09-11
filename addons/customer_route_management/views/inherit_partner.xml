@@ -26,9 +26,10 @@
                             <field name="route"/>
                             <field name="delivery_route_link" invisible="1"/>
                             <field name="cust_tree" attrs="{'invisible': [('delivery_route_link', '=', False)]}">
-                                <tree  delete="false" editable="bottom">
+
+                                <tree  delete="false" create="True">
                                       <field name="sequence" widget="handle"/>
-                                      <field name="name"/>
+                                       <field name="name" />
                                        <field name="statuss" widget="checkbox"/>
                                        <button name="%(sale.act_res_partner_2_sale_order)d"
                                                string="بيع   "
@@ -42,6 +43,7 @@
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="object"
                                                 />
+
                                 </tree>
 
                             </field>
