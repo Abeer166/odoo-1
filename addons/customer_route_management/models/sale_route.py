@@ -17,6 +17,8 @@ class RouteLines(models.Model):
     delivery_route_link = fields.Many2one('delivery.route')
     cust_tree = fields.One2many('res.partner', 'locations', string='Customers')
 
+
+
 class chatter(models.Model):
     _name = 'delivery.route'
     _inherit = ['delivery.route','mail.thread','mail.activity.mixin']

@@ -36,6 +36,12 @@
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="action" icon="fa-file-text-o"
                                                context="{'search_default_quotation': 1, 'default_type': 'quotation'}"/>
+                                       <button name="open_map"
+                                               string="الخريطة"
+                                               class="btn-primary"
+                                               style="background-color: red; border-radius: 50%; padding: 10px;"
+                                               type="object"
+                                                />
                                 </tree>
 
                             </field>

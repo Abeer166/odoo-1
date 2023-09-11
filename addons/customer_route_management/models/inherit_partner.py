@@ -23,3 +23,11 @@ class ResPartner(models.Model):
         self.env.cr.execute(query, [self.id, self.id])
         list = self.env.cr.dictfetchall()
         return list
+
+    #adding map from google_maps_partner to rout line
+    def open_map(self):
+        super(ResPartner, self).open_map()
+
+
+
+
