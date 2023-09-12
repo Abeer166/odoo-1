@@ -133,15 +133,14 @@
                    <!-- <div class="col-3"><Strong>Name</Strong></div>-->
                     <div class="col-5 text-center">
                         <Strong>    اسم العميل</Strong>
-                        &#x2063;
-                        &#x2063;
+                        <!--&#x2063; for adding space -->
+                        &#xA; <!-- for adding a new line -->
                         <span t-field="doc.partner_id.name"></span>
                     </div>
 
                     <div class="col-6 text-center">
                         <Strong>رقم تسجيل ضريبة القيمة المضافة للعميل</Strong>
-                        &#x2063;
-                        &#x2063;
+                        &#xA;
                         <span t-field="doc.partner_id.vat"></span>
                     </div>
 
