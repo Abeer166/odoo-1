@@ -48,7 +48,7 @@
 
                     <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
-                        <div class="col-14 text-center" style="font-size: 10px;">
+                        <div class="col-12 text-center" style="font-size: 10px;">
                             <span t-field="doc.name"></span>
 
                         </div>
@@ -85,7 +85,7 @@
             </div>
 
               <div class="row p-1 my-2">
-                <div class="col-20 text-center" style="font-size:1.2rem;">
+                <div class="col-20 text-center" >
                      <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Date</Strong></div>-->
                         <div class="col-20 text-right" style="font-size: 10px;">
@@ -106,6 +106,7 @@
                 </div>
 
             </div>
+
 
 
 
