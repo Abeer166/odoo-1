@@ -23,4 +23,4 @@ class BaseDocumentLayout(models.TransientModel):
     def _check_vat(self):
         for record in self:
             if len(record.vat) != 15:
-                raise ValidationError('يجب ان تتكون خانة الرقم الضريبي من ١٥ رقم ')
+                raise ValidationError('العميل الذي اضفته للتو يجب ان تتكون خانة الرقم الضريبي لديه من ١٥ رقم ')

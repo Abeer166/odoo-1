@@ -123,17 +123,17 @@
                    <!-- <div class="col-3"><Strong>Name</Strong></div>-->
 
                     <div class="col-6 text-center">
-                        <span t-field="doc.partner_id.vat"></span>
-                        &#x2063;
-                        &#x2063;
                         <Strong>رقم تسجيل ضريبة القيمة المضافة للعميل</Strong>
+                        &#x2063;
+                        &#x2063;
+                        <span t-field="doc.partner_id.vat"></span>
                     </div>
 
                     <div class="col-5 text-center">
-                        <span t-field="doc.partner_id.name"></span>
-                        &#x2063;
-                        &#x2063;
                         <Strong>    اسم العميل</Strong>
+                        &#x2063;
+                        &#x2063;
+                        <span t-field="doc.partner_id.name"></span>
                     </div>
                 </div>
 
