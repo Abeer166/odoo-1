@@ -42,8 +42,9 @@
                     <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
                         <div class="col-14 text-center" style="font-size: 10px;">
-                            <span t-field="doc.name"></span>
                             <Strong>رقم الفاتورة</Strong>
+                            <span t-field="doc.name"></span>
+
                         </div>
                     </div>
 
@@ -82,15 +83,17 @@
                      <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Date</Strong></div>-->
                         <div class="col-20 text-right" style="font-size: 10px;">
-                            <span t-field="doc.invoice_date"></span>
                             <Strong>تاريخ </Strong>
+                            <span t-field="doc.invoice_date"></span>
+
                         </div>
                      </div>
 
                     <div class="row">
                         <div class="col-20 text-right" style="font-size: 10px;">
-                            <span t-field="doc.company_id.vat"></span>
                             <Strong> رقم تسجيل ضريبة القيمة المضافة</Strong>
+                            <span t-field="doc.company_id.vat"></span>
+
                         </div>
                     </div>
 
@@ -121,6 +124,12 @@
 
                 <div class="row border border-top-0" style="font-size: 11px;">
                    <!-- <div class="col-3"><Strong>Name</Strong></div>-->
+                    <div class="col-5 text-center">
+                        <Strong>    اسم العميل</Strong>
+                        &#x2063;
+                        &#x2063;
+                        <span t-field="doc.partner_id.name"></span>
+                    </div>
 
                     <div class="col-6 text-center">
                         <Strong>رقم تسجيل ضريبة القيمة المضافة للعميل</Strong>
@@ -129,12 +138,7 @@
                         <span t-field="doc.partner_id.vat"></span>
                     </div>
 
-                    <div class="col-5 text-center">
-                        <Strong>    اسم العميل</Strong>
-                        &#x2063;
-                        &#x2063;
-                        <span t-field="doc.partner_id.name"></span>
-                    </div>
+
                 </div>
 
                   <!--<div class="row border border-top-0">
@@ -210,12 +214,20 @@
                             للضريبة</div></td>
                         <td><div class="mw-100">Price Total (with Vat)</div><div class="mw-100 "> الاجمالي شامل
                             الضريبة المضافة</div></td> -->
-
+                        <!--
                         <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;"> السعر شامل ضريبة القيمة المضافة</div></td>
                         <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;">ضريبة القيمة المضافة</div></td>
                        <td><div class="mw-100"></div><div class="mw-100 "> سعر الوحدة</div></td>
                        <td><div class="mw-100"></div><div class="mw-100 "> الكمية</div></td>
-                       <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td>
+                       <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td> -->
+
+                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 "> الكمية</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 "> سعر الوحدة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;">ضريبة القيمة المضافة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;"> السعر شامل ضريبة القيمة المضافة</div></td>
+
+
 
                     </tr>
                 </thead>
@@ -235,11 +247,18 @@
                         <td><span t-field="line.price_subtotal"/></td>
                         <td><span t-field="line.price_total"/></td> -->
 
-                        <td><span t-field="line.price_total"/></td>
+                        <!--<td><span t-field="line.price_total"/></td>
                         <td><span t-field="line.einv_amount_tax"/></td>
                         <td><span t-field="line.price_unit"/></td>
                         <td><span t-field="line.quantity"/></td>
+                        <td class="text-left"><span t-field="line.name"/></td> -->
+
+
                         <td class="text-left"><span t-field="line.name"/></td>
+                        <td><span t-field="line.quantity"/></td>
+                        <td><span t-field="line.price_unit"/></td>
+                        <td><span t-field="line.einv_amount_tax"/></td>
+                        <td><span t-field="line.price_total"/></td>
 
 
                     </tr>
@@ -260,8 +279,9 @@
                     <div class="col-12 text-center">
                         <div class="row border border-top-0">
                            <!-- <div class="col-4">Total (Excluding VAT)</div>-->
-                            <div class="col-2 text-center"><span t-field="doc.einv_amount_sale_total"></span></div>
                             <div class="col-6 text-right">اجمالي المبلغ الخاضع للضريبة</div>
+                            <div class="col-2 text-center"><span t-field="doc.einv_amount_sale_total"></span></div>
+
                             <!--<div class="col-6 text-right">الاجمالي قبل الضريبة</div>-->
 
                         </div>
@@ -276,16 +296,18 @@
                         -->
                          <div class="row border border-top-0">
                            <!-- <div class="col-4">Total VAT</div> -->
+                             <div class="col-6 text-right">ضريبة القيمة المضافة %15</div>
                              <div class="col-2 text-center"><span t-field="doc.amount_tax_signed"></span></div>
                             <!--<div class="col-6 text-right">قيمة الضريبة</div> -->
-                             <div class="col-6 text-right">ضريبة القيمة المضافة %15</div>
+
 
                         </div>
 
                            <div class="row border border-top-0">
                            <!-- <div class="col-4">Total Amount Due</div> -->
-                               <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
                                <div class="col-6 text-right"> المجموع مع الضريبة %15 </div>
+                               <div class="col-2 text-center"><span t-field="doc.amount_total"></span></div>
+
 
                         </div>
                     </div>
