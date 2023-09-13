@@ -135,14 +135,18 @@
                         <div class="col-6 text-right" >اسم العميل </div>
                         <!--&#x2063; for adding space -->
                          <!-- for adding a new line -->
-                        <div class="col-2 text-center"><span t-field="doc.partner_id.name"></span></div>
+                        <div class="col-2"></div>
+                        <div class="col-3"><span t-field="doc.partner_id.name"></span></div>
+                        <div class="col-3"></div>
                     </div>
 
                     <div class="row border border-top-0">
                         <div class="col-6 text-right" >رقم تسجيل ضريبة القيمة المضافة للعميل </div>
                         <!--&#x2063; for adding space -->
                          <!-- for adding a new line -->
-                        <div class="col-2 text-center"><span t-field="doc.partner_id.vat"></span></div>
+                        <div class="col-2"></div>
+                        <div class="col-3"><span t-field="doc.partner_id.vat"></span></div>
+                        <div class="col-3"></div>
                     </div>
 
 
