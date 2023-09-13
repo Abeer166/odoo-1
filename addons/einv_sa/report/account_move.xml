@@ -209,10 +209,11 @@
 
 
         <template id="einv_sa.inv_lines" >
-           <!-- <div class="row p-1 mt-3 bg-light">
-                <div class="col-6"><Strong>Invoice Lines</Strong></div>
-                <div class="col-12 text-center"><Strong>الاصناف</Strong></div>
-            </div> -->
+
+            <div class="row p-1 mt-3 bg-light">
+                   <div class="col-12 text-center" style="font-size: 13px;"><Strong>المنتجات</Strong></div>
+               </div>
+            
             <table class="table table-sm o_main_table " name="invoice_line_ids_table">
                 <thead class="bg-light text-center" >
                     <tr>
