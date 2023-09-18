@@ -12,6 +12,13 @@
         </xpath>
     </field>
 </record>
+
+    <!-- for removing kanban from sale order line to let user in thier phons see the order line tree-->
+        <record id="sale.act_res_partner_2_sale_order" model="ir.actions.act_window">
+        <field name="view_mode">tree,form</field>
+        </record>
+
+
          <!-- step2 window action -->
 
         <record id="sale_order_history_report_action" model="ir.actions.act_window">
