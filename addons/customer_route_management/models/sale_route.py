@@ -19,23 +19,16 @@ class RouteLines(models.Model):
 
     sequence = fields.Integer(default=10)
     route = fields.Char(string='المسارات')#route
-    date1 = fields.Date(string='Your string', default=datetime.today())
     delivery_route_link = fields.Many2one('delivery.route')
-
     cust_tree = fields.One2many('res.partner', 'locations', string='Customers')
-    day_of_week = fields.Selection([
-        ('saturday', 'Saturday'),
-        ('sunday', 'Sunday'),
-        ('monday', 'Monday'),
-        ('tuesday', 'Tuesday'),
-        ('wednesday', 'Wednesday'),
-        ('thursday', 'Thursday'),
-        ('friday', 'Friday')
-          ], string='Day of Week')
 
 
-
-
+    date1 = fields.Date(string='تاريخ التنفيذ', default=datetime.today())
+    statuss_checkbox = fields.Boolean(string="الحالة")
+    def move_record_to_last(self):
+        for record in self:
+            if record.statuss_checkbox:
+                record.write({'sequence': 9999})
 
 
 class chatter(models.Model):

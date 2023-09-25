@@ -9,18 +9,16 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                             <field name="date1"/>
 
                         </group>
                         <notebook>
                                 <page string="Route Lines">
                                     <field name="route_lines"  >
-                                        <tree  string="Route Lines" domain="[('day_of_week', 'not in', 'date1')]" >
+                                        <tree  string="Route Lines" limit="1"  >
                                             <field name="sequence" widget="handle"/>
-                                             <field name="date1" />
-                                            <field name="day_of_week" />
+                                            <field name="date1" />
                                             <field name="route"/>
-
+                                            <field name="statuss_checkbox" widget="boolean_toggle" onchange="move_record_to_last()"/>
 
                                             <!--<field name="destination_route"/>-->
                                         </tree>
