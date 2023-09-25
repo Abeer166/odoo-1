@@ -207,7 +207,7 @@ class SaleOrder(models.Model):
         string="Order History",
         compute="_compute_sale_order_history",
     )
-    
+
     enable_reorder = fields.Boolean(
         "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
 

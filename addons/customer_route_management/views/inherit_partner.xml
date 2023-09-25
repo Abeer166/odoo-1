@@ -24,6 +24,8 @@
                     <sheet>
                         <group>
                             <field name="route"/>
+                           <field name="day_of_week" />
+
                             <field name="delivery_route_link" invisible="1"/>
                             <field name="cust_tree" attrs="{'invisible': [('delivery_route_link', '=', False)]}">
 

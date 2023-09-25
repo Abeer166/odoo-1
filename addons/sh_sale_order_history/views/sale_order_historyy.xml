@@ -10,10 +10,6 @@
         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="aljard"/>
         </xpath>
-        <xpath expr="//kanban[@class='o_kanban_mobile']/field[@name='name']" position="after">
-        <field name="aljard"/>
-
-</xpath>
     </field>
 </record>
 
