@@ -39,6 +39,8 @@
         'security/ir.model.access.csv',
         'views/inherit_partner.xml',
         'views/delivery_route.xml',
+        'security/routaccess.xml',
+
         'views/report.xml',
         'views/report_template.xml',
         'views/wizard.xml',

@@ -24,12 +24,14 @@ class RouteLines(models.Model):
 
 
     date1 = fields.Date(string='تاريخ التنفيذ', default=datetime.today())
+
     statuss_checkbox = fields.Boolean(string="الحالة")
+
+    @api.onchange('statuss_checkbox')
     def move_record_to_last(self):
         for record in self:
             if record.statuss_checkbox:
                 record.write({'sequence': 9999})
-
 
 class chatter(models.Model):
     _name = 'delivery.route'
