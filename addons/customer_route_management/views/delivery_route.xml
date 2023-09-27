@@ -19,7 +19,6 @@
                                             <field name="sequence" widget="handle"/>
                                             <!--<field name="date1" />-->
                                             <field name="route"/>
-                                            <field name="statuss_checkbox" widget="boolean_toggle" onchange="move_record_to_last()"/>
 
                                             <!--<field name="destination_route"/>-->
                                         </tree>
@@ -31,8 +30,12 @@
                                             <field name="sequence" widget="handle"/>
                                            <!-- <field name="date1" />-->
                                             <field name="route"/>
-                                            <field name="statuss_checkbox" widget="boolean_toggle" onchange="move_record_to_last()"/>
-
+                                            <button name="move_record_to_last"
+                                               string="منجز"
+                                               class="btn-primary"
+                                               style="background-color: red; border-radius: 50%; padding: 10px;"
+                                               type="object"
+                                                />
                                             <!--<field name="destination_route"/>-->
                                         </tree>
                                     </field>

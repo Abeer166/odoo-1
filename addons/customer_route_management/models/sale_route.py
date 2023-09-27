@@ -9,7 +9,6 @@ class DeliveryRoute(models.Model):
     name = fields.Char(string='المنطقه')
 
     route_lines = fields.One2many('route.lines', 'delivery_route_link', string='القائمه')#route line
-    date1 = fields.Date(string='Your string', default=datetime.today())
 
 
 class RouteLines(models.Model):
@@ -25,12 +24,10 @@ class RouteLines(models.Model):
 
     #date1 = fields.Date(string='تاريخ التنفيذ', default=datetime.today())
 
-    statuss_checkbox = fields.Boolean(string="الحالة")
 
     @api.onchange('statuss_checkbox')
     def move_record_to_last(self):
         for record in self:
-            if record.statuss_checkbox:
                 record.write({'sequence': 9999})
 
 class chatter(models.Model):
