@@ -26,7 +26,7 @@
                                 </page>
                              <page string="Route Liness" groups="customer_route_management.group_rout_user">
                                     <field name="route_lines"  >
-                                        <tree  string="Route Liness" limit="1" >
+                                        <tree  delete="false" create="True" string="Route Liness" limit="1" >
                                             <field name="sequence" widget="handle"/>
                                            <!-- <field name="date1" />-->
                                             <field name="route"/>
