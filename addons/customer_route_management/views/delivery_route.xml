@@ -17,7 +17,7 @@
                                     <field name="route_lines"  >
                                         <tree  string="Route Lines"  >
                                             <field name="sequence" widget="handle"/>
-                                            <field name="date1" />
+                                            <!--<field name="date1" />-->
                                             <field name="route"/>
                                             <field name="statuss_checkbox" widget="boolean_toggle" onchange="move_record_to_last()"/>
 
@@ -29,7 +29,7 @@
                                     <field name="route_lines"  >
                                         <tree  string="Route Liness" limit="1" >
                                             <field name="sequence" widget="handle"/>
-                                            <field name="date1" />
+                                           <!-- <field name="date1" />-->
                                             <field name="route"/>
                                             <field name="statuss_checkbox" widget="boolean_toggle" onchange="move_record_to_last()"/>
 

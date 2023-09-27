@@ -23,7 +23,7 @@ class RouteLines(models.Model):
     cust_tree = fields.One2many('res.partner', 'locations', string='Customers')
 
 
-    date1 = fields.Date(string='تاريخ التنفيذ', default=datetime.today())
+    #date1 = fields.Date(string='تاريخ التنفيذ', default=datetime.today())
 
     statuss_checkbox = fields.Boolean(string="الحالة")
 
