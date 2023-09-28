@@ -30,7 +30,7 @@
                                 <tree  delete="false" create="True">
                                       <field name="sequence" widget="handle"/>
                                        <field name="name" />
-                                       <field name="statuss" widget="checkbox"/>
+                                      <!-- <field name="statuss" widget="boolean_toggle"/>-->
                                        <button name="%(sale.act_res_partner_2_sale_order)d"
                                                string="بيع   "
                                                class="btn-primary"

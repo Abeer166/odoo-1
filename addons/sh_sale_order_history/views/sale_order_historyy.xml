@@ -10,50 +10,11 @@
         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="aljard"/>
         </xpath>
+         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']"  position="attributes">
+          <attribute name="mode">tree</attribute>
+        </xpath>
     </field>
 </record>
- <record model="ir.ui.view" id="sale_order_view_inherit1">
-    <field name="name">sale.order.view.inherit12</field>
-    <field name="model">sale.order.line</field>
-    <field name="inherit_id" ref="sale.sale_order_line_view_kanban"/>
-    <field name="arch" type="xml">
-      <kanban class="o_kanban_mobile">
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_content oe_kanban_global_click">
-                            <div class="row">
-                                <div class="col-12">
-                                <field name="display_name"/>
-                                      <field name="aljard"/>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-    </field>
-</record>
-   <record model="ir.ui.view" id="sale_order_view_inherit13">
-    <field name="name">sale.order.view.inherit123</field>
-    <field name="model">sale.order.line</field>
-    <field name="arch" type="xml">
-      <kanban class="o_kanban_mobile">
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_content oe_kanban_global_click">
-                            <div class="row">
-                                <div class="col-12">
-                                <field name="display_name"/>
-                                      <field name="aljard"/>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-    </field>
-</record>
-
 
          <!-- step2 window action -->
 
