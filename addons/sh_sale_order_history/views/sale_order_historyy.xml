@@ -12,7 +12,16 @@
         </xpath>
     </field>
 </record>
-
+ <record model="ir.ui.view" id="sale_order_view_inherit1">
+    <field name="name">sale.order.view.inherit12</field>
+    <field name="model">sale.order.line</field>
+    <field name="inherit_id" ref="sale.sale_order_line_view_kanban"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='display_name']" position="after">
+            <field name="aljard"/>
+        </xpath>
+    </field>
+</record>
   
 
 
