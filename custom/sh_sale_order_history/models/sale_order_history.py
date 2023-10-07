@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) Softhealer Technologies.
+import this
+from typing import Union, Any
 
 from odoo import fields, models, api
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+
+
 
 
 class SaleOrderStges(models.Model):
@@ -32,16 +38,33 @@ class SaleOrderHistory(models.Model):
     order_id = fields.Many2one(
         "sale.order",
         "Current Sale Order",
-        readonly=True
+        readonly=False
     )
+
+
     status = fields.Selection(
         string="Status", related="name.order_id.state", readonly=True)
-    date_order = fields.Datetime("Date", )
-    so_id = fields.Char("Sale Order")
+    date_order = fields.Datetime("Date", store=True)
+    so_id = fields.Char("Sale Order", store=True)
+
+     #adding customer
+    partner_id = fields.Many2one(
+        "res.partner",
+        related="name.order_id.partner_id", store=True
+    )
+
+
+    invoice_status = fields.Selection(
+        "sale.order",
+        string="Invoice Status",
+        related="name.order_id.invoice_status",
+        store=True)
+
     product_id = fields.Many2one(
         "product.product",
         related="name.product_id",
-        readonly=True
+        readonly=True,
+        store=True
     )
     pricelist_id = fields.Many2one(
         "product.pricelist",
@@ -61,21 +84,27 @@ class SaleOrderHistory(models.Model):
     product_uom_qty = fields.Float(
         "Quantity",
         related="name.product_uom_qty",
-        readonly=True
+        readonly=True,
+        store=True
     )
 
+    # adding الجرد
     product_uom_qtyy = fields.Float(
         "الجرد",
-
+        related="name.aljard",
+        store=True
     )
+
+
     discount = fields.Float('Discount',
                             related='name.discount',
-                            readonly=True)
+                            readonly=False)
     product_uom = fields.Many2one(
         "uom.uom",
         "Unit",
         related="name.product_uom",
-        readonly=True
+        readonly=True,
+        store=True
     )
     currency_id = fields.Many2one(
         "res.currency",
@@ -89,8 +118,20 @@ class SaleOrderHistory(models.Model):
     )
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company)
-    enable_reorder = fields.Boolean(
-        "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
+    enable_reorder = fields.Boolean("Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
+
+    alsarf = fields.Float("الصرف", compute="_compute_alsarf",store=True)
+    @api.depends("product_uom_qty", "product_uom_qtyy", "alsarf", "order_id.partner_id")
+    def _compute_alsarf(self):
+        for record in self:
+
+                   previous_record = self.search([('id', '<', record.id),('partner_id', '=', record.partner_id.id),('product_id', '=', record.product_id.id)],limit=1, order='id desc')
+                   if previous_record:
+                       record.alsarf = (previous_record.product_uom_qty + previous_record.product_uom_qtyy) - record.product_uom_qtyy
+                   else:
+                       record.alsarf = 0
+
+
 
     @api.depends('order_id.pricelist_id')
     def _compute_new_unit_price(self):
@@ -144,6 +185,13 @@ class SaleOrderHistory(models.Model):
             'target': 'current',
             'res_id': self.name.order_id.id,
         }
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    aljard = fields.Float('الجرد',store=True)
+
 
 
 class SaleOrder(models.Model):
@@ -223,7 +271,7 @@ class SaleOrder(models.Model):
                 domain.append(("partner_id", "in", partners),)
 
             if self._origin:
-                domain.append(("id", "!=", self._origin.id))
+                domain.append(("id", "=", self._origin.id))
 
             sale_order_search = self.env["sale.order"].search(
                 domain,
@@ -297,9 +345,8 @@ class SaleOrder(models.Model):
                     domain.append(("partner_id", "in", partners),)
                     history_domain.append(
                         ('order_id.partner_id', 'in', partners),)
-
                 if vals.id:
-                    domain.append(("id", "!=", vals.id))
+                    domain.append(("id", "=", vals.id))
 
                 sale_order_search = self.env["sale.order"].search(
                     domain,
@@ -338,3 +385,5 @@ class SaleOrder(models.Model):
                                     }
                                     res = self.env['sale.order.history'].sudo().create(
                                         history_vals)
+
+

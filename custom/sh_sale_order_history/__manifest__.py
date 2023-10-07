@@ -24,10 +24,12 @@ Get Last Sale Order History Application, Search Customer Last Quote History Odoo
         "security/ir.model.access.csv",
         "security/stages_security.xml",
         "views/sale_order_history.xml",
+        "views/sale_order_historyy.xml",
         "views/res_config_settings.xml",
         "views/sale_order_stages.xml",
         "data/stages_data.xml",
     ],
+
     "images": ["static/description/background.jpg", ],
     "live_test_url":"https://youtu.be/_NvHHWaev1k",
     "auto_install": False,

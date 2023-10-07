@@ -10,9 +10,13 @@
         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="aljard"/>
         </xpath>
+
+         <!--To hide kanban view from phone and make just tree view-->
+
          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']"  position="attributes">
           <attribute name="mode">tree</attribute>
         </xpath>
+
     </field>
 </record>
 
