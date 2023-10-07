@@ -9,6 +9,9 @@ class Company(models.Model):
     _name = "res.company"
     _inherit = "res.company"
 
+    namee = fields.Char(string=" name", related='partner_id.name')
+    street = fields.Char(string=" name", related='partner_id.street')
+
     building_no = fields.Char(string="Building no", related='partner_id.building_no', help="Building No")
     district = fields.Char(string="District", related='partner_id.district', help="District")
     code = fields.Char(string="Code", related='partner_id.code', help="Code")
