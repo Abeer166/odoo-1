@@ -91,17 +91,22 @@ class MailActivityMixin(models.AbstractModel):
             for vals in data
         ]
 
-
 class MailActivity(models.Model):
     """ Inherited Mail Acitvity to add custom field"""
     _inherit = 'mail.activity'
+
+    res_name = fields.Char(
+      string="إسم المسار ")
+    activity_type_id = fields.Many2one(string="إسم المهمه")
+    user_id = fields.Many2one(string="مسنده ل")
 
     @api.model
     def default_company_id(self):
         return self.env.company
 
+
     active = fields.Boolean(default=True)
-    supervisor_id = fields.Many2one('res.users', string="Supervisor",domain=[('share','=',False)])
+    supervisor_id = fields.Many2one('res.users', string="المشرف الثانوي",domain=[('share','=',False)])
     sh_activity_tags = fields.Many2many(
         "sh.activity.tags", string='Activity Tags')
     state = fields.Selection(
@@ -129,6 +134,9 @@ class MailActivity(models.Model):
     sh_activity_id = fields.Many2one("sh.recurring.activities", ondelete="cascade")
     reference = fields.Reference(string='Related Document',
         selection='_reference_models')
+
+
+
 
     @api.model
     def _reference_models(self):
@@ -171,6 +179,8 @@ class MailActivity(models.Model):
                 record.state = 'done'
         for activity_record in self.filtered(lambda activity: activity.active):
             activity_record.sh_state = activity_record.state
+
+
 
     def write(self, vals):
         if self:
@@ -350,6 +360,8 @@ class MailActivity(models.Model):
                                     if record.user_id.id != record.create_uid.id and record.create_uid.id != self.env.ref('base.user_root').id:
                                         notify_create_user_template.send_mail(
                                             record.id, force_send=True)
+
+
 
     def action_view_activity(self):
         self.ensure_one()

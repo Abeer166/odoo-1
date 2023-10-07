@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <odoo>
+
     <record id="sh_mail_schedule_activity_view_tree" model="ir.ui.view">
         <field name="name">sh.mail.schedule.activity.view.tree</field>
         <field name="model">mail.activity</field>
         <field name="arch" type="xml">
-            <tree string="Activities" decoration-danger="date_deadline &lt; current_date" decoration-success="date_deadline == current_date" default_order="date_deadline" create="false">
-                <field name="res_name" />
-                <field name="activity_type_id" />
-                <field name="summary" />
-                <field name="date_deadline" />
+
+            <tree string="Activities" decoration-danger="date_deadline &lt; current_date" decoration-success="date_deadline == current_date"  create="false"  >
+
+                <field name="res_name" invisible="1"/>
+                <field name="activity_type_id" invisible="1" />
+                <field name="summary" invisible="1"/>
+                <field name="date_deadline" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -18,14 +22,14 @@
         <field name="priority">1</field>
         <field name="inherit_id" ref="mail.mail_activity_view_tree" />
         <field name="arch" type="xml">
-        	<xpath expr="//tree" position="attributes">
+        	<xpath expr="//tree"  position="attributes">
             		<attribute name="create"></attribute>
             	</xpath>
             <field name="date_deadline" position="attributes">
             	<attribute name="widget">remaining_days</attribute>
             	<attribute name="options">{'allow_order': '1'}</attribute>
             </field>
-            <field name="date_deadline" position="after">
+            <field name="date_deadline" position="after"  >
                 <field name="state" invisible="1"/>
                 <field name="sh_state" decoration-success="sh_state == 'done'" decoration-warning="state == 'today' or state == 'planned'" decoration-danger="state == 'cancelled' or state == 'overdue'" widget="badge" string="State"/>
                 <field name="date_done" widget="remaining_days" options="{'allow_order': '1'}" />
@@ -41,7 +45,7 @@
                 <field name="res_model" optional="hide"/>
                 <field name="res_model_id" optional="hide"/>
                 <field name="supervisor_id" optional="hide" widget="many2one_avatar_user"/>
-                <field name="sh_user_ids" optional="hide"/>
+                <field name="sh_user_ids" optional="hide" string="مسنده ل "/>
                 <field name="active" invisible="1"/>
                 <field name="activity_cancel" invisible="1"/>
                	<field name="activity_done" invisible="1"/>
@@ -55,8 +59,10 @@
             	<field name="user_id" widget="many2one_avatar_user"/>
             </field>
             <xpath expr="//tree" position="inside">
-            	<button type="object" string="Edit" name="action_edit_activity" class="btn btn-primary" icon="fa-pencil" attrs="{'invisible':[('active','=',False)]}"/>
-            	<button type="object" string="Origin" name="action_view_activity" class="btn btn-primary" icon="fa-history"/>
+            	<button type="object" string="تعديل" name="action_edit_activity" class="btn btn-primary" icon="fa-pencil" attrs="{'invisible':[('active','=',False)]}"/>
+            	<button type="object" string="تنفيذ" name="action_view_activity" class="btn btn-primary" icon="fa-history"/>
+                <button attrs="{'invisible': [('state', '=', 'done')]}" string="إنهاء" name="action_done" type="object" class="btn btn-primary" context="{'mail_activity_quick_update': True}"  />
+
             </xpath>
             <xpath expr="//tree" position="attributes">
             	<attribute name="multi_edit">1</attribute>
@@ -67,6 +73,7 @@
         <field name="name">sh.mail.activity.inherit</field>
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="mail.mail_activity_view_form_popup" />
+
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
@@ -80,7 +87,7 @@
             </xpath>
             <xpath expr="//form//sheet" position="before">
                 <header>
-                    <button attrs="{'invisible': [('state', '=', 'done')]}" string="Mark as Done" name="action_done" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}" />
+                    <button attrs="{'invisible': [('state', '=', 'done')]}" string="Mark as Done" name="action_done" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"  />
                     <button attrs="{'invisible': [('state', '=', 'done')]}" string="Done &amp; Schedule Next" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}" />                    
                     <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" attrs="{'invisible':['|',('state', '=', 'done'),('state', '=', 'cancel')]}"/>
                     <field name="state" widget="statusbar" />
@@ -103,6 +110,7 @@
             </field>
             <button name="action_done" position="attributes">
                 <attribute name="attrs">{'invisible':[('state', '=', 'done')]}</attribute>
+
             </button>
             <field name="date_deadline" position="after">
             	<field name="sh_date_deadline" groups="sh_activities_management.group_activity_alarm"/>
@@ -227,6 +235,7 @@
             		<field name="user_id" icon="fa-users" enable_counters="1"/>
             		<field name="res_model_id" enable_counters="1"/>
             		<field name="sh_state" enable_counters="1" string="State"/>
+                        <order string="Deadline Date" name="date_deadline" />
             	</searchpanel>
             </xpath>
             <xpath expr="//group" position="inside">
@@ -257,10 +266,13 @@
         <field name="view_mode">pivot,graph</field>
     </record>
 
+
+ <!--
     <record id="sh_action_my_activities" model="ir.actions.act_window">
         <field name="name">My Activities</field>
         <field name="res_model">mail.activity</field>
         <field name="view_mode">tree,kanban,form,pivot,calendar,graph</field>
+        <field name="limit">1</field>
         <field name="view_ids" eval="[(5, 0, 0),
             	(0, 0, {'view_mode': 'tree', 'view_id': ref('sh_mail_activity_view_tree')}),
                 (0,0,{'view_mode':'form','view_id':ref('mail.mail_activity_view_form')}),
@@ -269,7 +281,21 @@
                 (0, 0, {'view_mode': 'pivot', 'view_id': ref('sh_mail_schedule_activity_view_pivot')}),
                 (0, 0, {'view_mode': 'calendar', 'view_id': ref('sh_mail_schedule_activity_view_calendar')}),
                 (0, 0, {'view_mode': 'graph', 'view_id': ref('sh_mail_schedule_activity_view_graph')})]" />
-        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid])]</field>
+        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid]),('sh_state','=',['today','overdue'])] </field>
+
+    </record>-->
+
+     <record id="sh_action_my_activities" model="ir.actions.act_window">
+        <field name="name">My Activities</field>
+        <field name="res_model">mail.activity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="limit">1</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            	(0, 0, {'view_mode': 'tree', 'view_id': ref('sh_mail_activity_view_tree')}),
+                (0,0,{'view_mode':'form','view_id':ref('mail.mail_activity_view_form')}),
+                ]" />
+        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid]),('sh_state','=',['today','overdue'])] </field>
+
     </record>
 
     <record id="sh_supervisor_activity_action" model="ir.actions.act_window">
