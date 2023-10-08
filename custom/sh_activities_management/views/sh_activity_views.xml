@@ -88,11 +88,11 @@
             <xpath expr="//form//sheet" position="before">
                 <header>
                     <button attrs="{'invisible': [('state', '=', 'done')]}" string="Mark as Done" name="action_done" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}"  />
-                    <button attrs="{'invisible': [('state', '=', 'done')]}" string="Done &amp; Schedule Next" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}" />                    
+                    <button attrs="{'invisible': [('state', '=', 'done')]}" string="Done &amp; Schedule Next" name="action_done_schedule_next" type="object" class="btn-secondary" context="{'mail_activity_quick_update': True}" />
                     <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" attrs="{'invisible':['|',('state', '=', 'done'),('state', '=', 'cancel')]}"/>
                     <field name="state" widget="statusbar" />
                 </header>
-                
+
             </xpath>
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="company_id"/>
@@ -103,7 +103,7 @@
             </xpath>
             <xpath expr="//field[@name='summary']" position="after">
             	<field name="sh_activity_alarm_ids" widget="many2many_tags" groups="sh_activities_management.group_activity_alarm"/>
-                <field name="sh_create_individual_activity" attrs="{'invisible':[('sh_user_ids','=',[])]}" />                
+                <field name="sh_create_individual_activity" attrs="{'invisible':[('sh_user_ids','=',[])]}" />
             </xpath>
             <field name="activity_type_id" position="after">
                 <field name="date_done" />
@@ -289,12 +289,11 @@
         <field name="name">My Activities</field>
         <field name="res_model">mail.activity</field>
         <field name="view_mode">tree,form</field>
-        <field name="limit">1</field>
         <field name="view_ids" eval="[(5, 0, 0),
             	(0, 0, {'view_mode': 'tree', 'view_id': ref('sh_mail_activity_view_tree')}),
                 (0,0,{'view_mode':'form','view_id':ref('mail.mail_activity_view_form')}),
                 ]" />
-        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid]),('sh_state','=',['today','overdue'])] </field>
+        <field name="domain">['|',('user_id', '=', uid),('sh_user_ids', 'in', [uid])] </field>
 
     </record>
 
