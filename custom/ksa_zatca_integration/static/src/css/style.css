@@ -1,0 +1,7 @@
+.width_height_100 .flex-grow-1{
+    width: 100% !important;
+}
+.width_height_100 button{
+    width: 100% !important;
+    height: 100% !important;
+}

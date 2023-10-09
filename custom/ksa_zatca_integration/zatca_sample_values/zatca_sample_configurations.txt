@@ -1,0 +1,12 @@
+csr.common.name=2475382881139449094209233032847838632732556149
+csr.serial.number=1-TST|2-TST|3-47f16c26-806b-4e15-b269-7a803884be9c
+csr.organization.identifier=300075588700003
+csr.organization.unit.name=TST
+csr.organization.name=3123456789
+csr.invoice.type=1100
+csr.location.address=TST
+csr.industry.business.category=TST
+
+
+valid otp = 12345
+
