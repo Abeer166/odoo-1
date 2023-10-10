@@ -391,6 +391,5 @@ class MyAttachment(models.Model):
     @api.model
     def create(self, vals):
         if self.search([('name', '=', vals['name'])]):
-            raise UserError('Record with this name already exists!')
+            raise ValidationError('Record with this name already exists!')
         return super(MyAttachment, self).create(vals)
-  
