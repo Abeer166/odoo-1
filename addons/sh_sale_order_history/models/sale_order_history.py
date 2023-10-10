@@ -385,11 +385,4 @@ class SaleOrder(models.Model):
                                     }
                                     res = self.env['sale.order.history'].sudo().create(
                                         history_vals)
-class MyAttachment(models.Model):
-    _inherit = 'ir.attachment'
 
-    @api.model
-    def create(self, vals):
-        if self.search([('name', '=', vals['name'])]):
-            raise ValidationError('Record with this name already exists!')
-        return super(MyAttachment, self).create(vals)
