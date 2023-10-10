@@ -1,0 +1,135 @@
+
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_sale_order_history
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.1alpha1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-30 05:05+0000\n"
+"PO-Revision-Date: 2020-09-30 05:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n" 
+
+#. module: sh_sale_order_history
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "All Lines Reorder"
+msgstr "Toutes les lignes réorganisent"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__create_date
+msgid "Created on"
+msgstr "Créé sur"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__currency_id
+msgid "Currency Id"
+msgstr "Carte d'identité"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__order_id
+msgid "Current Sale Order"
+msgstr "Commande de vente en cours"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order__display_name
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__display_name
+msgid "Display Name"
+msgstr "Afficher un nom"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order__id
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__id
+msgid "ID"
+msgstr "identifiant"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order____last_update
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification sur"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order__order_history_line
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Order History"
+msgstr "Historique des commandes"
+
+#. module: sh_sale_order_history
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Order Histroy"
+msgstr "Commander hériter"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__price_unit
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Price"
+msgstr "Prix"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__product_id
+msgid "Product"
+msgstr "Produit"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__product_uom_qty
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__sale_reorder
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Reorder"
+msgstr "Réorganiser"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__so_id
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Sale Order"
+msgstr "Ordre de vente"
+
+#. module: sh_sale_order_history
+#: model:ir.model,name:sh_sale_order_history.model_sale_order_history
+msgid "Sale Order History"
+msgstr "Historique des commandes de vente"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__name
+msgid "Sale Order Line"
+msgstr "Ligne de commande de vente"
+
+#. module: sh_sale_order_history
+#: model:ir.model,name:sh_sale_order_history.model_sale_order
+msgid "Sales Order"
+msgstr "Ordre des ventes"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__price_subtotal
+msgid "Subtotal"
+msgstr "Total"
+
+#. module: sh_sale_order_history
+#: model:ir.model.fields,field_description:sh_sale_order_history.field_sale_order_history__product_uom
+#: model_terms:ir.ui.view,arch_db:sh_sale_order_history.sh_sale_order_history_form_view_inherit
+msgid "Unit"
+msgstr "Unité"
