@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, exceptions, api
 import requests
+import logging
 import base64
 import math
 import json
 import odoo
 import os
+
+_logger = logging.getLogger(__name__)
 
 # ZATCA SDK Dummy Values
 zatca_sdk_private_key = "MHQCAQEEIDyLDaWIn/1/g3PGLrwupV4nTiiLKM59UEqUch1vDfhpoAcGBSuBBAAKoUQDQgAEYYMMoOaFYAhMO/steotf" \
@@ -113,6 +116,7 @@ class ResCompany(models.Model):
     zatca_csr_base64 = fields.Char()
 
     def generate_zatca_certificate(self):
+        _logger.info('Inside generate_zatca_certificate')
         conf = self.sudo()
 
         conf.zatca_is_fatoora_simulation_portal = False
@@ -271,6 +275,7 @@ class ResCompany(models.Model):
             # self.env['ir.config_parameter'].sudo().set_param("zatca_sdk_path", filepath)
 
         except Exception as e:
+            _logger.info('e')
             if 'odoo.exceptions' in str(type(e)):
                 raise e
             raise exceptions.AccessError('Server Error, Contact administrator.')
@@ -289,6 +294,7 @@ class ResCompany(models.Model):
         #     CNF, PEM, CSR created
 
     def compliance_api(self, endpoint='/compliance', renew=0):
+        _logger.info('Inside compliance_api')
         # link = "https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal"
         conf = self.sudo()
         link = conf.zatca_link
@@ -363,6 +369,7 @@ class ResCompany(models.Model):
                 #     response['tokenType']
                 #     response['dispositionMessage']
         except Exception as e:
+            _logger.info('e')
             raise exceptions.AccessDenied(e)
 
     def production_credentials(self):
