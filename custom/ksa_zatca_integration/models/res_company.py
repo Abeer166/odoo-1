@@ -275,7 +275,7 @@ class ResCompany(models.Model):
             # self.env['ir.config_parameter'].sudo().set_param("zatca_sdk_path", filepath)
 
         except Exception as e:
-            _logger.info('e')
+            _logger.info(e.__dict__)
             if 'odoo.exceptions' in str(type(e)):
                 raise e
             raise exceptions.AccessError('Server Error, Contact administrator.')
@@ -298,6 +298,7 @@ class ResCompany(models.Model):
         # link = "https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal"
         conf = self.sudo()
         link = conf.zatca_link
+        _logger.info('link' + str(link))
 
         if endpoint == '/compliance':
             zatca_otp = conf.csr_otp
@@ -307,7 +308,10 @@ class ResCompany(models.Model):
                        'Content-Type': 'application/json'}
 
             csr = conf.zatca_csr_base64
+            _logger.info('headers :: ' + str(headers))
+            _logger.info('csr :: ' + str(csr))
             data = {'csr': csr.replace('\n', '')}
+            _logger.info('data :: ' + str(data))
         elif endpoint == '/production/csids' and not renew:
             user = conf.zatca_sb_bsToken
             password = conf.zatca_sb_secret
@@ -333,7 +337,14 @@ class ResCompany(models.Model):
             csr = conf.zatca_csr_base64
             data = {'csr': csr.replace('\n', '')}
         try:
+            _logger.info('link + endpoint :: ' + str(link + endpoint))
+            _logger.info('headers :: ' + str(headers))
+            _logger.info('json.dumps(data) :: ' + str(json.dumps(data)))
             req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
+            _logger.info(req.__dict__)
+            _logger.info('req :: ' + str(req))
+            _logger.info('req.text :: ' + str(req.text))
+            _logger.info('req.status_code :: ' + str(req.status_code))
             if req.status_code == 500:
                 if req.text:
                     response = json.loads(req.text)
@@ -369,7 +380,9 @@ class ResCompany(models.Model):
                 #     response['tokenType']
                 #     response['dispositionMessage']
         except Exception as e:
-            _logger.info('e')
+            _logger.info(e.__dict__)
+            if 'odoo.exceptions' in str(type(e)):
+                raise e
             raise exceptions.AccessDenied(e)
 
     def production_credentials(self):
