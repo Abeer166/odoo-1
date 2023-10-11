@@ -727,8 +727,10 @@ class AccountMove(models.Model):
         bt_111 = bt_110  # Same as bt-110
         bt_112 = float('{:0.2f}'.format(float_round(bt_109 + bt_110, precision_rounding=0.01)))
         # bt_113 = float('{:0.2f}'.format(float_round(self.amount_total - self.amount_residual, precision_rounding=0.01)))
+        bt_108 = 0
         bt_113 = 0
-        bt_115 = float('{:0.2f}'.format(float_round(bt_112 - bt_113, precision_rounding=0.01)))
+        bt_114 = 0
+        bt_115 = float('{:0.2f}'.format(float_round(bt_112 - bt_113 + bt_114, precision_rounding=0.01)))
         ubl_2_1 += '''
             <cac:TaxTotal>
                 <cbc:TaxAmount currencyID="SAR">''' + str(bt_110) + '''</cbc:TaxAmount>'''
@@ -742,17 +744,10 @@ class AccountMove(models.Model):
             <cac:LegalMonetaryTotal>
                 <cbc:LineExtensionAmount currencyID="SAR">''' + str(bt_106) + '''</cbc:LineExtensionAmount>
                 <cbc:TaxExclusiveAmount currencyID="SAR">''' + str(bt_109) + (" | " + str(self.amount_untaxed) if amount_verification else '') +'''</cbc:TaxExclusiveAmount>
-                <cbc:TaxInclusiveAmount currencyID="SAR">''' + str(bt_112) + (" | " + str(self.amount_total) if amount_verification else '') + '''</cbc:TaxInclusiveAmount>'''
-        if not_know:
-            ubl_2_1 += '''
-                <cbc:ChargeTotalAmount currencyID="SAR">''' + str("0") + '''</cbc:ChargeTotalAmount>'''
-        if bt_113:
-            ubl_2_1 += '''
-                <cbc:PrepaidAmount currencyID="SAR">''' + str(bt_113) + '''</cbc:PrepaidAmount>'''
-        if not_know:
-            ubl_2_1 += '''
-                <cbc:PayableRoundingAmount currencyID="SAR">''' + str("0") + '''</cbc:PayableRoundingAmount>'''
-        ubl_2_1 += '''
+                <cbc:TaxInclusiveAmount currencyID="SAR">''' + str(bt_112) + (" | " + str(self.amount_total) if amount_verification else '') + '''</cbc:TaxInclusiveAmount>
+                <cbc:ChargeTotalAmount currencyID="SAR">''' + str(bt_108) + '''</cbc:ChargeTotalAmount>
+                <cbc:PrepaidAmount currencyID="SAR">''' + str(bt_113) + '''</cbc:PrepaidAmount>
+                <cbc:PayableRoundingAmount currencyID="SAR">''' + str(bt_114) + '''</cbc:PayableRoundingAmount>
                 <cbc:PayableAmount currencyID="SAR">''' + str(bt_115 if bt_115 > 0 else 0) + (" | " + str(self.amount_residual) if amount_verification else '') + '''</cbc:PayableAmount>
             </cac:LegalMonetaryTotal>'''
         ubl_2_1 += invoice_line_xml
@@ -881,7 +876,7 @@ class AccountMove(models.Model):
         }
         try:
             string = ''
-            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data))
+            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
             if req.status_code == 500:
                 raise exceptions.AccessError('Invalid Request, \ncontact system administer')
             elif req.status_code == 401:
@@ -1030,7 +1025,7 @@ class AccountMove(models.Model):
             'invoice': self.zatca_invoice.decode('UTF-8'),
         }
         try:
-            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data))
+            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
             if req.status_code == 500:
                 raise exceptions.AccessError('Invalid Request, \ncontact system administer')
             elif req.status_code == 401:
@@ -1139,7 +1134,7 @@ class AccountMove(models.Model):
             'invoice': self.zatca_invoice.decode('UTF-8'),
         }
         try:
-            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data))
+            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
             if req.status_code == 500:
                 raise exceptions.AccessError('Invalid Request, \ncontact system administer')
             elif req.status_code == 401:
@@ -1283,17 +1278,27 @@ class AccountMove(models.Model):
     def _compute_qr_code_str(self):
         try:
             is_tax_invoice = 1 if self.l10n_sa_invoice_type == 'Standard' else 0
-            if is_tax_invoice:
+            if not self.zatca_onboarding_status:
+                self.l10n_sa_qr_code_str = "Tm8gcXIgY29kZS4="
+            elif is_tax_invoice:
                 invoice = base64.b64decode(self.zatca_hash_cleared_invoice).decode()
                 invoice = invoice.replace('<?xml version="1.0" encoding="UTF-8"?>', '')
+                xml_file = ET.fromstring(invoice).getroottree()
+                qr_code_str = xml_file.xpath('//*[local-name()="ID"][text()="QR"]/following-sibling::*/*')[0].text
+                self.l10n_sa_qr_code_str = qr_code_str
+                self.sa_qr_code_str = qr_code_str
             else:
                 invoice = base64.b64decode(self.zatca_invoice).decode()
-            xml_file = ET.fromstring(invoice).getroottree()
-            signature_value = xml_file.find("//{http://www.w3.org/2000/09/xmldsig#}SignatureValue").text
-            bt_112 = xml_file.find("//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}TaxInclusiveAmount").text
-            bt_110 = xml_file.find("//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}TaxAmount").text
-            self.compute_qr_code_str(signature_value, is_tax_invoice, bt_112, bt_110)
+                xml_file = ET.fromstring(invoice).getroottree()
+                signature_value = xml_file.find("//{http://www.w3.org/2000/09/xmldsig#}SignatureValue").text
+                bt_112 = xml_file.find(
+                    "//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}TaxInclusiveAmount").text
+                bt_110 = xml_file.find(
+                    "//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}TaxAmount").text
+                self.compute_qr_code_str(signature_value, is_tax_invoice, bt_112, bt_110)
         except Exception as e:
+            _logger.info("QR code can't be generated. " + str(e))
+            # raise exceptions.MissingError("QR code can't be generated.")
             self.l10n_sa_qr_code_str = "emFpbiBpcmZhbiB3YWhlZWQ="
 
     def compute_qr_code_str(self, signature_value, is_tax_invoice, bt_112, bt_110):

@@ -34,7 +34,7 @@
                             attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Simplified'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', False)]}"/>
 <!--                    Resend in case of 400-->
                     <button name="send_for_compliance" type="object" string="ReSend to Zatca for Compliance" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', 'True'), ('zatca_status_code','!=','400')]}"
+                            attrs="{'invisible':['|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', True), ('zatca_status_code','!=','400')]}"
                             context="{'xml_generate': 1}"/>
                     <button name="send_for_clearance" type="object" string="ReSend to Zatca for Clearance" class="oe_highlight"
                             attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', False), ('l10n_sa_invoice_type','!=', 'Standard'), ('zatca_status_code','!=','400')]}"

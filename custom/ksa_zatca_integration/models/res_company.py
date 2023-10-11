@@ -112,21 +112,19 @@ class ResCompany(models.Model):
     zatca_cert_public_key = fields.Char()
     zatca_csr_base64 = fields.Char()
 
-    @api.onchange('api_type')
-    def onchange_api_type(self):
-        for res in self:
-            res.zatca_is_fatoora_simulation_portal = False
-            res.zatca_is_sandbox = False
-            if res.api_type == 'Sandbox':
-                res.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal'
-            elif res.api_type == 'Simulation':
-                res.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/simulation'
-                res.zatca_is_fatoora_simulation_portal = True
-            elif res.api_type == 'Live':
-                res.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/core'
-
     def generate_zatca_certificate(self):
         conf = self.sudo()
+
+        conf.zatca_is_fatoora_simulation_portal = False
+        conf.zatca_is_sandbox = False
+        if conf.api_type == 'Sandbox':
+            conf.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal'
+        elif conf.api_type == 'Simulation':
+            conf.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/simulation'
+            conf.zatca_is_fatoora_simulation_portal = True
+        elif conf.api_type == 'Live':
+            conf.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/core'
+
         try:
             if not conf.is_zatca:
                 raise exceptions.AccessDenied("Zatca is not activated.")
@@ -141,10 +139,10 @@ class ResCompany(models.Model):
                 certificateTemplateName = "ASN1:PRINTABLESTRING:ZATCA-Code-Signing"
             # zatca fields
             conf.csr_common_name = odoo.release.description + " " + odoo.release.version + "_" + str(self.id)
-            conf.csr_organization_name = conf.name
-            conf.csr_industry_business_category = "IT"
-            conf.csr_location_address = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            conf.csr_serial_number = "1-Odoo|2-16|3-" + str(conf.zatca_serial_number)
+            conf.csr_organization_name = (conf.name).encode('utf-8')
+            conf.csr_industry_business_category = "IT".encode('utf-8')
+            conf.csr_location_address = (self.env['ir.config_parameter'].sudo().get_param('web.base.url')).encode('utf-8')
+            conf.csr_serial_number = ("1-Odoo|2-16|3-" + str(conf.zatca_serial_number)).encode('utf-8')
             conf.csr_invoice_type = '1000' if conf.zatca_invoice_type == 'Standard' else ('0100' if conf.zatca_invoice_type == 'Simplified' else '1100')
             conf.csr_organization_unit_name = conf.vat[:10] if conf.vat else ''
 
@@ -329,7 +327,7 @@ class ResCompany(models.Model):
             csr = conf.zatca_csr_base64
             data = {'csr': csr.replace('\n', '')}
         try:
-            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data))
+            req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
             if req.status_code == 500:
                 if req.text:
                     response = json.loads(req.text)

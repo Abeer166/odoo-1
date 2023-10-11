@@ -32,11 +32,15 @@ class AccountMoveReport(models.Model):
     def print_einv_standard(self):
         if not self.zatca_invoice:
             raise exceptions.MissingError("Xml not created yet.")
+        if not self.zatca_onboarding_status:
+            raise exceptions.MissingError("Qr code can't be created with CCSID.")
         return self.env.ref('ksa_zatca_integration.report_sales_order').report_action(self)
 
     def print_einv_b2c(self):
         if not self.zatca_invoice:
             raise exceptions.MissingError("Xml not created yet.")
+        if not self.zatca_onboarding_status:
+            raise exceptions.MissingError("Qr code can't be created with CCSID.")
         return self.env.ref('ksa_zatca_integration.report_e_invoicing_b2c').report_action(self)
 
     def get_invoice_type_code(self):
@@ -116,7 +120,12 @@ class AccountMoveReport(models.Model):
         # img = qr.make_image(fill_color='red',
         #                     back_color='white')
         # x = img
+        if not self.zatca_invoice:
+            raise exceptions.MissingError("Xml not created yet.")
+        if not self.zatca_onboarding_status:
+            raise exceptions.MissingError("Qr code can't be created with CCSID.")
 
+        self._compute_qr_code_str()
         qr = qrcode.make(self.l10n_sa_qr_code_str)
         from PIL import Image
         import io

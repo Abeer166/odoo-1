@@ -11,7 +11,7 @@
             </xpath>
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="group_vat_no" string="Group Vat No"/>
-                <attribute name="string">VAT</attribute>
+<!--                <attribute name="string">VAT</attribute>-->
             </xpath>
         </field>
     </record>
