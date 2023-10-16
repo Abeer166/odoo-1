@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, exceptions, api
 import requests
-import logging
 import base64
 import math
 import json
 import odoo
 import os
-
-_logger = logging.getLogger(__name__)
 
 # ZATCA SDK Dummy Values
 zatca_sdk_private_key = "MHQCAQEEIDyLDaWIn/1/g3PGLrwupV4nTiiLKM59UEqUch1vDfhpoAcGBSuBBAAKoUQDQgAEYYMMoOaFYAhMO/steotf" \
@@ -116,7 +113,6 @@ class ResCompany(models.Model):
     zatca_csr_base64 = fields.Char()
 
     def generate_zatca_certificate(self):
-        _logger.info('Inside generate_zatca_certificate')
         conf = self.sudo()
 
         conf.zatca_is_fatoora_simulation_portal = False
@@ -144,6 +140,7 @@ class ResCompany(models.Model):
             # zatca fields
             conf.csr_common_name = odoo.release.description + " " + odoo.release.version + "_" + str(self.id)
             conf.csr_organization_name = (conf.name).encode('utf-8')
+            conf.csr_organization_name = conf.csr_organization_name[0:32] if len(conf.csr_organization_name) > 32 else conf.csr_organization_name
             conf.csr_industry_business_category = "IT".encode('utf-8')
             conf.csr_location_address = (self.env['ir.config_parameter'].sudo().get_param('web.base.url')).encode('utf-8')
             conf.csr_serial_number = ("1-Odoo|2-16|3-" + str(conf.zatca_serial_number)).encode('utf-8')
@@ -275,7 +272,6 @@ class ResCompany(models.Model):
             # self.env['ir.config_parameter'].sudo().set_param("zatca_sdk_path", filepath)
 
         except Exception as e:
-            _logger.info(e.__dict__)
             if 'odoo.exceptions' in str(type(e)):
                 raise e
             raise exceptions.AccessError('Server Error, Contact administrator.')
@@ -294,11 +290,9 @@ class ResCompany(models.Model):
         #     CNF, PEM, CSR created
 
     def compliance_api(self, endpoint='/compliance', renew=0):
-        _logger.info('Inside compliance_api')
         # link = "https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal"
         conf = self.sudo()
         link = conf.zatca_link
-        _logger.info('link' + str(link))
 
         if endpoint == '/compliance':
             zatca_otp = conf.csr_otp
@@ -308,10 +302,7 @@ class ResCompany(models.Model):
                        'Content-Type': 'application/json'}
 
             csr = conf.zatca_csr_base64
-            _logger.info('headers :: ' + str(headers))
-            _logger.info('csr :: ' + str(csr))
             data = {'csr': csr.replace('\n', '')}
-            _logger.info('data :: ' + str(data))
         elif endpoint == '/production/csids' and not renew:
             user = conf.zatca_sb_bsToken
             password = conf.zatca_sb_secret
@@ -337,26 +328,34 @@ class ResCompany(models.Model):
             csr = conf.zatca_csr_base64
             data = {'csr': csr.replace('\n', '')}
         try:
-            _logger.info('link + endpoint :: ' + str(link + endpoint))
-            _logger.info('headers :: ' + str(headers))
-            _logger.info('json.dumps(data) :: ' + str(json.dumps(data)))
             req = requests.post(link + endpoint, headers=headers, data=json.dumps(data), timeout=(30, 30))
-            _logger.info(req.__dict__)
-            _logger.info('req :: ' + str(req))
-            _logger.info('req.text :: ' + str(req.text))
-            _logger.info('req.status_code :: ' + str(req.status_code))
             if req.status_code == 500:
-                if req.text:
+                try:
+                    response = req.text
+                    raise exceptions.AccessError(response)
+                except Exception as e:
+                    if 'odoo.exceptions' in str(type(e)):
+                        raise e
                     response = json.loads(req.text)
                     raise exceptions.AccessError(self.error_message(response))
                 raise exceptions.AccessError('Invalid Request, zatca, \ncontact system administer')
             elif req.status_code == 400:
-                if req.text:
+                try:
+                    response = req.text
+                    raise exceptions.AccessError(response)
+                except Exception as e:
+                    if 'odoo.exceptions' in str(type(e)):
+                        raise e
                     response = json.loads(req.text)
                     raise exceptions.AccessError(self.error_message(response))
                 raise exceptions.AccessError('Invalid Request, odoo, \ncontact system administer')
             elif req.status_code == 401:
-                if req.text:
+                try:
+                    response = req.text
+                    raise exceptions.AccessError(response)
+                except Exception as e:
+                    if 'odoo.exceptions' in str(type(e)):
+                        raise e
                     response = json.loads(req.text)
                     raise exceptions.AccessError(self.error_message(response))
                 raise exceptions.AccessError('Unauthorized, \ncontact system administer')
@@ -380,9 +379,8 @@ class ResCompany(models.Model):
                 #     response['tokenType']
                 #     response['dispositionMessage']
         except Exception as e:
-            _logger.info(e.__dict__)
             if 'odoo.exceptions' in str(type(e)):
-                raise e
+                raise
             raise exceptions.AccessDenied(e)
 
     def production_credentials(self):
@@ -456,11 +454,14 @@ class ResCompany(models.Model):
         os.system('''rm  /tmp/zatca_cert_publickey.bin''')
 
     def error_message(self, response):
-        if response.get('messsage', False):
-            return response['message']
-        elif response.get('errors', False):
-            return response['errors']
-        else:
+        try:
+            if response.get('messsage', False):
+                return response['message']
+            elif response.get('errors', False):
+                return response['errors']
+            else:
+                return str(response)
+        except:
             return str(response)
 
     def write(self, vals):

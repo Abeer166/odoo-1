@@ -9,11 +9,11 @@
     'live_test_url': 'https://youtu.be/cM1n_t_FnKQ',
     "author": "Alhaditech",
     "website": "www.alhaditech.com",
-    'license': 'AGPL-3',
-     'images': ['static/description/cover.png'],
+    'license': 'OPL-1',
+    'images': ['static/description/cover.png'],
     'category': 'Invoicing',
     'version': '16.0',
-    'price': 500, 'currency': 'USD',
+    'price': 590, 'currency': 'USD',
     'depends': ['account', 'sale', 'l10n_sa', 'purchase', 'account_debit_note'],
     'external_dependencies': {
         'python': ['cryptography', 'lxml', 'qrcode']
