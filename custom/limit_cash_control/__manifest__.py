@@ -9,7 +9,7 @@
     "depends": ["point_of_sale"],
     'installable': True,
     'application': False,
-    'data': ['pos_config.xml'],
+    'data': ['pos_config.xml','custom_pos.xml'],
     "price": 150,
     "currency": 'USD',
     'assets': {
