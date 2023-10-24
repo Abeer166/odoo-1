@@ -73,7 +73,12 @@
                             </tbody>
                         </table>
                     </div>
-
+                    <div class="notes-container">
+                        <div class="opening-notes" t-if="openingNotes" >
+                            <t t-esc="openingNotes"/>
+                        </div>
+                        <textarea class="closing-notes" placeholder="Add a closing note..." t-model="state.notes"/>
+                    </div>
                 </main>
             </t>
 
