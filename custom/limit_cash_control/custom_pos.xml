@@ -1,6 +1,0 @@
-<odoo>
-    <template id="point_of_sale.template" inherit_id="point_of_sale.template">
-        <xpath expr="//div[contains(@class, 'totals')]" position="replace"/>
-        <xpath expr="//div[contains(@class, 'orders')]" position="replace"/>
-    </template>
-</odoo>
