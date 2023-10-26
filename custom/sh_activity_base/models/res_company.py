@@ -21,3 +21,4 @@ class ResCompany(models.Model):
     notify_create_user_after_second = fields.Boolean()
     notify_create_user_before_first = fields.Boolean()
     notify_create_user_before_second = fields.Boolean()
+
