@@ -2,6 +2,8 @@
 
 <templates id="template" xml:space="preserve">
     <t t-name="ClosePosPopupAuto" t-inherit="point_of_sale.ClosePosPopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='total-orders']" position="replace">
+        </xpath>
         <xpath expr="//main" position="replace">
             <t t-if="env.pos.config.hide_closing">
                 <div class="body">
