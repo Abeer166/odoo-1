@@ -7,9 +7,9 @@
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
 
-          <xpath expr="/form/sheet/notebook/page/group/group/field[@name='email']" position="after">
+        <!--  <xpath expr="/form/sheet/notebook/page/group/group/field[@name='email']" position="after">
             <field name="account_default_pos_receivable_account_id"/>
-               </xpath>
+               </xpath>-->
 
         </field>
     </record>
