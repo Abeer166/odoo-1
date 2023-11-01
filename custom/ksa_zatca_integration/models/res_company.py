@@ -48,16 +48,13 @@ class ResCompany(models.Model):
     district = fields.Char('District')
     country_id_name = fields.Char(related="country_id.name")
 
-    @api.constrains('building_no', 'additional_no', 'zip')
+    @api.constrains('building_no', 'zip')
     def constrains_brksa64(self):
         for record in self:
             # if record._context.get('params', False) and record._context['params'].get('model', False) == 'res.company':
                 # BR-KSA-37
             if len(str(record.building_no)) != 4:
                 raise exceptions.ValidationError('Building Number must be exactly 4 digits')
-            # BR-KSA-64
-            if len(str(record.additional_no)) != 4:
-                raise exceptions.ValidationError('Additional Number must be exactly 4 digits')
             # BR-KSA-66
             if len(str(record.zip)) != 5:
                 raise exceptions.ValidationError('zip must be exactly 5 digits')
@@ -117,7 +114,9 @@ class ResCompany(models.Model):
 
         conf.zatca_is_fatoora_simulation_portal = False
         conf.zatca_is_sandbox = False
+
         if conf.api_type == 'Sandbox':
+            conf.zatca_is_sandbox = True
             conf.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal'
         elif conf.api_type == 'Simulation':
             conf.zatca_link = 'https://gw-fatoora.zatca.gov.sa/e-invoicing/simulation'
@@ -485,6 +484,8 @@ class ResCompany(models.Model):
         conf.zatca_status = None
         conf.zatca_onboarding_status = 0
         conf.zatca_on_board_status_details = None
+
+        conf.zatca_is_sandbox = 0
 
         conf.zatca_sb_bsToken = None
         conf.zatca_sb_secret = None

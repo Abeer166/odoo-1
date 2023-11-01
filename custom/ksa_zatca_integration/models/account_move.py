@@ -14,6 +14,7 @@ import math
 import os
 
 _logger = logging.getLogger(__name__)
+_zatca = logging.getLogger('Zatca Debugger for account.move :')
 
 
 class AccountMove(models.Model):
@@ -58,6 +59,7 @@ class AccountMove(models.Model):
                                                string="Payment Means Code",
                                                help='The means, expressed as code, for how a payment is expected to be or has been settled.'
                                                     '(subset of UNTDID 4461)')
+    ksa_note = fields.Char(size=1000, required=0)
 
     # Never show these fields on front
     zatca_unique_seq = fields.Char(readonly=1, copy=False)
@@ -96,14 +98,8 @@ class AccountMove(models.Model):
     def _onchange_invoice_datetime(self):
         self.invoice_date = self.invoice_datetime.date()
 
-    def create_xml_file(self, previous_hash=0, pos_refunded_order_id=0):
-        amount_verification = 0  # for debug mode
+    def get_signature(self):
         conf = self.company_id.sudo()
-        if not conf.is_zatca:
-            raise exceptions.AccessDenied("Zatca is not activated.")
-        # No longer needed
-        # if not previous_hash:
-        #     self.create_xml_file(previous_hash=1)
 
         # STEP # 3 in "5. Signing Process"
         # in https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-invoicing%20Detailed%20Technical%20Guidelines.pdf
@@ -127,9 +123,6 @@ class AccountMove(models.Model):
         base_64_3 = base64.b64encode(sha_256_3.hexdigest().encode()).decode('UTF-8')
 
         try:
-            # x509_certificate = x509.load_der_x509_certificate(base64.b64decode(conf.csr_certificate.encode()), default_backend())
-            # issuer_name = ', '.join([s.rfc4514_string() for s in x509_certificate.issuer.rdns[::-1]])
-            # serial_number = str(x509_certificate.serial_number)
             cert = x509.load_pem_x509_certificate(certificate.encode(), default_backend())
             cert_issuer = ''
             for x in range(len(cert.issuer.rdns) - 1, -1, -1):
@@ -138,7 +131,6 @@ class AccountMove(models.Model):
         except Exception as e:
             _logger.info("ZATCA: Certificate Decode Issue: " + str(e))
             raise exceptions.AccessError("Error decoding Certificate.")
-
         signature_certificate = '''<ds:Object>
                             <xades:QualifyingProperties Target="signature" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#">
                                 <xades:SignedProperties Id="xadesSignedProperties">
@@ -160,7 +152,6 @@ class AccountMove(models.Model):
                                 </xades:SignedProperties>
                             </xades:QualifyingProperties>
                         </ds:Object>'''
-
         # STEP # 5 in "5. Signing Process"
         # in https://zatca.gov.sa/ar/E-Invoicing/Introduction/Guidelines/Documents/E-invoicing%20Detailed%20Technical%20Guidelines.pdf
 
@@ -215,8 +206,10 @@ class AccountMove(models.Model):
                                     <ds:X509Certificate>''' + str(original_certificate) + '''</ds:X509Certificate>
                                 </ds:X509Data>
                             </ds:KeyInfo>'''
-        # signature = ''
-        # UBL 2.1 sequence
+
+        return signature, signature_certificate, base_64_5
+
+    def invoice_ksa_validations(self):
         if self.company_id.currency_id.name != 'SAR':
             # BR-KSA-CL-02
             raise exceptions.ValidationError('currency must be SAR')
@@ -225,12 +218,69 @@ class AccountMove(models.Model):
         if self.invoice_datetime > fields.Datetime.now():
             raise exceptions.ValidationError('Date should be less then or equal to today.')
 
-        company_fields = ['district', 'building_no', 'additional_no', 'city', 'zip', 'street']
-        company_fields_ids = ['state_id', 'country_id']
-        missing_company_fields = [company_field for company_field in company_fields if not self.company_id[company_field]]
-        missing_company_fields_ids = [company_field for company_field in company_fields_ids if not self.company_id[company_field]['id']]
+        company_fields = ['district', 'building_no', 'city', 'zip', 'street', 'vat']
+        company_fields_ids = ['country_id']
+        missing_company_fields = [company_field for company_field in company_fields if
+                                  not self.company_id[company_field]]
+        missing_company_fields_ids = [company_field for company_field in company_fields_ids if
+                                      not self.company_id[company_field]['id']]
         if len(missing_company_fields) > 0 or len(missing_company_fields_ids) > 0:
-            raise exceptions.MissingError(' , '.join(missing_company_fields_ids + missing_company_fields) + ' are missing in Company Address')
+            raise exceptions.MissingError(
+                ' , '.join(missing_company_fields_ids + missing_company_fields) + ' are missing in Company Address')
+
+    def tax_invoice_validations(self):
+        message = "For tax invoice \n"
+        conf = self.company_id.sudo()
+        classified_tax_category_list = self.invoice_line_ids.tax_ids.mapped('classified_tax_category')
+
+        if (not self.l10n_is_exports_invoice and
+                not (self.partner_id.buyer_identification and self.partner_id.buyer_identification_no) and \
+                not (self.partner_id.vat)):
+            message += "customer vat or buyer_identification is required\n"
+
+        if conf.csr_invoice_type[0:1] != '1':
+            raise exceptions.AccessDenied("Certificate not allowed for Standard Invoices.")
+        if 'O' in classified_tax_category_list or not len(classified_tax_category_list):
+            message += "Tax Category 'O' can't be used in Standard Invoice\n"
+        if self.l10n_is_exports_invoice:
+            if self.partner_id.country_id.code == 'SA':
+                message += "Country can't be KSA for exports invoice"
+
+        partner_fields = ['city', 'street', 'zip']
+        partner_fields_ids = ['country_id']
+        if self.partner_id.country_id.code == 'SA':
+            partner_fields += ['building_no', 'district']
+
+        missing_partner_fields = [partner_field for partner_field in partner_fields if not self.partner_id[partner_field]]
+        missing_partner_fields_ids = [partner_field for partner_field in partner_fields_ids if not self.partner_id[partner_field]['id']]
+
+        if len(missing_partner_fields) > 0 or len(missing_partner_fields_ids) > 0:
+            message += ' , '.join(missing_partner_fields_ids + missing_partner_fields) +\
+                       ' are missing in Customer Address, which are required for tax invoices'
+
+        if message != "For tax invoice \n":
+            raise exceptions.ValidationError(message)
+
+    def check_allowed_size(self, start, end, value, field):
+        if not(start <= len(str(value)) <= end):
+            message = "ksa limit error for field %s :: %s , allowed limit is between %s - %s " % (field, value, start, end)
+            _logger.info(message)
+            raise exceptions.ValidationError(message.replace('::',''))
+        return str(value)
+
+    def create_xml_file(self, previous_hash=0, pos_refunded_order_id=0):
+        amount_verification = 0  # for debug mode
+        conf = self.company_id.sudo()
+        if not conf.is_zatca:
+            raise exceptions.AccessDenied("Zatca is not activated.")
+        # No longer needed
+        # if not previous_hash:
+        #     self.create_xml_file(previous_hash=1)
+
+        signature, signature_certificate, base_64_5 = self.get_signature()
+
+        # UBL 2.1 sequence
+        self.invoice_ksa_validations()
 
         bt_3 = '383' if self.debit_origin_id.id else ('381' if self.move_type == 'out_refund' else '388')
         if bt_3 != '388':
@@ -250,37 +300,18 @@ class AccountMove(models.Model):
                 self.l10n_sa_invoice_type = bt_25.l10n_sa_invoice_type
                 # print("Mismatched Invoice Type for original and associated invoice.")
 
-        classified_tax_category_list = self.invoice_line_ids.tax_ids.mapped('classified_tax_category')
         # is_tax_invoice = 0 if 'O' in classified_tax_category_list or not len(classified_tax_category_list) else 1
         is_tax_invoice = 1 if self.l10n_sa_invoice_type == 'Standard' else 0
         if is_tax_invoice:
-            if conf.csr_invoice_type[0:1] != '1':
-                raise exceptions.AccessDenied("Certificate not allowed for Standard Invoices.")
-            if 'O' in classified_tax_category_list or not len(classified_tax_category_list):
-                raise exceptions.ValidationError("Tax Category 'O' can't be used in Standard Invoice")
-            if self.l10n_is_exports_invoice:
-                if self.partner_id.country_id.code == 'SA':
-                    raise exceptions.ValidationError("Country can't be KSA for exports invoice")
-            if not self.l10n_is_exports_invoice:
-                if not self.partner_id.buyer_identification or not self.partner_id.buyer_identification_no:
-                    raise exceptions.MissingError('Buyer Identification & Other buyer ID required for tax(Standard) invoice')
+            self.tax_invoice_validations()
 
             if self.l10n_is_exports_invoice:
-                missing_partner_fields = [partner_field for partner_field in ['additional_no'] if not self.partner_id[partner_field]]
                 missing_partner_fields_ids = [partner_field for partner_field in ['state_id'] if not self.partner_id[partner_field]['id']]
-                if len(missing_partner_fields) > 0 or len(missing_partner_fields_ids) > 0:
-                    message = ' , '.join(missing_partner_fields_ids + missing_partner_fields) + ' are missing in Customer Address, ' \
+                if len(missing_partner_fields_ids) > 0:
+                    message = ' , '.join(missing_partner_fields_ids) + ' are missing in Customer Address, ' \
                               'which are required for tax invoices, in case of non-ksa resident.'
                     raise exceptions.ValidationError(message)
 
-            partner_fields = ['district', 'building_no', 'city', 'zip', 'street']
-            partner_fields_ids = ['country_id']
-            missing_partner_fields = [partner_field for partner_field in partner_fields if not self.partner_id[partner_field]]
-            missing_partner_fields_ids = [partner_field for partner_field in partner_fields_ids if not self.partner_id[partner_field]['id']]
-
-            if len(missing_partner_fields) > 0 or len(missing_partner_fields_ids) > 0:
-                raise exceptions.ValidationError(' , '.join(missing_partner_fields_ids + missing_partner_fields) +
-                                                 ' are missing in Customer Address, which are required for tax invoices')
         if not is_tax_invoice and conf.csr_invoice_type[1:2] != '1':
             raise exceptions.AccessDenied("Certificate not allowed for Simplified Invoices.")
 
@@ -324,6 +355,7 @@ class AccountMove(models.Model):
         bt_107 = float('{:0.2f}'.format(float_round(bt_92, precision_rounding=0.01)))
         delivery = 1
         not_know = 0
+        ksa_note = 0
         # bt_81 = 10 if 'cash' else (30 if 'credit' else (42 if 'bank account' else (48 if 'bank card' else 1)))
         bt_81 = self.l10n_payment_means_code
         accounting_seller_party = 0
@@ -364,17 +396,21 @@ class AccountMove(models.Model):
                 <cbc:UBLVersionID>2.1</cbc:UBLVersionID>'''
         ubl_2_1 += '''
             <cbc:ProfileID>reporting:1.0</cbc:ProfileID>
-            <cbc:ID>''' + str(bt_1) + '''</cbc:ID>
+            <cbc:ID>''' + str(self.check_allowed_size(1,127, bt_1, 'bt_1')) + '''</cbc:ID>
             <cbc:UUID>''' + self.invoice_uuid + '''</cbc:UUID>
             <cbc:IssueDate>''' + self.invoice_datetime.strftime('%Y-%m-%d') + '''</cbc:IssueDate>
-            <cbc:IssueTime>''' + self.invoice_datetime.strftime('%H:%M:%S') + '''</cbc:IssueTime>
-            <cbc:InvoiceTypeCode name="''' + ksa_2 + '''">''' + bt_3 + '''</cbc:InvoiceTypeCode>
+            <cbc:IssueTime>''' + self.invoice_datetime.strftime('%H:%M:%SZ') + '''</cbc:IssueTime>
+            <cbc:InvoiceTypeCode name="''' + ksa_2 + '''">''' + bt_3 + '''</cbc:InvoiceTypeCode>'''
+        if self.ksa_note:
+            ubl_2_1 += '''
+            <cbc:Note>''' + self.check_allowed_size(0,1000, self.ksa_note, 'self.ksa_note') + '''</cbc:Note>'''
+        ubl_2_1 += '''
             <cbc:DocumentCurrencyCode>SAR</cbc:DocumentCurrencyCode>
             <cbc:TaxCurrencyCode>SAR</cbc:TaxCurrencyCode>'''
         if self.purchase_id.id:
             ubl_2_1 += '''
             <cac:OrderReference>
-                <cbc:ID>''' + str(self.purchase_id) + '''</cbc:ID>
+                <cbc:ID>''' + str(self.check_allowed_size(0,127, self.purchase_id.id, 'self.purchase_id')) + '''</cbc:ID>
             </cac:OrderReference>'''
         if bt_3 != '388':  # BR-KSA-56
             # if 'Shop' in self.ref:
@@ -392,7 +428,7 @@ class AccountMove(models.Model):
             ubl_2_1 += '''
             <cac:BillingReference>
                 <cac:InvoiceDocumentReference>
-                    <cbc:ID>''' + str(bt_25.id) + '''</cbc:ID>
+                    <cbc:ID>''' + str(self.check_allowed_size(1,5000,bt_25.id,'bt_25')) + '''</cbc:ID>
                     <cbc:IssueDate>''' + str(bt_25.invoice_datetime.strftime('%Y-%m-%d')) + '''</cbc:IssueDate>
                 </cac:InvoiceDocumentReference>
             </cac:BillingReference>'''
@@ -430,20 +466,20 @@ class AccountMove(models.Model):
                         <cbc:ID schemeID="''' + self.company_id.license + '''">''' + self.company_id.license_no + '''</cbc:ID>
                     </cac:PartyIdentification>
                     <cac:PostalAddress>
-                        <cbc:StreetName>''' + self.company_id.street + '''</cbc:StreetName>'''
+                        <cbc:StreetName>''' + self.check_allowed_size(1,1000, self.company_id.street, 'Company_id Street') + '''</cbc:StreetName>'''
         if self.company_id.street2:
             ubl_2_1 += '''
-                        <cbc:AdditionalStreetName>''' + self.company_id.street2 + '''</cbc:AdditionalStreetName>'''
-        if len(str(self.company_id.additional_no)) != 4:
-            raise exceptions.ValidationError('Company/Seller Additional Number must be exactly 4 digits')
+                        <cbc:AdditionalStreetName>''' + self.check_allowed_size(0,127, self.company_id.street2,'Company_id Street 2') + '''</cbc:AdditionalStreetName>'''
         if len(str(self.company_id.zip)) != 5:
             raise exceptions.ValidationError('Company/Seller PostalZone/Zip must be exactly 5 digits')
-        ubl_2_1 += '''  <cbc:BuildingNumber>''' + str(self.company_id.building_no) + '''</cbc:BuildingNumber>
-                        <cbc:PlotIdentification>''' + str(self.company_id.additional_no) + '''</cbc:PlotIdentification>
-                        <cbc:CitySubdivisionName>''' + self.company_id.district + '''</cbc:CitySubdivisionName>
-                        <cbc:CityName>''' + self.company_id.city + '''</cbc:CityName>
+        ubl_2_1 += '''  <cbc:BuildingNumber>''' + str(self.company_id.building_no) + '''</cbc:BuildingNumber>'''
+        if self.company_id.additional_no:
+            ubl_2_1 += '''  
+                        <cbc:PlotIdentification>''' + str(self.company_id.additional_no) + '''</cbc:PlotIdentification>'''
+        ubl_2_1 += '''  <cbc:CitySubdivisionName>''' + self.check_allowed_size(1, 127, self.company_id.district, "Company District") + '''</cbc:CitySubdivisionName>
+                        <cbc:CityName>''' + self.check_allowed_size(1, 127, self.company_id.city, "Company City") + '''</cbc:CityName>
                         <cbc:PostalZone>''' + str(self.company_id.zip) + '''</cbc:PostalZone>
-                        <cbc:CountrySubentity>''' + self.company_id.state_id.name + '''</cbc:CountrySubentity>
+                        <cbc:CountrySubentity>''' + self.check_allowed_size(1, 127, self.company_id.state_id.name, "Company State") + '''</cbc:CountrySubentity>
                         <cac:Country>
                             <cbc:IdentificationCode>''' + self.company_id.country_id.code + '''</cbc:IdentificationCode>
                         </cac:Country>
@@ -455,46 +491,49 @@ class AccountMove(models.Model):
                         </cac:TaxScheme>
                     </cac:PartyTaxScheme>
                     <cac:PartyLegalEntity>
-                        <cbc:RegistrationName>''' + self.company_id.name + '''</cbc:RegistrationName>
+                        <cbc:RegistrationName>''' + self.check_allowed_size(1, 1000, self.company_id.name, "Company Name") + '''</cbc:RegistrationName>
                     </cac:PartyLegalEntity>
                 </cac:Party>
-            </cac:AccountingSupplierParty>
+            </cac:AccountingSupplierParty>'''
+        ubl_2_1 += '''
             <cac:AccountingCustomerParty>
                 <cac:Party>'''
-        # optional for simplified
-        # conditional for standard
-        # 1) Not mandatory for export invoices.
-        # 2) Not Mandatory for internal supplies
         if self.partner_id.buyer_identification and self.partner_id.buyer_identification_no:
             ubl_2_1 += '''<cac:PartyIdentification>
                         <cbc:ID schemeID="''' + self.partner_id.buyer_identification + '''">''' + self.partner_id.buyer_identification_no + '''</cbc:ID>
                     </cac:PartyIdentification>'''
-        if is_tax_invoice:  # Not applicable for simplified tax invoices and associated credit notes and debit notes
+        if is_tax_invoice:
             ubl_2_1 += '''
                     <cac:PostalAddress>
-                        <cbc:StreetName>''' + self.partner_id.street + '''</cbc:StreetName>'''
+                        <cbc:StreetName>''' + self.check_allowed_size(1, 1000, self.partner_id.street,'Customer Street') + '''</cbc:StreetName>'''
             if self.partner_id.street2:
                 ubl_2_1 += '''
-                        <cbc:AdditionalStreetName>''' + self.partner_id.street2 + '''</cbc:AdditionalStreetName>'''
-            ubl_2_1 += '''
+                        <cbc:AdditionalStreetName>''' + self.check_allowed_size(0, 127, self.partner_id.street2,'Customer Street2') + '''</cbc:AdditionalStreetName>'''
+            if self.partner_id.country_id.code == 'SA' or self.partner_id.building_no:
+                ubl_2_1 += '''
                         <cbc:BuildingNumber>''' + str(self.partner_id.building_no) + '''</cbc:BuildingNumber>'''
             if self.partner_id.additional_no:
                 ubl_2_1 += '''
-                        <cbc:PlotIdentification>''' + str(self.partner_id.additional_no) + '''</cbc:PlotIdentification>'''
+                        <cbc:PlotIdentification>''' + str(
+                    self.partner_id.additional_no) + '''</cbc:PlotIdentification>'''
+            if self.partner_id.country_id.code == 'SA' or self.partner_id.district:
+                ubl_2_1 += '''
+                        <cbc:CitySubdivisionName>''' + self.check_allowed_size(1, 127, self.partner_id.district,'Customer District') + '''</cbc:CitySubdivisionName>'''
             ubl_2_1 += '''
-                        <cbc:CitySubdivisionName>''' + self.partner_id.district + '''</cbc:CitySubdivisionName>
-                        <cbc:CityName>''' + self.partner_id.city + '''</cbc:CityName>
+                        <cbc:CityName>''' + self.check_allowed_size(1, 127, self.partner_id.city,'Customer City') + '''</cbc:CityName>'''
+            if self.partner_id.country_id.code == 'SA' or self.partner_id.zip:
+                ubl_2_1 += '''
                         <cbc:PostalZone>''' + str(self.partner_id.zip) + '''</cbc:PostalZone>'''
             if self.partner_id.state_id.id:
                 ubl_2_1 += '''
-                        <cbc:CountrySubentity>''' + self.partner_id.state_id.name + '''</cbc:CountrySubentity>'''
+                        <cbc:CountrySubentity>''' + self.check_allowed_size(1, 127, self.partner_id.state_id.name,'Customer State') + '''</cbc:CountrySubentity>'''
             ubl_2_1 += '''
                         <cac:Country>
                             <cbc:IdentificationCode>''' + self.partner_id.country_id.code + '''</cbc:IdentificationCode>
                         </cac:Country>
                     </cac:PostalAddress>
                     <cac:PartyTaxScheme>'''
-            if self.partner_id.vat:  # BR-KSA-46
+            if self.partner_id.vat and not self.l10n_is_exports_invoice:
                 ubl_2_1 += '''
                         <cbc:CompanyID>''' + self.partner_id.vat + '''</cbc:CompanyID>'''
             ubl_2_1 += '''
@@ -510,9 +549,10 @@ class AccountMove(models.Model):
                 (not is_tax_invoice and self.l10n_is_summary_invoice):
             ubl_2_1 += '''
                     <cac:PartyLegalEntity>
-                        <cbc:RegistrationName>''' + self.partner_id.name + '''</cbc:RegistrationName>
+                        <cbc:RegistrationName>''' + self.check_allowed_size(1, 1000, self.partner_id.name,
+                                                                            'Customer Name') + '''</cbc:RegistrationName>
                     </cac:PartyLegalEntity>'''
-        if ('VATEX-SA-EDU' in bt_121 or 'VATEX-SA-HEA' in bt_121) and self.partner_id.buyer_identification != 'NAT':  #BR-KSA-49
+        if ('VATEX-SA-EDU' in bt_121 or 'VATEX-SA-HEA' in bt_121) and self.partner_id.buyer_identification != 'NAT':  # BR-KSA-49
             message = "As tax exemption reason code is in 'VATEX-SA-EDU', 'VATEX-SA-HEA'"
             message += " then Buyer Identification must be 'NAT'"
             raise exceptions.ValidationError(message)
@@ -548,7 +588,7 @@ class AccountMove(models.Model):
             <cbc:PaymentMeansCode>''' + str(bt_81) + '''</cbc:PaymentMeansCode>'''
         if bt_3 != '388':
             ubl_2_1 += '''
-            <cbc:InstructionNote>''' + str(self.credit_debit_reason) + '''</cbc:InstructionNote>'''
+            <cbc:InstructionNote>''' + self.check_allowed_size(1, 1000, self.credit_debit_reason, "Credit Debit Reason") + '''</cbc:InstructionNote>'''
         ubl_2_1 += '''
         </cac:PaymentMeans>'''
         if document_level_allowance_charge:
@@ -747,7 +787,8 @@ class AccountMove(models.Model):
                 <cbc:TaxInclusiveAmount currencyID="SAR">''' + str(bt_112) + (" | " + str(self.amount_total) if amount_verification else '') + '''</cbc:TaxInclusiveAmount>
                 <cbc:ChargeTotalAmount currencyID="SAR">''' + str(bt_108) + '''</cbc:ChargeTotalAmount>
                 <cbc:PrepaidAmount currencyID="SAR">''' + str(bt_113) + '''</cbc:PrepaidAmount>
-                <cbc:PayableRoundingAmount currencyID="SAR">''' + str(bt_114) + '''</cbc:PayableRoundingAmount>
+                <cbc:PayableRoundingAmount currencyID="SAR">''' + str(bt_114) + '''</cbc:PayableRoundingAmount>'''
+        ubl_2_1 += '''
                 <cbc:PayableAmount currencyID="SAR">''' + str(bt_115 if bt_115 > 0 else 0) + (" | " + str(self.amount_residual) if amount_verification else '') + '''</cbc:PayableAmount>
             </cac:LegalMonetaryTotal>'''
         ubl_2_1 += invoice_line_xml
@@ -768,9 +809,11 @@ class AccountMove(models.Model):
                 f.close()
 
                 private_key = conf.zatca_prod_private_key
+                _zatca.info("private_key:: %s", private_key)
                 for x in range(1, math.ceil(len(private_key) / 64)):
                     private_key = private_key[:64 * x + x -1] + '\n' + private_key[64 * x + x -1:]
                 private_key = "-----BEGIN EC PRIVATE KEY-----\n" + private_key + "\n-----END EC PRIVATE KEY-----"
+                _zatca.info("private_key:: %s", private_key)
 
                 private_key_filename = hashlib.sha256(('account_move_' + str(self.id) + '_private_key').encode("UTF-8")).hexdigest()
                 f = open('/tmp/' + str(private_key_filename), 'wb+')
@@ -779,7 +822,9 @@ class AccountMove(models.Model):
 
                 signature = '''openssl dgst -sha256 -sign /tmp/''' + private_key_filename + ''' /tmp/''' + hash_filename + ''' | base64 /dev/stdin'''
                 signature_value = os.popen(signature).read()
+                _zatca.info("signature_value:: %s", signature_value)
                 signature_value = signature_value.replace('\n', '').replace(' ', '')
+                _zatca.info("signature_value:: %s", signature_value)
                 if not signature_value or signature_value in [None, '']:
                     raise exceptions.ValidationError('Error in private key, kindly regenerate credentials.')
 
@@ -793,7 +838,9 @@ class AccountMove(models.Model):
 
                 ubl_2_1 = ubl_2_1.replace('zatca_signature_hash', str(base_64_5))
                 ubl_2_1 = ubl_2_1.replace('zatca_signature_value', str(signature_value))
+                _zatca.info("compute_qr_code_str")
                 self.compute_qr_code_str(signature_value, is_tax_invoice, bt_112, bt_110)
+                _zatca.info("l10n_sa_qr_code_str:: %s", self.l10n_sa_qr_code_str)
                 if not is_tax_invoice:
                 # if is_tax_invoice:
                     ubl_2_1 = ubl_2_1.replace('zatca_l10n_sa_qr_code_str', str(self.l10n_sa_qr_code_str))
@@ -997,6 +1044,8 @@ class AccountMove(models.Model):
                 'views': [(self.env.ref('ksa_zatca_integration.zatca_response').id, 'form')],
             }
         except Exception as e:
+            if 'odoo.exceptions' in str(type(e)):
+                raise
             raise exceptions.AccessDenied(e)
 
     def invoices_clearance_single_api(self):
@@ -1105,6 +1154,8 @@ class AccountMove(models.Model):
                 'views': [(self.env.ref('ksa_zatca_integration.zatca_response').id, 'form')],
             }
         except Exception as e:
+            if 'odoo.exceptions' in str(type(e)):
+                raise
             raise exceptions.AccessDenied(e)
 
     def invoices_reporting_single_api(self, no_xml_generate):
@@ -1194,6 +1245,8 @@ class AccountMove(models.Model):
                 'views': [(self.env.ref('ksa_zatca_integration.zatca_response').id, 'form')],
             }
         except Exception as e:
+            if 'odoo.exceptions' in str(type(e)):
+                raise
             raise exceptions.AccessDenied(e)
 
     def hash_with_c14n_canonicalization(self, api_invoice=0, xml=0):
@@ -1298,14 +1351,18 @@ class AccountMove(models.Model):
                 self.compute_qr_code_str(signature_value, is_tax_invoice, bt_112, bt_110)
         except Exception as e:
             _logger.info("QR code can't be generated. " + str(e))
-            # raise exceptions.MissingError("QR code can't be generated.")
             self.l10n_sa_qr_code_str = "emFpbiBpcmZhbiB3YWhlZWQ="
 
     def compute_qr_code_str(self, signature_value, is_tax_invoice, bt_112, bt_110):
         def get_qr_encoding(tag, field):
+            _zatca.info("tag:: %s", tag)
+            _zatca.info("field:: %s", field)
             company_name_byte_array = field if tag in [8, 9] else field.encode()
+            _zatca.info("company_name_byte_array:: %s", company_name_byte_array)
             company_name_tag_encoding = tag.to_bytes(length=1, byteorder='big')
+            _zatca.info("company_name_tag_encoding:: %s", company_name_tag_encoding)
             company_name_length_encoding = len(company_name_byte_array).to_bytes(length=1, byteorder='big')
+            _zatca.info("company_name_length_encoding:: %s", company_name_length_encoding)
             return company_name_tag_encoding + company_name_length_encoding + company_name_byte_array
 
         for record in self:
@@ -1314,8 +1371,6 @@ class AccountMove(models.Model):
                 seller_name_enc = get_qr_encoding(1, record.company_id.display_name)
                 company_vat_enc = get_qr_encoding(2, record.company_id.vat)
                 time_sa = fields.Datetime.context_timestamp(self.with_context(tz='Asia/Riyadh'), record.l10n_sa_confirmation_datetime)
-                # timestamp_enc = get_qr_encoding(3, time_sa.isoformat())
-                timestamp_enc = get_qr_encoding(3, time_sa.strftime('%Y-%m-%dT%H:%M:%SZ'))
                 timestamp_enc = get_qr_encoding(3, self.invoice_datetime.strftime('%Y-%m-%dT%H:%M:%SZ'))
                 # invoice_total_enc = get_qr_encoding(4, float_repr(abs(record.amount_total_signed), 2))
                 invoice_total_enc = get_qr_encoding(4, str(bt_112))
@@ -1325,19 +1380,19 @@ class AccountMove(models.Model):
                 invoice_hash = get_qr_encoding(6, record.zatca_invoice_hash)
                 ecdsa_signature = get_qr_encoding(7, signature_value)
 
-                # cert_publickey_filename = hashlib.sha256(('account_move_' + str(self.id) + '_cert_publickey').encode("UTF-8")).hexdigest()
-                # f = open('/tmp/' + str(cert_publickey_filename), 'wb+')
-                # f.write(private_key.encode())
-                # f.close()
-
                 conf = self.company_id.sudo()
+                _zatca.info("zatca_cert_public_key:: %s", conf.zatca_cert_public_key)
                 cert_pub_key = base64.b64decode(conf.zatca_cert_public_key)
+                _zatca.info("cert_pub_key:: %s", cert_pub_key)
                 ecdsa_public_key = get_qr_encoding(8, cert_pub_key)
                 if not is_tax_invoice:
+                    _logger.info("zatca_cert_sig_algo:: %s", conf.zatca_cert_sig_algo)
                     ecdsa_cert_value = get_qr_encoding(9, binascii.unhexlify(conf.zatca_cert_sig_algo))
 
                 str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
+                _zatca.info("str_to_encode:: %s", str_to_encode)
                 str_to_encode += invoice_hash + ecdsa_signature + ecdsa_public_key
+                _zatca.info("str_to_encode:: %s", str_to_encode)
                 if not is_tax_invoice:
                     str_to_encode += ecdsa_cert_value
                 qr_code_str = base64.b64encode(str_to_encode).decode()

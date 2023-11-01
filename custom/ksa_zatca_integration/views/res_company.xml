@@ -18,8 +18,7 @@
                            attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
                                    'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
                     <field name="additional_no" placeholder="Additional Number" style="width: 57%;"
-                           attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
-                                   'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
+                           attrs="{'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
                     <field name="district" placeholder="District" class="o_address_street"
                            attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')],
                                    'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
@@ -116,12 +115,10 @@
                                     </group>
                                     <group>
                                         <field name="zatca_is_fatoora_simulation_portal" readonly="1" invisible="1"/>
-                                        <field name="zatca_is_sandbox" attrs="{'invisible' :[('api_type',  '!=', 'Sandbox')]}"/>
-                                        <span attrs="{'invisible':[('zatca_is_sandbox','!=', True)]}" colspan="2"
+<!--                                        <field name="zatca_is_sandbox" attrs="{'invisible' :[('api_type',  '!=', 'Sandbox')]}"/>-->
+                                        <span attrs="{'invisible':[('api_type','!=', 'Sandbox')]}" colspan="2"
                                               style="display: block;text-align: -webkit-center;">
-                                            zatca sdk(sandbox) private key &amp; PCSID will be used.
-                                            <br/>
-                                            use values from zatca_sandbox(sdk))sample_values.txt
+                                            use values from zatca_sandbox sample_values.txt
                                         </span>
                                     </group>
                                     <group col="2" class="width_height_100" style="padding-top: 25px;">

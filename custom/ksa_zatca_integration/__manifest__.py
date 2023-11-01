@@ -12,7 +12,7 @@
     'license': 'OPL-1',
     'images': ['static/description/cover.png'],
     'category': 'Invoicing',
-    'version': '16.0',
+    'version': '16.2',
     'price': 590, 'currency': 'USD',
     'depends': ['account', 'sale', 'l10n_sa', 'purchase', 'account_debit_note'],
     'external_dependencies': {
@@ -20,7 +20,6 @@
     },
     'data': [
         'data/data.xml',
-        # 'views/res_config_settings.xml',
         'views/res_partner.xml',
         'views/res_company.xml',
         'views/account_move.xml',

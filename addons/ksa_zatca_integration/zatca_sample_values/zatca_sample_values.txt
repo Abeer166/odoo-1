@@ -1,8 +1,0 @@
-vat = 310175397400003
-common name = 127.0.0.1
-EGS Serial Number = 2222232444343jff432
-Organization Name = Jarir
-Organization Unit Name = Jeddah Branch1234
-Invoice Type = 1011
-Location = Sample E
-Industry = Sample Bussiness

@@ -6,22 +6,19 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vat']" position="after">
-                    <field name="buyer_identification"
-                           attrs="{'required': [('buyer_identification_no', 'not in', [None, False, ''])]}"/>
-                    <field name="buyer_identification_no"
-                           attrs="{'required': [('buyer_identification', 'not in', [None, False, ''])]}"/>
+                    <field name="buyer_identification"/>
+                    <field name="buyer_identification_no"/>
                 </xpath>
                 <xpath expr="//field[@name='name']" position="after">
                     <field name="country_id_name" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='street2']" position="after">
                     <field name="building_no" placeholder="Building Number" class="o_address_city" style="width: 41%;"
-                           attrs="{'required': [('country_id', '!=', False)]}"/>
+                            attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')]}"/>
                     <field name="additional_no" placeholder="Additional Number" style="width: 57%;"
-                           attrs="{'invisible': [('country_id_name', '!=', 'Saudi Arabia')],
-                                   'required': [('country_id_name', '=', 'Saudi Arabia')]}"/>
+                           attrs="{'invisible': [('country_id_name', '!=', 'Saudi Arabia')]}"/>
                     <field name="district" placeholder="District" class="o_address_street"
-                           attrs="{'required': [('country_id', '!=', False)]}"/>
+                           attrs="{'required': [('country_id_name', '=', 'Saudi Arabia')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='street']" position="attributes">
                     <attribute name="attrs">{'required': [('country_id', '!=', False)]}</attribute>
@@ -30,14 +27,14 @@
                     <attribute name="attrs">{'required': [('country_id', '!=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='zip']" position="attributes">
-                    <attribute name="attrs">{'required': [('country_id', '!=', False)]}</attribute>
+                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
                 </xpath>
 <!--                <xpath expr="//field[@name='country_id']" position="attributes">-->
 <!--                    <attribute name="required">1</attribute>-->
 <!--                </xpath>-->
-                <xpath expr="//field[@name='state_id']" position="attributes">
-                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>
-                </xpath>
+<!--                <xpath expr="//field[@name='state_id']" position="attributes">-->
+<!--                    <attribute name="attrs">{'required': [('country_id_name', '=', 'Saudi Arabia')]}</attribute>-->
+<!--                </xpath>-->
             </field>
         </record>
     </data>
