@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the existing invoice report -->
+        <template id="report_invoice_custom" inherit_id="account.report_invoice_document">
+            <xpath expr="//table" position="before">
+                <t t-set="filtered_lines" t-value="doc.invoice_line_ids.filtered(lambda line: line.quantity != 0)"/>
+            </xpath>
+            <t t-foreach="filtered_lines" t-as="line">
+                <tr>
+                    <!-- Add the columns you want to display in the invoice -->
+                    <td><span t-field="line.product_id.display_name"/></td>
+                    <td><span t-field="line.quantity"/></td>
+                    <td><span t-field="line.price_unit"/></td>
+                    <!-- Add other relevant fields here -->
+                </tr>
+            </t>
+        </template>
+    </data>
+</odoo>

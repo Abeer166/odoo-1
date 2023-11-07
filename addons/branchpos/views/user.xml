@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+        <record id="view_users_form_poss_allowed" model="ir.ui.view">
+            <field name="name">view.users.form.poss.allowed</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='branches']" position="after">
+                <field name="pos_ids" widget="many2many_tags" domain="[('branch_id', '=', branch_ids)]" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+              </xpath>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,170 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_signup_email_approval
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-27 13:06+0000\n"
+"PO-Revision-Date: 2020-10-27 13:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_signup_email_approval
+#: model:mail.template,subject:sh_signup_email_approval.sh_user_mail_template
+msgid "${object.company_id.name} Verfification Email"
+msgstr "${object.company_id.name} Email de vérification"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "&amp;times;"
+msgstr "&amp;times;"
+
+#. module: sh_signup_email_approval
+#: model:mail.template,body_html:sh_signup_email_approval.sh_user_mail_template
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                        Hello ${object.partner_id.name},\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        your verification code is ${object.verification_code}\n"
+"                        <br/>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                        Bonjour ${object.partner_id.name},\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        Votre code de vérification est ${object.verification_code}\n"
+"                        <br/>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Another user is already registered using this email address."
+msgstr "Un autre utilisateur est déjà enregistré en utilisant cette adresse e-mail."
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__verification_code
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Code"
+msgstr "Code"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Could not create a new account."
+msgstr "Impossible de créer un nouveau compte."
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__display_name
+msgid "Display Name"
+msgstr "Afficher un nom"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__id
+msgid "ID"
+msgstr "identifiant"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification sur"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/web_main.py:0
+#, python-format
+msgid "0"
+"Only employee can access this database. Please contact the administrator."
+msgstr "0"
+"Seul Employé peut accéder à cette base de données. Veuillez contacter l'administrateur."
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__sh_password
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Passwords do not match; please retype them."
+msgstr "Les mots de passe ne correspondent pas; Veuillez les retaper."
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: invalid template user"
+msgstr "Signup: Utilisateur de modèle non valide"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: no login given for new user"
+msgstr "Signup: pas de connexion donnée pour le nouvel utilisateur"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: no name or partner given for new user"
+msgstr "Inscription: Non nom ou partenaire donné pour le nouvel utilisateur"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "Sorry!"
+msgstr "Désolé!"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "The form was not properly filled in."
+msgstr "La forme n'était pas correctement remplie."
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__sh_user_from_signup
+msgid "User From Signup ?"
+msgstr "Utilisateur de l'inscription?"
+
+#. module: sh_signup_email_approval
+#: model:ir.model,name:sh_signup_email_approval.model_res_users
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Verify"
+msgstr "Vérifier"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Verify Code"
+msgstr "Vérifier le code"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/web_main.py:0
+#, python-format
+msgid "Wrong login/password"
+msgstr "Nom d'utilisateur / mot de passe incorrect"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "Your Code is invalid."
+msgstr "Votre code est invalide."
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Your registration successfully! Please wait for account approval."
+msgstr "Votre inscription avec succès! Veuillez attendre l'approbation du compte."

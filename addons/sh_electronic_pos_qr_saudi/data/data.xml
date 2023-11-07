@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate='1'>
+        <record id="qr_code_elemet_1" model="sh.pos.config.qr.elements">
+            <field name="fields_id">pos_reference</field>
+            <field name="label">#</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_2" model="sh.pos.config.qr.elements">
+            <field name="fields_id">date_order</field>
+            <field name="label">Date</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_3" model="sh.pos.config.qr.elements">
+            <field name="fields_id">company_name</field>
+            <field name="label">Seller</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_4" model="sh.pos.config.qr.elements">
+            <field name="fields_id">company_vat_no</field>
+            <field name="label">Company Vat No</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_5" model="sh.pos.config.qr.elements">
+            <field name="fields_id">amount_before_tax</field>
+            <field name="label">Amount Before VAT</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_6" model="sh.pos.config.qr.elements">
+            <field name="fields_id">price_included_taxt_total</field>
+            <field name="label">Total Amount (Included VAT)</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+        <record id="qr_code_elemet_7" model="sh.pos.config.qr.elements">
+            <field name="fields_id">amount_vat</field>
+            <field name="label">VAT Amount</field>
+            <field name="custom_field" ref='point_of_sale.pos_config_main'></field>
+        </record>
+    </data>
+</odoo>

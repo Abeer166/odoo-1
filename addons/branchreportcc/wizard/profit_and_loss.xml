@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_account_profit_loss_branch" model="ir.actions.act_window">
+        <field name="name">Branches Profit and Loss</field>
+        <field name="res_model">accounting.report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="accounting_report_branch"/>
+        <field name="target">new</field>
+        <field name="context" eval="{'default_account_report_id':ref('financial_report_profitandloss_branch')}"/>
+    </record>
+
+    <menuitem id="menu_account_profit_loss"
+              name="Branches Profit and Loss"
+              sequence="2"
+              action="action_account_profit_loss_branch"
+              parent="branch_menu_finance_statement"
+              groups="account.group_account_user,account.group_account_manager"/>
+
+</odoo>

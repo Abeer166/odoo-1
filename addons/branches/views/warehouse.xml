@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <record id="view_warehouse_form_branch" model="ir.ui.view">
+            <field name="name">view.warehouse.form.branch</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" force_save="1" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'required': [('is_branch', '=',True)],'invisible': [('is_branch', '=',False)]}" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <field name="branch_group_id" force_save="1" invisible="1"/>
+                    <field name="branch_type_id" force_save="1" invisible="1"/>
+                    <field name="branch_state_id" force_save="1" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        <record id="branch_view_warehouse_tree" model="ir.ui.view">
+            <field name="name">branch.view.warehouse.tree</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//tree[1]/field[@name='name']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+              </xpath>
+
+            </field>
+        </record>
+        <record id="branch_stock_warehouse_view_search" model="ir.ui.view">
+            <field name="name">branch.stock.warehouse.search</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.stock_warehouse_view_search"/>
+            <field name="arch" type="xml">  <xpath expr="//filter[@name='inactive']" position="after">
+                <group name="group_by_branch">
+                  <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </group>
+              </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

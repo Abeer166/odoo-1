@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sh_employee_disciplinary.access_sh_disciplinary_categories,access_sh_disciplinary_categories,sh_employee_disciplinary.model_sh_disciplinary_categories,base.group_user,1,1,1,1
+sh_employee_disciplinary.access_sh_disciplinary_user,access_sh_disciplinary_user,sh_employee_disciplinary.model_sh_disciplinary,base.group_user,1,1,0,0
+sh_employee_disciplinary.access_sh_disciplinary,access_sh_disciplinary,sh_employee_disciplinary.model_sh_disciplinary,hr.group_hr_user,1,1,1,1

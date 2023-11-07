@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <!-- Sale order Inherit Form View to Modify it -->
+        <record id="view_sales_order_form_branch" model="ir.ui.view">
+            <field name="name">view.order.form.branch</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="before">
+                    <field name="inv_custom_journal" invisible="1"/>
+                    <field name="journal_id"  domain="[('type', '=', 'sale'), ('company_id', '=', company_id),'|',('branch_ids', '=', branch_id),('branch_ids', '=', False)]" attrs="{'invisible': [('is_branch', '=',False)],'required': [('inv_custom_journal', '=',True)]}"/>
+                </field>
+                <field name="partner_id" position="before">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" force_save="1" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'invisible': [('is_branch', '=',False)],'required': [('is_branch', '=',True)], 'readonly': [('state', 'in', ['sale','cancel', 'done'])]}"/>
+                    <field name="branch_group_id" force_save="1" invisible="1"/>
+                    <field name="branch_type_id" force_save="1" invisible="1"/>
+                    <field name="branch_state_id" force_save="1" invisible="1"/>
+                </field>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[2]/group[@name='sale_shipping']/field[@name='warehouse_id']" position="attributes">
+                    <attribute name="domain">['|', ('company_id', '=', False), ('company_id', '=',company_id),'|',('branch_id', '=', branch_id),('branch_id', '=', False)]</attribute>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[2]/group[@name='sale_shipping']/field[@name='warehouse_id']" position="attributes">
+                    <attribute name="domain">['|', ('company_id', '=', False), ('company_id', '=',company_id),'|',('branch_id', '=', branch_id),('branch_id', '=', False)]</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[2]/group[@name='sale_shipping']/field[@name='warehouse_id']" position="move"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[2]/group[@name='sale_shipping']/field[@name='warehouse_id']" position="move"/>
+                </xpath>
+                    <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='warehouse_id']" position="attributes">
+                  <attribute name="groups">stock.group_stock_multi_warehouses,account.group_account_user,sales_team.group_sale_manager,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_salesman</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='warehouse_id']"  position="after">
+                    <field name="picking_type_id" options="{'no_open': True, 'no_create': True}"  attrs="{'readonly': [('state', 'not in', ('draft','sent'))]}" groups="stock.group_stock_multi_warehouses" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='product_template_id']" position="attributes">
+                <attribute name="domain">['|',('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id),'|',('branch_ids', '=', parent.branch_id),('branch_ids', '=', False)]</attribute>
+               </xpath>
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='optional_products']/field[@name='sale_order_option_ids']/tree[1]/field[@name='product_id']" position="attributes">
+                <attribute name="domain">['|',('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id),'|',('branch_ids', '=', parent.branch_id),('branch_ids', '=', False)]</attribute>
+              </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_quotation_tree_branch">
+            <field name="name">sale.order.qutation.tree.branch</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide" />
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_order_tree_branch">
+            <field name="name">sale.order.tree.branch</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide" />
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Sale order Inherit search View to Modify it -->
+        <record id="sale_order_view_search_inherit_quotation_branch" model="ir.ui.view">
+            <field name="name">sale.order.list.select.branch</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="arch" type="xml">
+              <xpath expr="//filter[@name='order_month']" position="after">
+                    <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                    <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                    <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="sale_order_view_search_inherit_sale_branch" model="ir.ui.view">
+            <field name="name">sale.order.search.inherit.sale.branch</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="arch" type="xml">
+              <xpath expr="//filter[@name='order_month']" position="after">
+                    <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                    <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                    <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="branch_view_order_product_search" model="ir.ui.view">
+            <field name="name">sale.report.search.branch</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search"/>
+            <field name="arch" type="xml">
+                <filter name="User" position="before">
+                    <field name="branch_id" />
+                    <field name="branch_group_id" />
+                    <field name="branch_type_id" />
+                    <field name="branch_state_id" />
+                    <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                    <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                    <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+
+    <!-- Sale Portal -->
+
+    <template id="branch_sale_order_portal_content" inherit_id="sale.sale_order_portal_content">
+         <xpath expr="//address[@t-field='sale_order.partner_invoice_id']" position="after">
+  
+                 <div t-if="sale_order.branch_id" class="col-xs-3">
+                    <strong>Branch:</strong>
+                    <p t-field="sale_order.branch_id.name"/>
+                </div>
+                 <div t-if="sale_order.branch_state_id" class="col-xs-3">
+                    <strong>Branch State:</strong>
+                    <p t-field="sale_order.branch_state_id.name"/>
+                </div>
+        </xpath>
+    </template>
+
+    </data>
+</odoo>

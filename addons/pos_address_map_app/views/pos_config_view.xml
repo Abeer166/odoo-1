@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="pos_address_map_config">
+        <field name="name">res.config.setting.form.extended.view</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='pos_interface_section']" position="after">
+                <br/><h2 name="order">Address Map in POS</h2>
+                <div class="row mt16 o_settings_container">
+                    <div id="autocomplete_address" class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <label for="add_api_key"/>
+                            <div class="text-muted">
+                               Add your google API Key here
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <field name="add_api_key"/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </xpath>
+            
+        </field>
+   </record>
+</odoo>

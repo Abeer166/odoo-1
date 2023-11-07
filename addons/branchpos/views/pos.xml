@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="pos_config_branch" model="ir.ui.view">
+        <field name="name">pos.config.branch</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_setting_box')]" position="before">
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Branch</span>
+                    <div class="content-group mt16">
+                        <field name="branch_id" force_save="1" context="{'branch_id': 'branch_id'}" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Branch Name</span>
+                    <div class="content-group mt16">
+                        <field name="branch_name" force_save="1" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">phone</span>
+                    <div class="content-group mt16">
+                        <field name="branch_phone" force_save="1" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Mobile</span>
+                    <div class="content-group mt16">
+                        <field name="branch_mobile" force_save="1" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Email</span>
+                    <div class="content-group mt16">
+                        <field name="branch_email" force_save="1" />
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Branch Group</span>
+                    <div class="content-group mt16">
+                        <field name="branch_group_id" force_save="1"/>
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Branch Business Type</span>
+                    <div class="content-group mt16">
+                        <field name="branch_type_id" force_save="1"/>
+                    </div>
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Branch State</span>
+                    <div class="content-group mt16">
+                        <field name="branch_state_id" force_save="1"/>
+                    </div>
+                </div>
+                <div>
+                  <label for="warehouse_id" string="Warehouse" class="font-weight-normal"/>
+                  <field name="warehouse_id" domain="['|',('branch_id', '=', branch_id),('branch_id', '=', False)]" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                </div>
+                <div class="o_setting_right_pane">
+                    <span class="o_form_label">Allowed Users</span>
+                    <div class="content-group mt16">
+                        <field name="branch_user_id" domain="[('branches', '=', branch_id)]" widget="many2many_tags"  force_save="1"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="pos_config_branch_tree" model="ir.ui.view">
+        <field name="name">pos.config.branch</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_tree"/>
+        <field name="arch" type="xml">
+          <xpath expr="//tree[1]/field[@name='name']" position="before">
+            <field name="branch_id" optional="show"/>
+            <field name="warehouse_id" optional="show"/>
+            <field name="branch_user_id" optional="show"/>
+          </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="res_config_settings_view_form_inter_branches" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.branch.pos</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <div id="pos_accounting_section" position="before">
+                <h2>Branch</h2>
+                <div class="row mt16 o_settings_container" id="pos_branch_section">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Branch</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_id" force_save="1" context="{'branch_id': 'branch_id'}" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Branch Name</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_name" force_save="1" />
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">phone</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_phone" force_save="1" />
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Mobile</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_mobile" force_save="1" />
+                            </div>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Email</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_email" force_save="1" />
+                            </div>
+                        </div>
+
+                      <div>
+                            <label for="pos_warehouse_id" string="Warehouse" class="fw-normal"/>
+                            <field name="pos_warehouse_id"   domain="['|',('branch_id', '=', pos_branch_id),('branch_id', '=', False)]" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Allowed Users</span>
+                            <div class="content-group mt16">
+                                <field name="pos_branch_user_id" domain="[('branches', '=', pos_branch_id)]" widget="many2many_tags"  force_save="1"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+
+        <record model="ir.ui.view" id="pos_branchesview_branch_tree">
+            <field name="name">res.branch.tree.pos</field>
+            <field name="model">res.branch</field>
+            <field name="inherit_id" ref="branches.view_branch_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="pos_ids"  widget="many2many_tags"/>
+              </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="pos_payment_method_view_tree_branch">
+            <field name="name">pos.payment.method.tree</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="branch_ids" optional="show" widget="many2many_tags"/>
+              </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="pos_branches_view_view_warehouse">
+            <field name="name">stock.warehouse.operation.pos</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='out_type_id']" position="after">
+                    <field name="pos_type_id"  readonly="1"/>
+              </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="branch_view_pos_order_tree">
+            <field name="name">pos.order.tree.branch</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="after">
+                    <field name="branch_id"  readonly="1"  />
+                    <field name="branch_type_id" readonly="1" optional="show"/>
+                    <field name="branch_group_id" readonly="1" optional="show"/>
+                    <field name="branch_state_id" readonly="1" optional="show"/>
+                <field name="branch_id" readonly="1" optional="show"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="branch_view_pos_session_tree">
+            <field name="name">pos.session.tree.branch</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="after">
+                    <field name="branch_id" readonly="1" optional="show"/>
+                    <field name="branch_type_id" readonly="1" optional="show"/>
+                    <field name="branch_group_id" readonly="1" optional="show"/>
+                    <field name="branch_state_id" readonly="1" optional="show"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="branch_view_pos_payment_tree">
+            <field name="name">pos.payment.tree.branch</field>
+            <field name="model">pos.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='payment_date']" position="after">
+                    <field name="branch_id"  readonly="1"/>
+                    <field name="branch_type_id" readonly="1" optional="show"/>
+                    <field name="branch_group_id" readonly="1" optional="show"/>
+                    <field name="branch_state_id" readonly="1" optional="show"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_pos_form_branch">
+            <field name="name">pos.order.branch.form</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//form[1]/sheet[1]/group[@name='order_fields']/field[@name='name']" position="before">
+                    <field name="branch_id"   readonly="1"/>
+                    <field name="branch_type_id" readonly="1"/>
+                    <field name="branch_group_id" readonly="1"/>
+                    <field name="branch_state_id" readonly="1"/>
+                  </xpath>
+                  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='lines']/tree[1]/field[@name='full_product_name']" position="after">
+                    <field name="branch_id"  readonly="1"  />
+                    <field name="branch_group_id" readonly="1" optional="show"/>
+                    <field name="branch_type_id" readonly="1" optional="show"/>
+                    <field name="branch_state_id" readonly="1" optional="show"/>
+                  </xpath>
+                  <xpath expr="//field[@name='payment_date']" position="after">
+                    <field name="branch_id"   readonly="1"/>
+                    <field name="branch_group_id" readonly="1" optional="show"/>
+                    <field name="branch_type_id" readonly="1" optional="show"/>
+                    <field name="branch_state_id" readonly="1" optional="show"/>
+                  </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_config_search_branch">
+            <field name="name">pos.config.search.view.branch</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_search"/>
+            <field name="arch" type="xml">
+              <xpath expr="//search[1]/field[@name='name']" position="after">
+                <field name="branch_id"/>
+                <field name="branch_group_id"/>
+                <field name="branch_type_id"/>
+                <field name="branch_state_id"/>
+              </xpath>
+              <xpath expr="//filter[@name='inactive']" position="after">
+                <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_session_search_branch">
+            <field name="name">pos.session.branch.form</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_search"/>
+            <field name="arch" type="xml">
+              <xpath expr="//search[1]/field[@name='name']" position="after">
+                <field name="branch_id"/>
+                <field name="branch_group_id"/>
+                <field name="branch_type_id"/>
+                <field name="branch_state_id"/>
+              </xpath>
+              <xpath expr="//filter[@name='user']" position="after">
+                <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_pos_session_form_branch">
+            <field name="name">pos.session.branch.form</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="branch_id"   readonly="1" />
+                    <field name="branch_type_id" readonly="1"/>
+                    <field name="branch_group_id" readonly="1"/>
+                    <field name="branch_state_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_payment_branch">
+            <field name="name">pos.make.payment.branch.form</field>
+            <field name="model">pos.make.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_method_id']" position="before">
+                    <field name="branch_id"   readonly="1" />
+                    <field name="branch_type_id" readonly="1"/>
+                    <field name="branch_group_id" readonly="1"/>
+                    <field name="branch_state_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pos_payment_method_view_form_branch">
+            <field name="name">pos.payment.method.form</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="branch_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_payment_form_branch">
+            <field name="name">pos.payment.branch.form</field>
+            <field name="model">pos.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/group[1]/field[@name='name']" position="after">
+                    <field name="branch_id"   readonly="1" />
+                    <field name="branch_type_id" readonly="1"/>
+                    <field name="branch_group_id" readonly="1"/>
+                    <field name="branch_state_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_pos_payment_search_branch">
+            <field name="name">pos.payment.branch.search</field>
+            <field name="model">pos.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment_search"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='amount']" position="after">
+                <field name="branch_id"/>
+                <field name="branch_group_id"/>
+                <field name="branch_type_id"/>
+                <field name="branch_state_id"/>
+              </xpath>
+              <xpath expr="//filter[@name='group_by_payment_method']" position="after">
+                <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_pos_order_filter_branch">
+            <field name="name">pos.order.branch.form</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+              <xpath expr="//search[1]/field[@name='name']" position="after">
+                <field name="branch_id"/>
+                <field name="branch_group_id"/>
+                <field name="branch_type_id"/>
+                <field name="branch_state_id"/>
+              </xpath>
+              <xpath expr="//filter[@name='session']" position="after">
+                <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="view_report_pos_order_search_branch" model="ir.ui.view">
+            <field name="name">report.pos.order.search.inherit</field>
+            <field name="model">report.pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='User']" position='after'>
+                <filter name="branch_id" domain="[]" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+       <record id="report_pos_order_view_tree_branch" model="ir.ui.view">
+            <field name="name">report.pos.order.view.tree.branch</field>
+            <field name="model">report.pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.report_pos_order_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_categ_id" position="after">
+                    <field name="branch_id" />
+                    <field name="branch_type_id" />
+                    <field name="branch_group_id" />
+                    <field name="branch_state_id" />
+                </field>
+            </field>
+        </record>
+</odoo>

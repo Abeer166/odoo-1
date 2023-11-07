@@ -1,0 +1,229 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_sale_details_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.1alpha1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-30 05:26+0000\n"
+"PO-Revision-Date: 2020-09-30 05:26+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_sale_details_report
+#: model:ir.actions.report,print_report_name:sh_sale_details_report.sh_sale_details_report_action
+msgid "'Sales Details Report'"
+msgstr "Verkaufsdetails Bericht‘"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields.selection,name:sh_sale_details_report.selection__sh_sale_details_report_wizard__state__all
+msgid "All"
+msgstr "Alles"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_wizard_form
+msgid "Cancel"
+msgstr "Stornieren"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.xls_report_view
+msgid "Close"
+msgstr "Schließen"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__company_ids
+msgid "Companies"
+msgstr "Unternehmen"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__create_uid
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__create_date
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Disc:"
+msgstr "Rabatt:"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__display_name
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_report_sh_sale_details_report_sh_sale_details_report_doc__display_name
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields.selection,name:sh_sale_details_report.selection__sh_sale_details_report_wizard__state__done
+msgid "Done"
+msgstr "Erledigt"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__excel_file
+msgid "Download report Excel"
+msgstr "Bericht herunterladen Excel"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__end_date
+msgid "End Date"
+msgstr "Endtermin"
+
+#. module: sh_sale_details_report
+#: model:ir.model,name:sh_sale_details_report.model_excel_extended
+msgid "Excel Extended"
+msgstr "Excel Erweiterte"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__file_name
+msgid "Excel File"
+msgstr "Excel-Datei"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__id
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_report_sh_sale_details_report_sh_sale_details_report_doc__id
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__id
+msgid "ID"
+msgstr "ICH WÜRDE"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended____last_update
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_report_sh_sale_details_report_sh_sale_details_report_doc____last_update
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__write_uid
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_excel_extended__write_date
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Name"
+msgstr "Name"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Payments"
+msgstr "Zahlungen"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Price Unit"
+msgstr "Preiseinheit"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_wizard_form
+msgid "Print"
+msgstr "Drucken"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_wizard_form
+msgid "Print Xls"
+msgstr "drucken Xls"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Product"
+msgstr "Produkt"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Products"
+msgstr "Produkte"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Quantity"
+msgstr "Menge"
+
+#. module: sh_sale_details_report
+#: model:ir.actions.act_window,name:sh_sale_details_report.action_excel_form
+msgid "Reports Excel"
+msgstr "Berichte Excel"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_wizard_form
+msgid "Sale Details"
+msgstr "Verkauf Details"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.xls_report_view
+msgid "Sale Details Xlsx"
+msgstr "Verkauf Details Xlsx"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__team_ids
+msgid "Sales Channel"
+msgstr "Verkaufskanal"
+
+#. module: sh_sale_details_report
+#: model:ir.actions.report,name:sh_sale_details_report.sh_sale_details_report_action
+#: model:ir.ui.menu,name:sh_sale_details_report.sh_sale_details_report_menuitem
+msgid "Sales Details Report"
+msgstr "Verkaufsdetails Bericht"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__start_date
+msgid "Start Date"
+msgstr "Anfangsdatum"
+
+#. module: sh_sale_details_report
+#: model:ir.model.fields,field_description:sh_sale_details_report.field_sh_sale_details_report_wizard__state
+msgid "Status"
+msgstr "Status"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Taxes"
+msgstr "Steuern"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Total"
+msgstr "Gesamt"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.sh_sale_details_report_doc
+msgid "Total:"
+msgstr "Gesamt:"
+
+#. module: sh_sale_details_report
+#: model_terms:ir.ui.view,arch_db:sh_sale_details_report.xls_report_view
+msgid "Xls Report"
+msgstr "xls Bericht"
+
+#. module: sh_sale_details_report
+#: model:ir.model,name:sh_sale_details_report.model_report_sh_sale_details_report_sh_sale_details_report_doc
+msgid "sales details report abstract model"
+msgstr "Verkaufsdetails berichten abstraktes Modell"
+
+#. module: sh_sale_details_report
+#: model:ir.model,name:sh_sale_details_report.model_sh_sale_details_report_wizard
+msgid "sales details report wizard model"
+msgstr "Verkaufsdetails Report Wizard Modell"
+
+#. module: sh_sale_details_report
+#: code:addons/sh_sale_details_report/wizard/sale_details_report_wizard.py:0
+#, python-format
+msgid "start date must be less than end date."
+msgstr "Startdatum weniger als Enddatum sein muss."

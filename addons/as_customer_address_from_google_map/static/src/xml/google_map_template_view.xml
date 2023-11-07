@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="partner_select_current_point">
+         <div class="container-fluid" id="header_section">
+            <div class="row">
+                <div class="col-12 ml-0 pl-0">
+                    <h3>
+                        <p id="current_address"/>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <center class="col-12 m-0 p-0" style="height:70vh">
+                    <div id="map-canvas" style="height:70vh"/>
+                </center>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <button type="button"
+                            style="width: 30%;margin-top:4%;"
+                            class="btn btn-primary" id="save_location">
+                        SAVE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

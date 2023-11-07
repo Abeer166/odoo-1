@@ -1,0 +1,555 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* branchpos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e-20221201\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-28 06:23+0000\n"
+"PO-Revision-Date: 2022-12-28 06:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "%s POS payment of %s in %s"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid ""
+"<span class=\"o_form_label o_td_label\" name=\"address_name\">\n"
+"                                <b>Address</b>\n"
+"                    </span>"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Allowed Users</span>"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Branch Business Type</span>"
+msgstr "نشاط الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Branch Group</span>"
+msgstr "مجموعة الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Branch Name</span>"
+msgstr "اسم الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Branch State</span>"
+msgstr "الولاية"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Branch</span>"
+msgstr "الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Email</span>"
+msgstr "البريد الالكتروني"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">Mobile</span>"
+msgstr "رقم الجوال"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "<span class=\"o_form_label\">phone</span>"
+msgstr "رقم الهاتف"
+
+#. module: branchpos
+#: model:ir.model.fields,help:branchpos.field_pos_config__invoice_journal_id
+msgid "Accounting journal used to create invoices."
+msgstr "دفتر اليومية المحاسبي المستخدم لإصدار الفواتير."
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_res_users__pos_ids
+msgid "Allowed POS"
+msgstr "نقاط البيع المسموح بها"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_user_id
+msgid "Allowed Users"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Archived"
+msgstr "مؤرشف"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Bank"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Bills"
+msgstr "فواتير الشراء"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_res_branch
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_make_payment__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order_line__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_payment__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_payment_method__branch_ids
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_id
+#: model:ir.model.fields,field_description:branchpos.field_report_pos_order__branch_id
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_config_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_order_filter_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_payment_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_session_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_report_pos_order_search_branch
+msgid "Branch"
+msgstr "الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_make_payment__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order_line__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_payment__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_type_id
+#: model:ir.model.fields,field_description:branchpos.field_report_pos_order__branch_type_id
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Branch Business Type"
+msgstr "نشاط الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_email
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_email
+msgid "Branch Email"
+msgstr "البريد الالكتروني لنقطة البيع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_make_payment__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order_line__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_payment__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_group_id
+#: model:ir.model.fields,field_description:branchpos.field_report_pos_order__branch_group_id
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_config_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_order_filter_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_payment_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_session_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_report_pos_order_search_branch
+msgid "Branch Group"
+msgstr "مجموعة الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_mobile
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_mobile
+msgid "Branch Mobile"
+msgstr ""
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_name
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_name
+msgid "Branch Name"
+msgstr "الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_res_branch__pos_ids
+msgid "Branch POS"
+msgstr "نقاط بيع الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_phone
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_phone
+msgid "Branch Phone"
+msgstr "تليفون الفرع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_make_payment__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_order_line__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_payment__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_pos_session__branch_state_id
+#: model:ir.model.fields,field_description:branchpos.field_report_pos_order__branch_state_id
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_config_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_order_filter_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_payment_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_session_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_report_pos_order_search_branch
+msgid "Branch State"
+msgstr "الولاية"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Branch Tag"
+msgstr "اشارة التمييز"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_config_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_order_filter_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_payment_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_pos_session_search_branch
+#: model_terms:ir.ui.view,arch_db:branchpos.view_report_pos_order_search_branch
+msgid "Branch Type"
+msgstr "نشاط الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Branch Users"
+msgstr "مستخدمي الفرع"
+
+#. module: branchpos
+#. openerp-web
+#: code:addons/branchpos/static/src/xml/receipt.xml:0
+#, python-format
+msgid "Branch:"
+msgstr "الفرع"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Cash"
+msgstr "النقدية"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "City"
+msgstr "المدينة"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Combine %s POS payments from %s"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Country"
+msgstr "الدولة"
+
+#. module: branchpos
+#: model_terms:ir.actions.act_window,help:branchpos.pos_action_Branches
+msgid "Create Your Company Branches"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Credit Notes"
+msgstr "اشعارات دائنة"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Customer Account"
+msgstr "حسابات اجلة"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Difference at closing PoS session"
+msgstr "فروقات عند اغلاق الجلسة"
+
+#. module: branchpos
+#. openerp-web
+#: code:addons/branchpos/static/src/xml/receipt.xml:0
+#, python-format
+msgid "Email:"
+msgstr "البريد الالكتروني"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "From invoice payments"
+msgstr "مقبوضات من فاتورة"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Group By"
+msgstr "رتب حسب"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Invoice"
+msgstr "الفواتير"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__invoice_journal_id
+msgid "Invoice Journal"
+msgstr "دفتر يومية الفاتورة"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "Invoice payment for %s (%s) using %s"
+msgstr ""
+
+#. module: branchpos
+#. openerp-web
+#: code:addons/branchpos/static/src/xml/receipt.xml:0
+#, python-format
+msgid "Mobile:"
+msgstr "رقم الجوال"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_res_users__pos_count
+msgid "Number of Alloweed POS"
+msgstr ""
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_res_branch__poss_count
+msgid "Number of POS"
+msgstr "عدد نقاط البيع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "PO"
+msgstr "اوامر الشراء"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "POS Branch"
+msgstr "نقاط البيع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_name
+msgid "POS Branch Name"
+msgstr "اسم الفرع"
+
+#. module: branchpos
+#: model:ir.actions.act_window,name:branchpos.pos_action_Branches
+#: model:ir.ui.menu,name:branchpos.pos_menu_res_branches
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_branch_tree
+msgid "POS Branches"
+msgstr "الفروع"
+
+#. module: branchpos
+#: model:ir.ui.menu,name:branchpos.pos_menu_branches
+msgid "POS Branches Managment"
+msgstr "ادارة نقاط بيع الفروع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_email
+msgid "POS Email"
+msgstr "البريد الالكتروني"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form_inherit
+msgid "POS Managment"
+msgstr "ادارة نقاط بيع الفروع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_mobile
+msgid "POS Mobile"
+msgstr "رقم الجوال"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form_inherit
+msgid "POS Orders"
+msgstr "اوامر بيع نقاط البيع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form_inherit
+msgid "POS Payments"
+msgstr "السداد لنقاط البيع"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_pos_config__branch_phone
+msgid "POS Phone"
+msgstr "رقم الهاتف"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form_inherit
+msgid "POS Sessions"
+msgstr "جلسات نقاط البيع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Partners"
+msgstr "شركاء الاعمال"
+
+#. module: branchpos
+#. openerp-web
+#: code:addons/branchpos/static/src/xml/receipt.xml:0
+#, python-format
+msgid "Phone:"
+msgstr "الهاتف"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Picking"
+msgstr "الحركات المخزنية"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "إعدادات نقطة البيع"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_make_payment
+msgid "Point of Sale Make Payment Wizard"
+msgstr "معالج إكمال الدفع في نقطة البيع "
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_order_line
+msgid "Point of Sale Order Lines"
+msgstr "بنود أمر نقطة البيع"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "أوامر نقطة البيع"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_report_pos_order
+msgid "Point of Sale Orders Report"
+msgstr "تقرير طلبات نقطة البيع "
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "طرق الدفع في نقطة البيع "
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_payment
+msgid "Point of Sale Payments"
+msgstr "مدفوعات نقطة البيع "
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_pos_session
+msgid "Point of Sale Session"
+msgstr "جلسة نقطة البيع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Products"
+msgstr "المنتجات"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Products Variants"
+msgstr "متغيرات المنتجات"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Refunds"
+msgstr "المرتجعات"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "SO"
+msgstr "اوامر بيع جملة"
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "تقرير المبيعات التحليلي"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Scrap"
+msgstr "التالف"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Search branch"
+msgstr "البحث باسم الفرع"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "Specific route"
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "State"
+msgstr "ولاية"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Street 2..."
+msgstr "شارع2...."
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "Street..."
+msgstr "شارع...."
+
+#. module: branchpos
+#: model:ir.model.fields,help:branchpos.field_res_branch__poss_count
+msgid "The number of POSs under this Branch"
+msgstr "عدد نقاط البيع التابعة للفرع"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid ""
+"This invoice has been created from the point of sale session: <a href=# "
+"data-oe-model=pos.order data-oe-id=%d>%s</a>"
+msgstr ""
+
+#. module: branchpos
+#: model:ir.model,name:branchpos.model_res_users
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Users"
+msgstr "المستخدمون"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_config_branch
+msgid "Warehouse"
+msgstr "المخازن"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_view_res_branch_search
+msgid "Warehouses"
+msgstr "لامخازن"
+
+#. module: branchpos
+#: model_terms:ir.actions.act_window,help:branchpos.pos_action_Branches
+msgid "We helps you to easily track all activities related to a branches."
+msgstr "نحن نساعدك على تتبع جميع الأنشطة المتعلقة بالفروع بسهولة"
+
+#. module: branchpos
+#: code:addons/branchpos/models/pos.py:0
+#, python-format
+msgid "You should assign a Point of Sale to your session."
+msgstr ""
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "ZIP"
+msgstr "ص.ب"
+
+#. module: branchpos
+#: model_terms:ir.ui.view,arch_db:branchpos.pos_branch_view_form
+msgid "e.g. Branch1"
+msgstr "مثال فرع1"
+
+#. module: branchpos
+#: model:ir.model.fields,field_description:branchpos.field_res_branch__showin_pos
+msgid "show Branch"
+msgstr ""
