@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="pos_config_view_extended_close_session_hour" model="ir.ui.view">
+      <field name="name">pos.config.view.extended.close_session_hour</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+          <div id="pos_technical_section" position="inside">
+            <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                    <field name="flag_close_session_hour"/>
+                </div>
+                <div class="o_setting_right_pane">
+                    <label for="flag_close_session_hour"/>
+                    <div class="text-muted">
+                        Close Session Automated
+                    </div>
+                    <div class="content-group mt16" attrs="{'invisible': [('flag_close_session_hour', '=', False)]}">
+                        <label for="close_session_hour" string="Close Session at" class="font-weight-normal"/>
+                        <i class="fa fa-info-circle me-1" title="Close Session At time in Day from 0:23, by default UTC Time if need to change to current Timezone change user in scheduler action" pos-data-toggle="tooltip"/>
+
+                        <field name="close_session_hour"/>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </field>
+  </record>
+
+    <record id="automated_close_sessions" model="ir.cron">
+            <field name="name">Close All POS Sessions Bytime</field>
+            <!-- <field name="user_id" ref="base.user_root"/> -->
+            <field name="model_id" ref="point_of_sale.model_pos_session"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="state">code</field>
+            <field eval="True" name="doall"/>
+            <field name="nextcall" eval="(datetime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:00:00')" />
+            <field eval="'model.automated_close_sessions_bytime()'" name="code"/>
+      </record>
+
+        <!-- or
+        <field name="nextcall" >2020-01-07 11:35:28</field>
+         <field eval="'scheduler.demo'" name="model"/>
+
+<field name="nextcall" eval="(datetime.now() + timedelta(days=10)).strftime('%Y-%m-%d 23:59:59')" />    -->
+
+</odoo>
