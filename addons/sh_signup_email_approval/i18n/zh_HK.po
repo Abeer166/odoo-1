@@ -1,0 +1,172 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_signup_email_approval
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-27 13:06+0000\n"
+"PO-Revision-Date: 2020-10-27 13:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_signup_email_approval
+#: model:mail.template,subject:sh_signup_email_approval.sh_user_mail_template
+msgid "${object.company_id.name} Verfification Email"
+msgstr "${object.company_id.name} verfification电子邮件"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "&amp;times;"
+msgstr "&amp;times;"
+
+#. module: sh_signup_email_approval
+#: model:mail.template,body_html:sh_signup_email_approval.sh_user_mail_template
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                        Hello ${object.partner_id.name},\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        your verification code is ${object.verification_code}\n"
+"                        <br/>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                        你好 ${object.partner_id.name},\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        您的验证码是 ${object.verification_code}\n"
+"                        <br/>\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+
+
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Another user is already registered using this email address."
+msgstr "另一个用户已使用此电子邮件地址注册。"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__verification_code
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Code"
+msgstr "代码"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Could not create a new account."
+msgstr "无法创建一个新帐户。"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users____last_update
+msgid "Last Modified on"
+msgstr "最后修改了"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/web_main.py:0
+#, python-format
+msgid ""
+"Only employee can access this database. Please contact the administrator."
+msgstr ""
+"只有员工只能访问此数据库。请联系管理员。"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__sh_password
+msgid "Password"
+msgstr "密码"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Passwords do not match; please retype them."
+msgstr "密码不匹配;请重新输入它们。"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: invalid template user"
+msgstr "注册：模板用户无效"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: no login given for new user"
+msgstr "注册：否定为新用户提供登录"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/models/res_users.py:0
+#, python-format
+msgid "Signup: no name or partner given for new user"
+msgstr "注册：新用户提供的姓名或合作伙伴"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "Sorry!"
+msgstr "对不起！"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "The form was not properly filled in."
+msgstr "表格未填写。"
+
+#. module: sh_signup_email_approval
+#: model:ir.model.fields,field_description:sh_signup_email_approval.field_res_users__sh_user_from_signup
+msgid "User From Signup ?"
+msgstr "用户来自注册？"
+
+#. module: sh_signup_email_approval
+#: model:ir.model,name:sh_signup_email_approval.model_res_users
+msgid "Users"
+msgstr "用户"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Verify"
+msgstr "核实"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.sh_signup_verfiy_template
+msgid "Verify Code"
+msgstr "验证码"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/web_main.py:0
+#, python-format
+msgid "Wrong login/password"
+msgstr "错误的登录/密码"
+
+#. module: sh_signup_email_approval
+#: model_terms:ir.ui.view,arch_db:sh_signup_email_approval.email_approval_sorry
+msgid "Your Code is invalid."
+msgstr "您的代码无效。"
+
+#. module: sh_signup_email_approval
+#: code:addons/sh_signup_email_approval/controllers/main.py:0
+#, python-format
+msgid "Your registration successfully! Please wait for account approval."
+msgstr "您的注册成功！请等待帐户批准。"

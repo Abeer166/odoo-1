@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_partner_route_map_action" model="ir.actions.act_window">
+        <field name="name">Routes Map</field>
+        <field name="res_model">wizard.partner.route.map</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+    </record>
+
+    <record id="account_move_partner_route_map_action" model="ir.actions.act_window">
+        <field name="name">Routes Map</field>
+        <field name="res_model">wizard.partner.route.map</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+    </record>
+
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_partner_ledger_branch" model="ir.ui.view">
+        <field name="name">Branches Partner Ledger</field>
+        <field name="model">account.report.partner.ledger</field>
+        <field name="inherit_id" ref="branchreportcc.account_common_report_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='journal_ids']" position="before">
+                    <field name="partner_ids" widget="many2many_tags"
+                           options="{'no_open': True, 'no_create': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='target_move']" position="after">
+                    <field name="result_selection"/>
+                    <field name="amount_currency" groups="base.group_multi_currency"/>
+                    <newline/>
+                    <field name="reconciled"/>
+                    <newline/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="action_account_partner_ledger_branch" model="ir.actions.act_window">
+        <field name="name">Branches Partner Ledger</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.report.partner.ledger</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_partner_ledger_branch"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_account" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <menuitem id="menu_branch_menu_partner_ledger"
+              name="Branches Partner Ledger"
+              sequence="5"
+              parent="branch_menu_finance_statement"
+              action="action_account_partner_ledger_branch"
+              groups="account.group_account_invoice"/>
+
+     <!-- Add to Partner Print button -->
+    <record id="action_branch_partner_ledger" model="ir.actions.act_window">
+        <field name="name">Branches Balance Statement (Partner Ledger)</field>
+        <field name="res_model">account.report.partner.ledger</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="report_partner_ledger_branch" />
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_type">report</field>
+        <field name="context">{
+            'default_partner_ids':active_ids,
+            'default_target_move': 'posted',
+            'default_result_selection': 'customer_supplier',
+            'default_reconciled': True,
+            'hide_partner':1,
+        }</field>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+
+</odoo>

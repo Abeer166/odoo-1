@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_general_ledger" model="ir.actions.report">
+            <field name="name">Branches General Ledger</field>
+            <field name="model">account.report.general.ledger</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">branchreportcc.report_general_ledger</field>
+            <field name="report_file">branchreportcc.report_general_ledger</field>
+        </record>
+
+        <record id="action_report_partnerledger" model="ir.actions.report">
+            <field name="name">Branches Partner Ledger</field>
+            <field name="model">account.report.partner.ledger</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">branchreportcc.report_partnerledger</field>
+            <field name="report_file">branchreportcc.report_partnerledger</field>
+        </record>
+
+
+        <record id="action_report_trial_balance" model="ir.actions.report">
+            <field name="name">Branches Trial Balance</field>
+            <field name="model">account.balance.report</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">branchreportcc.report_trialbalance</field>
+            <field name="report_file">branchreportcc.report_trialbalance</field>
+        </record>
+
+        <record id="action_report_financial" model="ir.actions.report">
+            <field name="name">Branches Financial Report</field>
+            <field name="model">account.financial.report</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">branchreportcc.report_financial</field>
+            <field name="report_file">branchreportcc.report_financial</field>
+        </record>
+
+    </data>
+</odoo>

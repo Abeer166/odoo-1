@@ -1,0 +1,31 @@
+
+.pos .clientlist-screen .client-details input,
+.pos .clientlist-screen .client-details select
+{
+    padding: 4px;
+    border-radius: 3px;
+    border: solid 1px #cecbcb;
+    margin-bottom: 4px;
+    background: white;
+    font-family: "Lato","Lucida Grande", Helvetica, Verdana, Arial;
+    color: #555555;
+    width: 225px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.pos .address-searchbox {
+    position: absolute;
+    margin-left: 15px;
+}
+.pos .address-searchbox input {
+    border: 1px solid #cecbcb;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.pos .address-searchbox input:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 2px rgb(153, 153, 255) inset;
+    color: rgb(153, 153, 255);
+}

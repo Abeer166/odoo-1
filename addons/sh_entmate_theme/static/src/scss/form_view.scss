@@ -1,0 +1,47 @@
+  
+//  16  //
+.o_form_view .tab-content .table-responsive{width: 100%;}
+.o_form_view .o_notebook>.tab-content>.tab-pane> :first-child:not(.o_group) .o_field_x2many.o_field_x2many_list {margin: 0 !important;}   
+.o_content .o_note_form_view .o_form_sheet{margin: 12px auto !important;}
+.modal .modal-dialog .modal-content .modal-body .o_view_controller.o_list_view .o_control_panel .o_searchview_input_container{width: auto !important;}
+
+body .btn-link:not(.o_facet_remove):not(.oe_stat_button), body .text-primary,
+body .o_form_view .o_form_uri,body .o_list_view .o_list_table .o_form_uri,.o_form_view .o_form_uri > span:first-child,.o_setting_container .settings .o_settings_container .o_setting_box .o_setting_right_pane a,
+body .o_phone_content .o_phone_form_link,
+.o_popover .o_cw_body .list-group .list-group-item .o_field_many2one a.o_form_uri,
+body .o_phone_content .o_field_phone_sms,
+.o_form_view .o_form_sheet_bg .o_field_widget.o_field_email a,
+.o_form_view .o_form_sheet_bg .o_field_widget.o_field_url a,
+body .o_field_phone .o_phone_content a.o_form_uri,
+body .o_field_widget.o_field_many2one .o_external_button,
+body .o_list_view .o_list_table .o_external_button,
+.o_form_view .o_field_domain .btn.o_domain_show_selection_button,
+.o_form_view .o_form_sheet_bg .o_field_sms_widget .o_sms_container .fa.fa-lg.fa-info-circle,
+.o_stock_reports_page .o_stock_reports_table .o_stock_reports_web_action,
+.o_stock_reports_page .o_stock_reports_table .o_stock_report_lot_action,
+.o_list_view .o_content .o_list_table .o_field_many2one[name="product_id"] a.o_form_uri,
+.o_mrp_bom_report_page h2 a,.o_control_panel .o_cp_bottom .o_cp_bottom_right .o_cp_bottom_right_sp .o-dropdown:not(.show) .dropdown-toggle.btn.btn-secondary,
+.o_mrp_bom_report_page td[name="td_mrp_bom"] a,
+.o_kanban_dashboard:not(.o_legacy_kanban_view) .o_kanban_record > div .o_kanban_card_header + .container.o_kanban_card_content .o_kanban_primary_right a.oe_kanban_action.oe_kanban_action_a,
+body .o_hr_attendance_kiosk_mode_container .o_hr_attendance_kiosk_mode .o_hr_attendance_back_button,
+body .o_calendar_view .o_calendar_buttons .o_timeoff_buttons .btn.btn-secondary,
+.o_kanban_view .o_kanban_record .oe_module_desc .oe_module_action .btn.btn-secondary.float-end,
+.o_form_view .o_form_view_container .o_form_sheet [name="send_buttons"] [name="action_open_composer"],
+.o_form_view .o_form_view_container .o_form_sheet [name="send_buttons"] [name="action_send_sms"],
+.o_form_view .o_field_widget.o_field_many2many_binary .btn.btn-secondary.o_attach,
+.o_form_view .o_form_sheet_bg .o_form_sheet [name="action_product_forecast_report"] .o_button_icon,
+.o-form-buttonbox .btn.oe_stat_button > .o_field_statinfo .o_stat_value,
+.o_form_view .o_form_view_container .o_form_sheet .o_field_datetime + .btn.btn-secondary,
+.o_kanban_record .o_kanban_card_header .o_kanban_card_header_title .o_primary a.oe_kanban_action.oe_kanban_action_a,
+.o_form_view .o_form_sheet_bg .o_form_sheet [name="datas"].o_field_widget.o_field_binary .fa.btn,
+.o_form_view .o_form_sheet_bg .o_form_sheet [name="data"].o_field_widget.o_field_binary .fa.btn,
+body .o_calendar_view .o_calendar_container .o_timeoff_calendar .o_timeoff_dashboard .text-odoo.o_timeoff_card,
+.o_kanban_view .o_kanban_record .oe_kanban_details a.oe_kanban_action.oe_kanban_action_a{color: $primaryColor !important;}
+/* Dashboards */ 
+.o_spreadsheet_dashboard_action .o_component_with_search_panel .o-chart-container .o-scorecard .o-title-text{font-size: 16px !important;padding: 5px 10px;}
+.o_spreadsheet_dashboard_action .o_component_with_search_panel .o-chart-container .o-scorecard .o-scorecard-content .o-key-text{color: $primaryColor !important;font-weight: bold !important;text-overflow: ellipsis;}
+.o_spreadsheet_dashboard_action .o_component_with_search_panel .o-chart-container .o-scorecard .o-baseline-text .o-baseline-text-value{font-weight: bold !important;font-size: 20px !important;}
+.o_spreadsheet_dashboard_action .o_component_with_search_panel .o-chart-container .o-scorecard .o-baseline-text .o-baseline-text-description{font-size: 18px !important;}
+.o_spreadsheet_dashboard_action .o_control_panel .o_cp_top_right{align-items: center !important;}
+.o_spreadsheet_dashboard_action .o_side_panel_filter_icon{display: none;}
+.o_form_view .o_form_sheet_bg .o_form_sheet span.o_field_translate{vertical-align: middle;}

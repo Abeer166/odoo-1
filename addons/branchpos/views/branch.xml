@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="pos_branch_view_form_inherit" model="ir.ui.view">
+        <field name="name">pos.branch.form.inherit</field>
+        <field name="model">res.branch</field>
+        <field name="inherit_id" ref="branches.branch_view_form"/>
+        <field name="arch" type="xml">
+              <xpath expr="//div[2][@name='button_box']" position="after">            
+                        <div name="button_box" class="oe_button_box">
+                            <button class="oe_stat_button" type="object" name="redirect_pos"
+                                icon="fa-database" string="POS Managment" widget="statinfo">
+                            </button>
+                            <button class="oe_stat_button" type="object" name="redirect_pos_orders"
+                                icon="fa-shopping-basket" string="POS Orders" widget="statinfo">
+                            </button>
+                            <button class="oe_stat_button" type="object" name="redirect_pos_session"
+                                icon="fa-television" string="POS Sessions" widget="statinfo">
+                            </button>
+                            <button class="oe_stat_button" type="object" name="redirect_pos_payments"
+                                icon="fa-diamond" string="POS Payments" widget="statinfo">
+                            </button>
+                        </div>
+              </xpath>
+          
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="pos_view_branch_tree">
+        <field name="name">pos.branch.tree</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false"  string="POS Branches" >
+              <field name="sequence" widget="handle"/>
+              <field name="active" invisible="1"/>
+              <field name="name"/>
+              <field name="complete_name" optional="show"/>
+              <field name="group_id" optional="show"/>
+              <field name="state_id" optional="show"/>
+              <field name="type_id" optional="show"/>
+              <field name="tag_id" optional="show" widget="many2many_tags"/>
+              <field name="user_ids" widget="many2many_tags"/>
+              <field name="warehouse_ids" widget="many2many_tags"/>
+              <field name="partner_ids" widget="many2many_tags" optional="hide" />
+              <field name="journal_ids" widget="many2many_tags" optional="hide" />
+              <field name="company_id" invisible="1" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    <record id="pos_branch_view_form" model="ir.ui.view">
+        <field name="name">pos.branch.form</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+        <form create="false" edit="false"  string="POS Branch">
+          <sheet>            
+            <div name="button_box" class="oe_button_box">
+            <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+            <button class="oe_stat_button" type="object" name="redirect_products"
+                icon="fa-th-list" string="Products" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_product_variants"
+                icon="fa-sitemap" string="Products Variants" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_sale_order"
+                icon="fa-shopping-cart" string="SO" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_invoice"
+                icon="fa-pencil-square-o" string="Invoice" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_invoice_credit"
+                icon="fa-pencil-square-o" string="Credit Notes" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_purchase_order"
+                icon="fa-shopping-bag" string="PO" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_bill"
+                icon="fa-pencil-square-o" string="Bills" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_refund"
+                icon="fa-pencil-square-o" string="Refunds" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_picking"
+                icon="fa-puzzle-piece" string="Picking" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_scrap_move"
+                icon="fa-puzzle-piece" string="Scrap" widget="statinfo">
+            </button>
+        </div>           
+        <div name="button_box" class="oe_button_box">
+            <button class="oe_stat_button" type="object" name="redirect_pos"
+                icon="fa-database" string="POS Managment" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_pos_orders"
+                icon="fa-shopping-basket" string="POS Orders" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_pos_session"
+                icon="fa-television" string="POS Sessions" widget="statinfo">
+            </button>
+            <button class="oe_stat_button" type="object" name="redirect_pos_payments"
+                icon="fa-diamond" string="POS Payments" widget="statinfo">
+            </button>
+        </div>
+            <field name="image_1920" widget='image' class="oe_avatar" options='{"preview_image": "image_128"}'/>
+            <div class="oe_title">
+                <label for="name" class="oe_edit_only"/>
+                <h1>
+                    <field name="name" placeholder="e.g. Branch1"/>
+                </h1>
+                    <group>
+                    <field name="active" invisible="1"/>
+                        <field name="group_id" options="{'no_create':True,'no_edit':True,'no_open':True}" class="oe_inline" required="1" domain="[('child_id', '=', False)]"/>
+                        <field name="type_id"  options="{'no_create':True,'no_edit':True,'no_open':True}" class="oe_inline" required="1"/>
+                        <field name="tag_id"  options="{'no_create':True,'no_edit':True,'no_open':True}" widget="many2many_tags" />
+                        <field name="company_id" class="oe_inline" options="{'no_create':True,'no_edit':True,'no_open':True}" invisible="1" />
+                        <field name="currency_id" options="{'no_create':True,'no_edit':True,'no_open':True}" groups="base.group_multi_currency"/>
+                    </group>
+            </div>
+            <group>
+                <group>
+                    <span class="o_form_label o_td_label" name="address_name">
+                                <b>Address</b>
+                    </span>
+                        <div class="o_address_format">
+                            <field name="street" placeholder="Street..." class="o_address_street"/>
+                            <field name="street2" placeholder="Street 2..." class="o_address_street" />
+                            <field name="city" placeholder="City" class="o_address_city" />
+                            <field name="state_id" class="o_address_state" required="1"  placeholder="State" options="{'no_open': True}" context="{'country_id': country_id, 'zip': zip}"/>
+                            <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                            <field name="country_id" placeholder="Country" class="o_address_country" invisible="1"/>
+                        </div>
+                </group>
+                <group>
+                    <field name="phone" widget="phone"/>
+                    <field name="mobile" widget="phone"/>
+                </group>
+            </group>
+                <group>
+                    <field name="description"/>
+                </group>
+            <notebook>
+                <page name="members" string="Branch Users">
+                    <field name="user_ids" widget="many2many" options="{'not_delete': True}">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="avatar_128"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="o_kanban_card_content d-flex">
+                                                    <div>
+                                                        <img t-att-src="kanban_image('res.users', 'avatar_128', record.id.raw_value)" class="o_kanban_image o_image_64_cover" alt="Avatar"/>
+                                                    </div>
+                                                    <div class="oe_kanban_details d-flex flex-column ml-3">
+                                                        <strong class="o_kanban_record_title oe_partner_heading"><field name="name"/></strong>
+                                                        <div class="d-flex align-items-baseline text-break">
+                                                            <i class="fa fa-envelope mr-1" role="img" aria-label="Email" title="Email"/><field name="email"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                    </field>
+                </page>
+            </notebook>
+         </sheet>
+        </form>
+        </field>
+    </record>
+    
+    <record id="pos_view_res_branch_search" model="ir.ui.view">
+        <field name="name">pos.branch.select</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <search string="Search branch">
+                <field name="name"/>
+                <field name="phone" filter_domain="['|', ('phone', 'ilike', self), ('mobile', 'ilike', self)]"/>
+                <field name="user_ids" string="Users" />
+                <field name="warehouse_ids" string="Warehouses"/>
+                <field name="product_ids" string="Products"/>
+                <field name="partner_ids" string="Partners"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <group expand="0" name="group_by" string="Group By">
+                    <filter name="state_id" string="Branch State" context="{'group_by': 'state_id'}"/>
+                    <filter name="group_id" string="Branch Group" context="{'group_by': 'group_id'}"/>
+                    <filter name="type_id" string="Branch Business Type" context="{'group_by': 'type_id'}"/>
+                    <filter name="tag_id" string="Branch Tag" context="{'group_by': 'tag_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pos_action_Branches" model="ir.actions.act_window">
+        <field name="name">POS Branches</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.branch</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('user_ids', '=', uid),('pos_ids', '!=', False)]</field>
+        <field name="search_view_id" ref="branchpos.pos_view_res_branch_search"/>
+        <field name="view_id" ref="branchpos.pos_view_branch_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create Your Company Branches
+          </p><p>
+            We helps you to easily track all activities related to a branches.
+          </p>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="pos_res_branch_kanban_view">
+        <field name="name">pos.branch.kanban</field>
+        <field name="model">res.branch</field>
+        <field name="arch" type="xml">
+            <kanban create="false" edit="false" class="oe_background_grey o_kanban_dashboard o_res_branch_kanban">
+                <field name="id"/>
+                <field name="color"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="user_ids"/>
+                <field name="warehouse_ids"/>
+                <field name="image_1920"/>
+                <field name="group_id" display="full"/>
+                <field name="type_id" display="full"/>
+                <field name="tag_id" display="full"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_branch_record">
+                           <field name="group_id" display="full"/>
+                            <field name="type_id" display="full"/>
+                            <field name="tag_id" display="full"/>
+                            <div class="oe_kanban_details">
+                               <div class="o_kanban_record_top">
+                                 <div class="o_kanban_record_headings">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_tags_section oe_kanban_branch_categories"/>
+                                <ul>
+                                    <li t-if="record.state_id.raw_value "><field name="state_id"/></li>
+                                    <li t-if="record.city.raw_value "><field name="city"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    
+   <!--  <record id="pos_action_Branches_group_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="branches.account_branch_group_tree_view"/>
+        <field name="act_window_id" ref="account_branch_type_action"/>
+    </record> -->
+
+
+
+   <!--  <record id="pos_action_Branches_group_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="branches.branch_group_kanban_view"/>
+        <field name="act_window_id" ref="account_branch_group_action"/>
+    </record> -->
+   <!--  <record id="pos_action_Branches_type_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="branches.res_branch_type_kanban_view"/>
+        <field name="act_window_id" ref="account_branch_type_action"/>
+    </record>
+ 
+    <record id="pos_action_Branches_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="branches.pos_view_branch_tree"/>
+        <field name="act_window_id" ref="account_branch_type_action"/>
+    </record> -->
+
+   <!--  <record id="pos_action_Branches_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="branches.account_branch_type_form_view"/>
+        <field name="act_window_id" ref="account_branch_type_action"/>
+    </reco -->rd>
+
+    <record id="pos_action_Branches_view_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="branchpos.pos_res_branch_kanban_view"/>
+        <field name="act_window_id" ref="pos_action_Branches"/>
+    </record>
+ 
+    <record id="pos_action_Branches_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="branchpos.pos_view_branch_tree"/>
+        <field name="act_window_id" ref="pos_action_Branches"/>
+    </record>
+
+    <record id="pos_action_Branches_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="branchpos.pos_branch_view_form"/>
+        <field name="act_window_id" ref="pos_action_Branches"/>
+    </record>
+
+
+    <menuitem id="pos_menu_branches" 
+        name="POS Branches Managment" 
+        parent="point_of_sale.menu_point_root" 
+        groups="branches.group_branch_admin,branches.group_branch_manager" sequence="1"/>
+
+    <menuitem action="pos_action_Branches" id="pos_menu_res_branches" parent="branchpos.pos_menu_branches" groups="branches.group_branch_admin,branches.group_branch_manager" sequence="1"/>
+
+
+<!-- 
+        <menuitem
+            id="pos_account_branch_group_menu"
+            name="Branch Groups"
+            parent="branches.menu_branches_setting"
+            sequence="2"
+            action="branchpos.account_branch_group_action"
+            groups="branches.pos_group_branch_admin"/>
+        <menuitem
+            id="account_branch_type_menu"
+            name="Branch Business Type"
+            parent="branches.menu_branches_setting"
+            sequence="3"
+            action="branchpos.pos_account_branch_type_action"
+            groups="branches.group_branch_admin"/>
+        <menuitem
+            id="account_branch_tags_menu"
+            name="Branch Tags"
+            parent="branches.menu_branches_setting"
+            sequence="4"
+            action="branchpos.pos_account_branch_tags_action"
+            groups="branches.group_branch_admin"/> -->
+</odoo>

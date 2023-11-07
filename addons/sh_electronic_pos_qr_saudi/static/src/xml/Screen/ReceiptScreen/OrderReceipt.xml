@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-extend="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt')]" position='replace'>
+            <t t-if='env.pos.config.display_qr_code'>
+                <div class="pos-receipt sh_pos_receipt">
+		            <t t-if="receipt.company.logo">
+		                <img class="sh-pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo" />
+		            </t>
+                    	<!-- company address -->
+					   <div class="sh_address">
+		                <t t-if="receipt.company.street">
+		                    <div>
+		                        <t t-esc="receipt.company.street" />
+		                        <t t-if='receipt.company.city'>
+		                            <t t-esc='receipt.company.city' />
+		                        </t>
+		                        <t t-if='receipt.company.zip'>
+		                            <t t-esc='receipt.company.zip' />
+		                        </t>
+		                    </div>
+		                </t>
+		                <div class='sh-company-name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <h5>
+		                    	<t t-if="env and env.pos and env.pos.company and env.pos.company.sh_arabic_name">
+		                    		<t t-esc='env.pos.company.sh_arabic_name'></t>
+		                    	</t>
+		                        <!-- <t t-esc='receipt.company.sh_arabic_name'></t> -->
+		                    </h5>
+		                </div>
+		                <div clas='arabic_name' t-if='env.pos.config.sh_display_arabic_address'>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street'>
+		                        <t t-esc='env.pos.company.arabic_street' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_street2'>
+		                        <t t-esc='env.pos.company.arabic_street2' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_city'>
+		                        <t t-esc='env.pos.company.arabic_city' />
+		                        ,
+		                    </t>
+		                    <t t-if='env and env.pos and env.pos.company and env.pos.company.arabic_zip'>
+		                        <t t-esc='env.pos.company.arabic_zip' />
+		                        ,
+		                    </t>
+		                </div>
+		                <t t-if="!receipt.header_html and receipt.header">
+		                    <div style="white-space:pre-line">
+		                        <t t-esc="receipt.header" />
+		                    </div>
+		                </t>
+		            </div>
+					<!-- company address -->
+					<!--
+		            <t t-if="!receipt.company.logo">
+		                <h2 class="pos-receipt-center-align">
+		                    <t t-esc="receipt.company.name" />
+		                </h2>
+		            </t>
+		            <div class='sh-company-name'>
+		                <h5>
+		                    <t t-esc='receipt.company.name'></t>
+		                </h5>
+		            </div> -->
+
+		            <br />
+
+		            <div class='pos-receipt-header'>
+		                <table class='sh-receipt-header'>
+		                <!-- <tbody> -->
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">CR No. </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span class="sh_receipt_header_fix_width">
+		                                    <t t-if='receipt.company.company_registry'>
+		                                        <t t-esc='receipt.company.company_registry' />
+		                                    </t>
+		                                    <t t-else=''>
+		                                        -
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">رقم السجل التجاري</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">VAT Reg No. </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span class="sh_receipt_header_fix_width">
+		                                    <t t-if='receipt.company.vat'>
+		                                        <t t-esc='receipt.company.vat' />
+		                                    </t>
+		                                    <t t-else="">
+		                                        -
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">الرقم الضريبي</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">Shop name </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span class="sh_receipt_header_fix_width">
+		                                    <t t-if='env.pos.config.name'>
+		                                        <t t-esc='env.pos.config.name'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span class="sh_receipt_header_fix_width">اسم المحل</span>
+		                            </td>
+		                        </tr>
+		                        <t t-if="env and env.pos and env.pos.get_order() and env.pos.get_order().get_refunded_order_ref() and env.pos.get_order().getHasRefundLines() and env.pos.get_order().get_refunded_order_ref().length > 0">
+		                        	<tr>
+			                            <td class="sh_text_left sh_width_28">
+			                                <span class="sh_receipt_header_fix_width">Simplified Invoiced Reference </span>
+			                            </td>
+			                            <td class="sh_text_center sh_width_3">
+			                                <span class="sh_separator">:</span>
+			                            </td>
+			                            <td class="sh_text_center sh_width_38">
+			                                <span class="sh_receipt_header_fix_width">
+			                                    <t t-if='env.pos.get_order().get_refunded_order_ref().length > 0'>
+			                                    	<t t-foreach = "env.pos.get_order().get_refunded_order_ref()" t-as="each_ref" t-key="each_ref">
+	 			                                        <t t-esc='each_ref'></t>,
+			                                    	</t>
+			                                    </t>
+			                                </span>
+			                            </td>
+			                            <td class="sh_text_center sh_width_3">
+			                                <span class="sh_separator">:</span>
+			                            </td>
+			                            <td class="sh_text_right sh_width_28">
+			                                <span class="sh_receipt_header_fix_width">مرجع مبسط مفوتر</span>
+			                            </td>
+			                        </tr>
+		                        </t>
+		                    <!-- </tbody> -->
+		                </table>
+		            </div>
+		            <t t-if='env.pos.config.qr_code_setting == "top"'>
+		            	<div id='qr_image' style="text-align: center; margin: 10px"></div>
+		                <!-- <div id='qr_image' style="text-align: center; margin: 10px"></div> -->
+		            </t>
+		            <div class="sh_invoice_header" style='text-align:center;'>
+		            	<t t-if="env and env.pos and env.pos.get_order() and env.pos.get_order().get_refunded_order_ref() and env.pos.get_order().getHasRefundLines() and env.pos.get_order().get_refunded_order_ref().length > 0">
+		            		Simplified Credit Note - مذكرة ائتمان مبسطة
+		            	</t>
+		            	<t t-else="">
+			            	Simplified Tax Invoice - فاتورة ضريبية مبسطة
+		            	</t>
+		           	</div>
+		            <div class='pos-invoice-header'>
+		                <table class='pos-invoice-content sh-receipt-header'>
+		                    <!-- <tbody> -->
+		                        <tr>
+		                            <td class="sh_text_left sh_invoice_width_24">
+		                                <span>Invoice No   </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_invoice_width_44">
+		                                <span>
+		                                    <t t-if='receipt.name'>
+		                                        <t t-esc='receipt.name' />
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_invoice_width_24">
+		                                <span>رقم الفاتورة</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Date </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.date'>
+		                                        <t t-esc='receipt.date.localestring'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>التاريخ</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Cashier </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.cashier'>
+		                                    	<t t-set="cashier" t-value="receipt.cashier"/>
+		                                        <t t-esc='cashier'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>البائع</span>
+		                            </td>
+		                        </tr>
+		                        <t t-if='receipt.table'>
+		                            <tr>
+		                                <td class="sh_text_left sh_width_28">
+		                                    <span>Table Name </span>
+		                                </td>
+		                                <td class="sh_text_center sh_width_3">
+		                                    <span class="sh_separator">:</span>
+		                                </td>
+		                                <td class="sh_text_center sh_width_38">
+		                                    <span>
+		                                        <t t-esc='receipt.table'></t>
+		                                    </span>
+		                                </td>
+		                                <td class="sh_text_center sh_width_3">
+		                                    <span class="sh_separator">:</span>
+		                                </td>
+		                                <td class="sh_text_right sh_width_28">
+		                                    <span>اسم الطاولة</span>
+		                                </td>
+		                            </tr>
+		                        </t>
+		                       <!--
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Customer </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.partner'>
+		                                        <t t-esc='receipt.partner.name'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>العميل</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Mobile </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.partner'>
+		                                        <t t-if='receipt.partner.mobile'>
+		                                            <t t-esc='receipt.partner.mobile'></t>
+		                                        </t>
+		                                        <t t-else=''>
+		                                            -
+		                                        </t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>الجوال</span>
+		                            </td>
+		                        </tr>
+								<tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Customer Vat No. </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.partner'>
+		                                        <t t-if='receipt.partner.vat'>
+		                                            <t t-esc='receipt.partner.vat'></t>
+		                                        </t>
+		                                        <t t-else=''>
+		                                            -
+		                                        </t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span> رقم ضريبة القيمة المضافة للعميل </span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Address </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.partner'>
+		                                        <t t-if='receipt.partner.street'>
+		                                            <t t-esc='receipt.partner.address'></t>
+
+		                                        </t>
+		                                        <t t-else=''>
+		                                            -
+		                                        </t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>عنوان</span>
+		                            </td>
+		                        </tr> -->
+		                    <!-- </tbody> -->
+		                </table>
+		            </div>
+
+		            <div class='sh-orderline-header '>
+		                <table class='orderline-tbl sh_orderline_table'>
+		                    <!-- <thead> -->
+		                        <th class="sh_orderline_width_24 sh_text_left">
+		                            <span style="padding: 5px 0px;line-height: 20px;">المبلغ</span>
+		                            <br />
+		                            <span style="padding: 5px 0px;">Amount</span>
+		                        </th>
+		                        <th class="sh_orderline_width_16 sh_text_center">
+		                            <span style="padding: 5px 0px;line-height: 20px;">الكمية </span>
+		                            <br />
+		                            <span style="padding: 5px 0px;">Qty.</span>
+		                        </th>
+		                        <th class="sh_orderline_width_20 sh_text_center">
+		                            <span style="padding: 5px 0px;line-height: 20px;"> السعر </span>
+		                            <br />
+		                            <span style="padding: 5px 0px;"> Price </span>
+		                        </th>
+		                        <th class="sh_orderline_width_40 sh_text_right">
+		                            <span style="padding: 5px 0px;line-height: 20px;"> اسم الصنف </span>
+		                            <br />
+		                            <span style="padding: 5px 0px;">Item Name</span>
+		                        </th>
+		                    <!-- </thead> -->
+		                    <!-- <tbody> -->
+		                        <tr t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+		                            <td class="sh_text_left sh_orderline_width_22">
+		                                <span t-esc="env.pos.format_currency(line.price_display)" />
+		                            </td>
+		                            <td class="sh_text_center sh_orderline_width_14">
+		                                <span t-esc="line.quantity" />
+		                            </td>
+		                            <td class="sh_text_center sh_orderline_width_20">
+		                                <span t-esc="env.pos.format_currency(line.price)" />
+		                            </td>
+		                            <td class="sh_text_right sh_orderline_width_44">
+		                                <t t-esc="line.product_name_wrapped[0]" />
+		                                <WrappedProductNameLines line="line" />
+		                                <div class="sh_discount" t-if='line.discount'>
+		                                    With a
+		                                    <t t-esc="line.discount" />
+		                                    % Discount
+		                                </div>
+		                                <t t-if='env.pos.config.sh_display_arabic_name'>
+		                                    <t t-if='line.sh_arabic_name'>
+		                                        <div>
+		                                            <t t-esc="line.sh_arabic_name" />
+		                                        </div>
+		                                    </t>
+		                                </t>
+		                                <div style="margin-top: 3px;">
+		                                    <t t-if='line.line_note'>
+		                                        <span>
+		                                            <t t-esc="line.line_note" />
+		                                        </span>
+		                                        <span class="sh_edit_icon">
+		                                            <i class='fa fa-edit' style='font-weight: bold;' />
+		                                        </span>
+		                                    </t>
+		                                </div>
+		                                <div style="margin-top: 3px;">
+		                                    <t t-if="line.customer_note">
+		                                        <div class="pos-receipt-left-padding pos-receipt-customer-note">
+		                                            <t t-esc="line.customer_note" />
+		                                            <span class="sh_edit_icon">
+		                                                <i class='fa fa-tag' style='font-weight: bold;' />
+		                                            </span>
+		                                        </div>
+		                                    </t>
+		                                </div>
+		                            </td>
+		                        </tr>
+		                    <!-- </tbody> -->
+		                </table>
+		            </div>
+		            <div class='pos-amount-content'>
+		                <table class='sh-amount-content sh-receipt-header'>
+		                    <!-- <tbody> -->
+							<!--
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Total Before Discount </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-esc='env.pos.format_currency(receipt.total_without_tax)'></t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>الإجمالي قبل الخصم</span>
+		                            </td>
+		                        </tr> -->
+
+							<!--
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Total Discount Value </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.total_discount'>
+		                                    	<t t-set="total_discount" t-value="env.pos.format_currency(receipt.total_discount.toFixed(2))"></t>
+		                                        <t t-esc='total_discount'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>إجمالي الخصم</span>
+		                            </td>
+		                        </tr>
+		                        -->
+
+
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Total After Discount </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <t t-if='receipt.total_discount'>
+		                                        <t t-esc='env.pos.format_currency((receipt.total_without_tax - receipt.total_discount).toFixed(2))'></t>
+		                                    </t>
+		                                    <t t-else=''>
+		                                        <t t-esc='env.pos.format_currency(receipt.total_without_tax)'></t>
+		                                    </t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span> الإحمالي قبل الضريبة</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>VAT </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                	<t t-set="total_tax" t-value="env.pos.format_currency(receipt.total_tax)"></t>
+		                                    <t t-esc='total_tax'></t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>قيمة الضريبة</span>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>NET AMOUNT </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                	<t t-set="total_with_tax" t-value="env.pos.format_currency(receipt.total_with_tax.toFixed(2))"/>
+		                                    <t t-esc='total_with_tax'></t>
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>الصافي</span>
+		                            </td>
+		                        </tr>
+		                    <!-- </tbody> -->
+		                </table>
+		            </div>
+
+		            <div class='sh-change'>
+		                <table class='sh-change-content sh-receipt-header'>
+		                    <!-- <tbody> -->
+		                        <tr t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>
+		                                    <t t-esc="line.name" />
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                    <span t-esc="env.pos.format_currency_no_symbol(line.amount)" />
+
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <t t-if='line.sh_payment_method_arabic_name'>
+		                                    <span>
+		                                        <t t-esc='line.sh_payment_method_arabic_name' />
+		                                    </span>
+		                                </t>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <td class="sh_text_left sh_width_28">
+		                                <span>Change</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_38">
+		                                <span>
+		                                	<t t-set="change" t-value="env.pos.format_currency(receipt.change)"/>
+		                                    <span t-esc="change" />
+		                                </span>
+		                            </td>
+		                            <td class="sh_text_center sh_width_3">
+		                                <span class="sh_separator">:</span>
+		                            </td>
+		                            <td class="sh_text_right sh_width_28">
+		                                <span>الباقي</span>
+		                            </td>
+		                        </tr>
+		                    <!-- </tbody> -->
+		                </table>
+		            </div>
+
+
+
+		            <div t-if="!receipt.footer_html and receipt.footer" class="pos-receipt-center-align" style="white-space:pre-line">
+		                <t t-esc="receipt.footer" />
+		                <br />
+		            </div>
+		            <t t-if='env.pos.config.qr_code_setting == "bottom"'>
+		                <br />
+		                <div id='qr_image' style="text-align: center; margin: 10px"></div>
+		                <!-- <div id='qr_image' style="text-align: center; margin: 10px"></div> -->
+		            </t>
+		            <div class="after-footer"></div>
+		            <div class="pos-receipt-order-data"></div>
+		        </div>
+            </t>
+            <t t-else=''>
+                <div class="pos-receipt">
+		            <t t-if="receipt.company.logo">
+		                <img class="pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo"/>
+		            </t>
+		            <t if="receipt.is_gcc_country">
+		                <div t-if="receipt.qr_code" id="qrcode" class="pos-receipt-logo"/>
+		                <br/>
+		            </t>
+		            <t t-if="!receipt.company.logo">
+		                <h2 class="pos-receipt-center-align">
+		                    <t t-esc="receipt.company.name" />
+		                </h2>
+		                <br/>
+		            </t>
+		            <div class="pos-receipt-contact">
+		                <t t-if="receipt.company.contact_address">
+		                    <div><t t-esc="receipt.company.contact_address" /></div>
+		                </t>
+		                <t t-if="receipt.company.phone">
+		                    <div>Tel:<t t-esc="receipt.company.phone" /></div>
+		                </t>
+		                <t t-if="receipt.company.vat">
+		                    <div><t t-esc="receipt.company.vat_label"/>:<t t-esc="receipt.company.vat" /></div>
+		                </t>
+		                <t t-if="receipt.company.email">
+		                    <div><t t-esc="receipt.company.email" /></div>
+		                </t>
+		                <t t-if="receipt.company.website">
+		                    <div><t t-esc="receipt.company.website" /></div>
+		                </t>
+		                <t t-if="receipt.header_html">
+		                    <t t-raw="receipt.header_html" />
+		                </t>
+		                <t t-if="!receipt.header_html and receipt.header">
+		                    <div style="white-space:pre-line"><t t-esc="receipt.header" /></div>
+		                </t>
+		                <t t-if="receipt.cashier">
+		                    <div class="cashier">
+		                        <div>--------------------------------</div>
+
+
+		                        	<div t-if="receipt.is_gcc_country" t-translation="off">
+						                <div>Served by/خدم بواسطة <t t-esc="receipt.cashier"/></div>
+						            </div>
+						            <div t-else="">
+						            	Served by <t t-esc="receipt.cashier" />
+						            </div>
+
+		                    </div>
+		                </t>
+		            </div>
+		            <br /><br />
+					<t t-if="receipt.is_gcc_country">
+		                <div class="pos-receipt-header">
+		                    <span id="title_english">Simplified Tax Invoice</span>
+		                </div>
+		                <div class="pos-receipt-header">
+		                    <span id="title_arabic">فاتورة ضريبية مبسطة</span>
+		                </div>
+		            </t>
+		            <!-- Orderlines -->
+					<br /><br />
+		            <div class="orderlines">
+		                <t t-call="OrderLinesReceipt"/>
+		            </div>
+
+		            <!-- Subtotal -->
+
+		            <t t-if="!isTaxIncluded">
+		                <div class="pos-receipt-right-align">--------</div>
+		                <br/>
+		                <div t-if="receipt.is_gcc_country" t-translation="off">
+			                Subtotal/الإجمالي الفرعي
+			                <span t-esc="env.pos.format_currency(receipt.subtotal)" class="pos-receipt-right-align"/>
+			            </div>
+		                <div t-else="">Subtotal<span t-esc="env.pos.format_currency(receipt.subtotal)" class="pos-receipt-right-align"/></div>
+		                <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
+		                    <div class="responsive-price">
+		                        <t t-esc="tax.name" />
+		                        <span t-esc='env.pos.format_currency_no_symbol(tax.amount)' class="pos-receipt-right-align"/>
+		                    </div>
+		                </t>
+		            </t>
+
+		            <!-- Total -->
+		            <div class="pos-receipt-right-align">--------</div>
+		            <br/>
+
+		            <div t-if="receipt.is_gcc_country" class="pos-receipt-amount pos-receipt-amount-arabic" t-translation="off">
+		                TOTAL/الإجمالي
+		                <span t-esc="env.pos.format_currency(receipt.total_with_tax)" class="pos-receipt-right-align"/>
+		            </div>
+
+		            <div t-else="" class="pos-receipt-amount">
+		                TOTAL
+		                <span t-esc="env.pos.format_currency(receipt.total_with_tax)" class="pos-receipt-right-align"/>
+		            </div>
+		            <t t-if="receipt.total_rounded != receipt.total_with_tax">
+		            	<div t-if="receipt.is_gcc_country" class="pos-receipt-amount pos-receipt-amount-arabic" t-translation="off">
+			                Rounding/التقريب
+			                <span t-esc="env.pos.format_currency(receipt.rounding_applied)" class="pos-receipt-right-align"/>
+			            </div>
+		                <div t-else="" class="pos-receipt-amount">
+		                  	Rounding
+		                	<span t-esc='env.pos.format_currency(receipt.rounding_applied)' class="pos-receipt-right-align"/>
+		                </div>
+		                <div t-if="receipt.is_gcc_country" class="pos-receipt-amount pos-receipt-amount-arabic" t-translation="off">
+			               To Pay/للسداد
+			               <span t-esc="env.pos.format_currency(receipt.total_rounded)" class="pos-receipt-right-align"/>
+			           </div>
+		                <div t-else="" class="pos-receipt-amount">
+		                  To Pay
+		                 <span t-esc='env.pos.format_currency(receipt.total_rounded)' class="pos-receipt-right-align"/>
+		              </div>
+		            </t>
+		            <br/><br/>
+
+		            <!-- Payment Lines -->
+
+		            <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+		                <div>
+		                    <t t-esc="line.name" />
+		                    <span t-esc="env.pos.format_currency_no_symbol(line.amount)" class="pos-receipt-right-align"/>
+		                </div>
+		            </t>
+		            <br/>
+
+					<div t-if="receipt.is_gcc_country" class="pos-receipt-amount receipt-change pos-receipt-amount-arabic" t-translation="off">
+		                CHANGE/الباقي
+		                <span t-esc="env.pos.format_currency(receipt.change)" class="pos-receipt-right-align"/>
+		            </div>
+
+		            <div t-else="" class="pos-receipt-amount receipt-change">
+		                CHANGE
+		                <span t-esc="env.pos.format_currency(receipt.change)" class="pos-receipt-right-align"/>
+		            </div>
+		            <br/>
+
+		            <!-- Extra Payment Info -->
+
+		            <t t-if="receipt.total_discount">
+		            	<div t-if="receipt.is_gcc_country" t-translation="off">
+			               Discounts/الخصومات
+			               <span t-esc="env.pos.format_currency(receipt.total_discount)" class="pos-receipt-right-align"/>
+			           </div>
+		                <div t-else="">
+		                    Discounts
+		                    <span t-esc="env.pos.format_currency(receipt.total_discount)" class="pos-receipt-right-align"/>
+		                </div>
+		            </t>
+		            <t t-if="isTaxIncluded">
+		                <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
+		                    <div>
+		                        <t t-esc="tax.name" />
+		                        <span t-esc="env.pos.format_currency_no_symbol(tax.amount)" class="pos-receipt-right-align"/>
+		                    </div>
+		                </t>
+
+		                <div t-if="receipt.is_gcc_country" t-translation="off">
+			               Total Taxes/إجمالي الضرائب
+			               <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
+			           </div>
+		                <div t-else="">
+		                    Total Taxes
+		                    <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
+		                </div>
+		            </t>
+
+		            <div class="before-footer" />
+
+		            <!-- Footer -->
+		            <div t-if="receipt.footer_html"  class="pos-receipt-center-align">
+		                <t t-raw="receipt.footer_html" />
+		            </div>
+
+		            <div t-if="!receipt.footer_html and receipt.footer"  class="pos-receipt-center-align" style="white-space:pre-line">
+		                <br/>
+		                <t t-esc="receipt.footer" />
+		                <br/>
+		                <br/>
+		            </div>
+
+		            <div class="after-footer">
+		                <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.ticket">
+		                    <t t-if="line.ticket">
+		                        <br />
+		                        <div class="pos-payment-terminal-receipt">
+		                            <t t-raw="line.ticket" />
+		                        </div>
+		                    </t>
+		                </t>
+		            </div>
+
+		            <br/>
+		            <div class="pos-receipt-order-data">
+		                <div><t t-esc="receipt.name" /></div>
+		                <t t-if="receipt.date.localestring">
+		                    <div><t t-esc="receipt.date.localestring" /></div>
+		                </t>
+		                <t t-else="">
+		                    <div><t t-esc="receipt.date.validation_date" /></div>
+		                </t>
+		            </div>
+		        </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

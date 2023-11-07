@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Shared Attachment Form View -->
+    <record id="custom_ir_attachment_form" model="ir.ui.view">
+        <field name="name">custom.ir.attachment.form</field>
+        <field name="model">ir.attachment</field>
+        <field name="arch" type="xml">
+            <form create="false" string="Ir Attachment Custom">
+                <sheet>
+                    <group>
+                        <field name="name" readonly="context.get('shared_with_me_attachment', False) or context.get('shared_attachment', False)"/>
+                        <field name="datas" readonly="1" filename="name"/>
+                        <field name="shared_user_ids" widget="many2many_tags" invisible="context.get('shared_with_me_attachment', False)"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Shared Attachment Tree View -->
+	<record id="custom_ir_attachment_view_tree" model="ir.ui.view">
+		<field name="name">custom.ir.attachment.view.tree</field>
+		<field name="model">ir.attachment</field>
+		<field name="arch" type="xml">
+			<tree create="false">
+				<field name="name"/>
+				<field name="shared_user_ids" widget="many2many_tags" invisible="context.get('shared_with_me_attachment', False)"/>
+				<field name="create_uid"/>
+			</tree>
+		</field>
+	</record>
+	<!-- Shared Attachment search view -->
+    <record id="view_shared_attachment_custom_filter" model="ir.ui.view">
+        <field name="name">view.shared.attachment.custom.filter</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_uid']" position="after">
+                <field name="res_model"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                    <filter name="document_model" string="Model" domain="[]" context="{'group_by': 'res_model'}"/>
+            </xpath>
+        </field>
+    </record>
+    <!--Shared Attchment Action-->
+    <record id="action_shared_attachment_view" model="ir.actions.act_window">
+		<field name="name">Shared Attachments</field>
+		<field name="res_model">ir.attachment</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('shared_user_ids','!=', False),('create_uid','=',uid)]</field>
+		<field name="context">{'shared_attachment':True}</field>
+	</record>
+    
+    <record id="action_my_attachment_view" model="ir.actions.act_window">
+		<field name="name">My Attachments</field>
+		<field name="res_model">ir.attachment</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('create_uid','=',uid)]</field>
+	</record>
+	
+	<record id="action_shared_with_me_attachment_view" model="ir.actions.act_window">
+		<field name="name">Shared with Me</field>
+		<field name="res_model">ir.attachment</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('shared_user_ids','=', uid)]</field>
+		<field name="context">{'shared_with_me_attachment':True}</field>
+	</record>
+	
+    <menuitem name="Attachments"
+        id="menu_attachment"/>
+
+    <menuitem id="menu_my_attachment"
+        action="action_my_attachment_view"
+        parent="menu_attachment" 
+        name="My Attachments" 
+        sequence="10"/>
+        
+	<menuitem id="menu_share_attachment"
+        action="action_shared_attachment_view"
+        parent="menu_attachment" 
+        name="Shared by Me" 
+        sequence="11"/>
+        
+    <menuitem id="menu_share_with_me_attachment"
+        action="action_shared_with_me_attachment_view"
+        parent="menu_attachment" 
+        name="Shared with me" 
+        sequence="12"/>
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_attachment" inherit_id="portal.portal_my_home" priority="20" name="Show Shared Documents" customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="after">
+            <div class="oe_structure"/>
+            <h3 style="margin-top : 3%">Shared Documents</h3>
+            <div class="o_portal_docs list-group" style="overflow-y: auto; height:200px;">
+                <t t-foreach="models" t-as="model">
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title" t-value="model[0]"/>
+                        <t t-set="url" t-value="'/my/docs/'+model[1]"/>
+                        <t t-set="placeholder_count" t-value="model[0] +'_count'"/>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+    
+    <template id="portal_shared_documents">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Shared Documents</t>
+            </t>
+            <t t-if="not details">
+                <p>Currently record not found for your account.</p>
+            </t>
+            <div style="overflow-y: auto; height:400px;">
+                <t t-if="details" t-call="portal.portal_table">
+                    <thead style="position: sticky; top: 0;">
+                        <tr class="active">
+                            <th style="position: sticky; top: 0;">Document Name</th>
+                            <th style="position: sticky; top: 0;">Owner Name</th>
+                            <th style="position: sticky; top: 0;">Create Date</th>
+                            <th class="text-right" style="position: sticky; top: 0;">Downlod Now</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="details" t-as="data">
+                            <tr class="active">
+                                <td><t t-esc="data[0]"/></td>
+                                <td><t t-esc="data[1]"/></td>
+                                <td><t t-esc="data[2]"/></td>
+                                <t t-set="user" t-value="uid"/>
+                                <td class="text-right"><a t-attf-href="/web/content/#{data[3]}?download=1&amp;portal={{user}}" role="button"><span class="fa fa-download"/></a></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </div>
+        </t>
+    </template>
+    
+    <template id="portal_my_home_menu_shared_doc" name="Portal layout : Shared Documents" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'Shared_Doc'" t-attf-class="breadcrumb-item #{'active ' if not Shared_Doc else ''}">
+                <t t-esc="page_name_real"><em>Shared Document</em></t>
+            </li>
+        </xpath>
+    </template>
+    
+</odoo>

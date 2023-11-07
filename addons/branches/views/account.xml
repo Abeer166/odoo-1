@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_account_accrued_orders_wizard_branch">
+            <field name="name">branch.account.accrued.orders.wizard</field>
+            <field name="model">account.accrued.orders.wizard</field>
+            <field name="inherit_id" ref="account.view_account_accrued_orders_wizard"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//field[@name='journal_id']" position="before">
+                        <field name="is_branch"  invisible="1"/>
+                        <field name="branch_id" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'invisible': [('is_branch', '=',False)],'required': [('is_branch', '=',True)]}"/>
+                  </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_invoice_tree_branch">
+            <field name="name">account.move.tree.branch</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='name']" position="after">
+                <field name="is_branch"  invisible="1"/>
+                <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_invoice_filter_branch">
+            <field name="name">account.move.filter.branch</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+              <xpath expr="//filter[@name='salesperson']" position="after">
+                  <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_move_line_tree_branch">
+            <field name="name">account.move.line.branch.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                <field name="is_branch"  invisible="1"/>
+                    <field name="branch_id"  attrs="{'invisible': [('is_branch', '=',False)],'readonly' : [('parent_state', '=' , 'posted')]}" />
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)],'readonly' : [('parent_state', '=' , 'posted')]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)],'readonly' : [('parent_state', '=' , 'posted')]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)],'readonly' : [('parent_state', '=' , 'posted')]}" optional="hide"/>
+                 </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_move_line_form_branch">
+            <field name="name">account.move.line.branch.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_id']" position="before">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id"  force_save="1" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'invisible': [('is_branch', '=',False)],'readonly' : [('parent_state', '=' , 'posted')]}"  groups="branches.group_branch_account_move_line"/>
+                    <field name="branch_group_id" force_save="1" invisible="1"/>
+                    <field name="branch_type_id" force_save="1" invisible="1"/>
+                    <field name="branch_state_id" force_save="1" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_account_move_line_filter_branch" model="ir.ui.view">
+            <field name="name">account.move.line.tree.filter</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="model">account.move.line</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                <field name="is_branch"  invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+                <xpath expr="//filter[@name='group_by_move']" position="after">
+                  <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_move_tree_branch" model="ir.ui.view">
+            <field name="name">account.move.tree</field>
+            <field name="inherit_id" ref="account.view_move_tree"/>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_form_branch_account" model="ir.ui.view">
+            <field name="name">account.move.form.branch</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('type', '!=', 'private'), ('company_id', 'in', (False, company_id)),('branch_ids', 'in', (False, branch_id))]</attribute>
+                </xpath>
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]/field[@name='line_ids']/tree[1]/field[@name='account_id']" position="attributes">
+                <attribute name="domain">[('is_off_balance', '=', False),('deprecated', '=', False),'|','|', ('company_id', '=', 'company_id'),('company_id', '=', False),'|',('branch_ids', '=', parent.branch_id),('branch_ids', '=', False)]</attribute>
+              </xpath>
+                  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/label[1]" position="before">
+                    <field name="branch_readonly" invisible="1"/>
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_group_id" force_save="1" invisible="1"/>
+                    <field name="branch_type_id" force_save="1" invisible="1"/>
+                    <field name="branch_state_id" force_save="1" invisible="1"/>
+                    <label for="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                     <div name="branch_div" class="d-flex">
+                    <field name="branch_id" force_save="1" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'required': [('is_branch', '=',True)],'invisible': [('is_branch', '=',False)],'readonly': ['|',('branch_readonly','=',True),('state','!=','draft')]}" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                    </div>
+                    <label for="between_branches"  attrs="{'invisible': ['|',('is_branch', '=',False),('move_type', '!=','entry')]}" groups="branches.group_branch_account_move_line"/>
+                    <div name="between_branches_div" class="d-flex">
+                        <field name="between_branches" attrs="{'invisible': ['|',('is_branch', '=',False),('move_type', '!=','entry')]}" groups="branches.group_branch_account_move_line"/>
+                    </div>
+                  </xpath>
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='partner_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id"  optional="show"  attrs="{'required': [('is_branch', '=',True)], 'column_invisible': ['|',('parent.is_branch', '=',False),('parent.move_type', '!=', 'entry')]}" options="{'no_create':True,'no_edit':True}" groups="branches.group_branch_account_move_line"/>
+                    <field name="branch_group_id" force_save="1" invisible="1" />
+                    <field name="branch_type_id" force_save="1" invisible="1" />
+                    <field name="branch_state_id" force_save="1" invisible="1" />
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree[1]/field[@name='product_id']" position="attributes">
+                    <attribute name="domain">context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id), '|', ('branch_ids', '=', False), ('branch_ids', '=', parent.branch_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id), '|', ('branch_ids', '=', False), ('branch_ids', '=', parent.branch_id)]</attribute>
+              </xpath>
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='product_id']" position="after">
+                <field name="branch_id" force_save="1" invisible="1"/>
+                <field name="branch_group_id" force_save="1" invisible="1"/>
+                <field name="branch_type_id" force_save="1" invisible="1"/>
+                <field name="branch_state_id" force_save="1" invisible="1"/>
+              </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_move_filter_branch" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                </xpath>
+                <xpath expr="//filter[@name='partner']" position="after">
+                      <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                      <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                      <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                      <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    <record id="view_account_analytic_account_form" model="ir.ui.view">
+        <field name="name">analytic.analytic.account.form</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="analytic.view_account_analytic_account_form" />
+        <field name="arch" type="xml">                
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">['|',('company_id','=',company_id),('company_id','=',False),'|',('branch_ids', 'in', uid.branch_ids),('branch_ids', '=', False)]</attribute>
+            </xpath>
+            <field name="plan_id" position="after">
+                <field name="is_branch" invisible="1"/>
+                <field
+                    name="branch_ids" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" widget="many2many_tags" groups="branches.group_branch_manager" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+            </field>
+        </field>
+    </record>
+        <record id="view_account_payment_register_form_branch" model="ir.ui.view">
+            <field name="name">view.account.payment.register.form.branch</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" invisible="1" />
+                    <field name="branch_group_id" invisible="1"/>
+                    <field name="branch_type_id" invisible="1"/>
+                    <field name="branch_state_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_account_analytic_account_list_branch">
+            <field name="name">account.analytic.account.list.branch</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree[1]/field[@name='name']" position="after">
+                    <field name="is_branch"  invisible="1"/>
+                    <field name="branch_ids"  widget="many2many_tags" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_payment_search_branch" model="ir.ui.view">
+            <field name="name">account.payment.search.form.branch</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" string="Branch"  attrs="{'invisible': [('is_branch', '=',False)]}" />
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+              </xpath>
+              <xpath expr="//filter[@name='company']" position="after">
+                <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="view_bank_statement_search_branch" model="ir.ui.view">
+            <field name="name">account.bank.statement.search.form.branch</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_search"/>
+            <field name="arch" type="xml">
+              <xpath expr="//search[1]/field[@name='name']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" string="Branch"  attrs="{'invisible': [('is_branch', '=',False)]}" />
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+              </xpath>
+              <xpath expr="//filter[@name='journal']" position="after">
+                    <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                    <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                    <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="view_account_payment_tree_branch" model="ir.ui.view">
+            <field name="name">account.payment.branch.tree</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_bank_statement_tree_branch" model="ir.ui.view">
+            <field name="name">account.bank.statement.branch.tree</field>
+            <field name="inherit_id" ref="account.view_bank_statement_tree"/>
+            <field name="model">account.bank.statement</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" force_save="1"  attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                    <field name="branch_group_id" force_save="1"  attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id" force_save="1" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" force_save="1" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="branch_account_payment_form" model="ir.ui.view">
+            <field name="name">branch.account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">['|',('company_id','=',company_id),('company_id','=',False),'|',('branch_ids', '=', branch_id),('branch_ids', '=', False)]</attribute>
+                </xpath> 
+                <xpath expr="//field[@name='is_internal_transfer']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                        <field name="branch_id" force_save="1" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'required': [('is_branch', '=',True)],'readonly': [('state', '!=', 'draft')],'invisible': [('is_branch', '=',False)]}" options="{'no_create':True,'no_edit':True,'no_open':True}"/>
+                    <field name="branch_group_id" force_save="1" invisible="1"/>
+                    <field name="branch_type_id" force_save="1" invisible="1"/>
+                    <field name="branch_state_id" force_save="1" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+       
+      
+        <record id="branch_view_account_invoice_report_search" model="ir.ui.view">
+            <field name="name">branch.account.invoice.report.search</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <filter name="user" position="before">
+                    <field name="branch_id" string="Branch"  />
+                    <field name="branch_type_id" />
+                    <field name="branch_group_id" />
+                    <field name="branch_state_id" />
+                    <filter name="branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                    <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                    <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                    <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </filter>
+            </field>
+        </record>       
+
+     <!-- chart of account form and tree -->
+        <record model="ir.ui.view" id="branch_view_account_list_branch">
+            <field name="name">branch.account.account.list</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_type']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids"  attrs="{'invisible': [('is_branch', '=',False)]}" widget="many2many_tags" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>        
+        <record model="ir.ui.view" id="branch_view_account_form">
+            <field name="name">branch.account.account.form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='group_id']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids"  domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'invisible': [('is_branch', '=',False)]}" widget="many2many_tags" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="branch_view_account_search">
+            <field name="name">branch.view.account.search</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_type']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids"  attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+            <!-- Account Journal form and tree -->
+        <record model="ir.ui.view" id="branch_view_account_journal_tree">
+            <field name="name">branch.view.account.journal.tree</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids" attrs="{'invisible': [('is_branch', '=',False)]}"  widget="many2many_tags" groups="branches.group_branch_manager"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_branch_journal_form">
+            <field name="name">view.branch.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//form[1]/sheet[1]/group[1]" position="after">
+                      <group name="branch">
+                        <field name="is_branch"  invisible="1"/>
+                        <field name="branch_ids" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]" attrs="{'invisible': [('is_branch', '=',False)]}" widget="many2many_tags" groups="branches.group_branch_manager"/>
+                      </group>
+                  </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="setup_bank_account_wizard_branch">
+            <field name="name">branch.account.setup.bank.manual.config</field>
+            <field name="model">account.setup.bank.manual.config</field>
+            <field name="inherit_id" ref="account.setup_bank_account_wizard"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//field[@name='linked_journal_id']" position="after">
+                        <field name="branch_ids" domain="[('company_id', '=', company_id),('user_ids', '=', uid)]"  widget="many2many_tags" groups="branches.group_branch_manager" readonly="1"/>
+                  </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="branch_view_account_journal_search">
+            <field name="name">branch.view.account.journal.search</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search[1]/field[@name='name']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_ids"  attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+
+    </data>
+</odoo>
+

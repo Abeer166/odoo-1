@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_picking_form_inherit_branch" model="ir.ui.view">
+            <field name="name">view.picking.form.branch</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">                
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">['|',('company_id','=',company_id),('company_id','=',False),'|',('branch_ids', '=', branch_id),('branch_ids', '=', False)]</attribute>
+            </xpath>
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_id']" position="after">
+                <field name="is_branch" invisible="1"/>
+                    <field name="branch_type_id" invisible="1"/>
+                    <field name="branch_group_id" invisible="1"/>
+                <field name="branch_id" force_save="1" invisible="1"/>
+              </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                <field name="is_branch" invisible="1"/>
+                    <field name="branch_type_id" invisible="1"/>
+                    <field name="branch_group_id" invisible="1"/>
+                     <field name="branch_id" options="{'no_create':True,'no_edit':True,'no_open':True}" attrs="{'invisible': [('is_branch', '=',False)]}" force_save="1" invisible="1"/>
+                </xpath>
+                 <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="domain">['|','|',('company_id','=',company_id),('company_id','=',False),'|',('branch_id.user_ids', '=', uid),('branch_id', '=', False)]</attribute>
+              </xpath>
+            </field>
+        </record>
+
+        <record id="view_pickingtype_filter_branch" model="ir.ui.view">
+            <field name="name">stock.picking.type.filter.branch</field>
+            <field name="inherit_id" ref="stock.view_pickingtype_filter"/>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+                <xpath expr="//search[1]/field[@name='warehouse_id']" position="before">
+                     <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                </xpath>
+                <xpath expr="//filter[@name='groupby_warehouse_id']" position="before">
+                <filter name="by_branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_internal_search_branch" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search.branch</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="before">
+                     <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}"/>
+                </xpath>
+                <xpath expr="//filter[@name='status']" position="before">
+                <filter name="by_branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_type_tree_branch" model="ir.ui.view">
+            <field name="name">stock.picking.type.tree.branch</field>
+            <field name="inherit_id" ref="stock.view_picking_type_tree"/>
+            <field name="model">stock.picking.type</field>
+            <field name="arch" type="xml">
+              <xpath expr="//tree[1]/field[@name='name']" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id"   attrs="{'invisible': [('is_branch', '=',False)]}" options="{'no_create':True,'no_edit':True,'no_open':True}"  optional="show"/>
+                    <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_type_id"  attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                    <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+              </xpath>
+            </field>
+        </record>
+
+      
+
+        <record id="view_picking_type_form_branch" model="ir.ui.view">
+            <field name="name">view.stock.picking.type.branch</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="is_branch" invisible="1"/>
+                    <field name="branch_id" attrs="{'required': [('is_branch', '=',True)],'invisible': [('is_branch', '=',False)] }" options="{'no_create':True,'no_edit':True,'no_open':True}" />
+                    <field name="branch_group_id" invisible="1"/>
+                    <field name="branch_type_id" invisible="1"/>
+                    <field name="branch_state_id" invisible="1"/>
+                  <filter name="by_branch_id" string="Branch" context="{'group_by': 'branch_id'}"/>
+                  <filter name="branch_group_id" string="Branch Group" context="{'group_by': 'branch_group_id'}"/>
+                  <filter name="branch_type_id" string="Branch Business Type" context="{'group_by': 'branch_type_id'}"/>
+                  <filter name="branch_state_id" string="Branch State" context="{'group_by': 'branch_state_id'}"/>
+                </field>
+            </field>
+        </record>
+    <record id="view_stock_picking_tree_branch_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="is_branch" invisible="1"/>
+                <field name="branch_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="show"/>
+                <field name="branch_type_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                <field name="branch_group_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+                <field name="branch_state_id" attrs="{'invisible': [('is_branch', '=',False)]}" optional="hide"/>
+            </field>
+        </field>
+    </record>
+    <template id="branch_report_picking" inherit_id="stock.report_picking">
+        <xpath expr="//div[hasclass('page')]//div[3]//div[3]" position="after">
+            <div name="branch" t-if="o.branch_id" class="col-xs-3">
+                <strong>Branch:</strong>
+                <p t-field="o.branch_id.name"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="branch_report_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[hasclass('page')]/div/div[2]" position="after">
+            <div name="branch" t-if="o.branch_id" class="col-xs-3">
+                <strong>Branch:</strong>
+                <p t-field="o.branch_id.name"/>
+            </div>
+        </xpath>
+    </template>
+    </data>
+</odoo>

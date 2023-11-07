@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <report
+            id="route_report"
+            model="delivery.route"
+            string="Print Route Details"
+            report_type="qweb-pdf"
+            name="customer_route_management.route_report_template"
+            file="customer_route_management.route_report_template"
+            menu="False"
+        />
+
+    </data>
+</odoo>
