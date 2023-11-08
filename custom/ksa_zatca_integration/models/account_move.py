@@ -2,6 +2,7 @@ from cryptography.hazmat.backends import default_backend
 from odoo import api, fields, models, exceptions, tools
 from cryptography import x509
 from odoo.tools.float_utils import float_round
+from odoo.tools import mute_logger
 import lxml.etree as ET
 import binascii
 import requests
@@ -12,6 +13,9 @@ import uuid
 import json
 import math
 import os
+
+account_move_line_id_diff = 0 # last account_move_line id before installing this module
+phase_1_ending_date = fields.datetime.strptime("1/jan/2000", "%d/%b/%Y").date() # last day for phase 1 invoices.
 
 _logger = logging.getLogger(__name__)
 _zatca = logging.getLogger('Zatca Debugger for account.move :')
@@ -62,6 +66,7 @@ class AccountMove(models.Model):
     ksa_note = fields.Char(size=1000, required=0)
 
     # Never show these fields on front
+    is_zatca = fields.Boolean(related="company_id.is_zatca")
     zatca_unique_seq = fields.Char(readonly=1, copy=False)
     invoice_uuid = fields.Char('zatca uuid', readonly=1, copy=False)
     zatca_invoice_hash = fields.Char(readonly=1, copy=False)
@@ -268,6 +273,7 @@ class AccountMove(models.Model):
             raise exceptions.ValidationError(message.replace('::',''))
         return str(value)
 
+    @mute_logger('Zatca Debugger for account.move :')
     def create_xml_file(self, previous_hash=0, pos_refunded_order_id=0):
         amount_verification = 0  # for debug mode
         conf = self.company_id.sudo()
@@ -671,7 +677,7 @@ class AccountMove(models.Model):
 
             invoice_line_xml += '''
             <cac:InvoiceLine>
-                <cbc:ID>''' + str(invoice_line_id.id) + '''</cbc:ID>
+                <cbc:ID>''' + str(invoice_line_id.id - account_move_line_id_diff) + '''</cbc:ID>
                 <cbc:InvoicedQuantity unitCode="PCE">''' + str(bt_129) + '''</cbc:InvoicedQuantity>
                 <cbc:LineExtensionAmount currencyID="SAR">''' + str(bt_131) + '''</cbc:LineExtensionAmount>'''
             if invoice_line_id.discount: #line_allowance_charge:
@@ -1329,15 +1335,24 @@ class AccountMove(models.Model):
         self.zatca_hash_invoice_name = self.zatca_invoice_name.replace('.xml', '_hash.xml')
 
     def _compute_qr_code_str(self):
+        _zatca.info('_compute_qr_code_str')
         try:
+            if self.invoice_date <= phase_1_ending_date:
+                return super()._compute_qr_code_str()
             is_tax_invoice = 1 if self.l10n_sa_invoice_type == 'Standard' else 0
             if not self.zatca_onboarding_status:
-                self.l10n_sa_qr_code_str = "Tm8gcXIgY29kZS4="
+                self.l10n_sa_qr_code_str = ""
+                self.sa_qr_code_str = ""
             elif is_tax_invoice:
+                _zatca.info("is_tax_invoice:: %s", self.l10n_sa_invoice_type)
+                _zatca.info("zatca_hash_cleared_invoice:: %s", self.zatca_hash_cleared_invoice)
                 invoice = base64.b64decode(self.zatca_hash_cleared_invoice).decode()
+                _zatca.info("invoice:: %s", invoice)
                 invoice = invoice.replace('<?xml version="1.0" encoding="UTF-8"?>', '')
+                _zatca.info("invoice:: %s", invoice)
                 xml_file = ET.fromstring(invoice).getroottree()
                 qr_code_str = xml_file.xpath('//*[local-name()="ID"][text()="QR"]/following-sibling::*/*')[0].text
+                _zatca.info("qr_code_str:: %s", qr_code_str)
                 self.l10n_sa_qr_code_str = qr_code_str
                 self.sa_qr_code_str = qr_code_str
             else:
@@ -1351,7 +1366,8 @@ class AccountMove(models.Model):
                 self.compute_qr_code_str(signature_value, is_tax_invoice, bt_112, bt_110)
         except Exception as e:
             _logger.info("QR code can't be generated. " + str(e))
-            self.l10n_sa_qr_code_str = "emFpbiBpcmZhbiB3YWhlZWQ="
+            self.l10n_sa_qr_code_str = ""
+            self.sa_qr_code_str = ""
 
     def compute_qr_code_str(self, signature_value, is_tax_invoice, bt_112, bt_110):
         def get_qr_encoding(tag, field):
@@ -1364,40 +1380,44 @@ class AccountMove(models.Model):
             company_name_length_encoding = len(company_name_byte_array).to_bytes(length=1, byteorder='big')
             _zatca.info("company_name_length_encoding:: %s", company_name_length_encoding)
             return company_name_tag_encoding + company_name_length_encoding + company_name_byte_array
+        try:
+            for record in self:
+                qr_code_str = ''
+                if record.l10n_sa_confirmation_datetime and record.company_id.vat:
+                    seller_name_enc = get_qr_encoding(1, record.company_id.display_name)
+                    company_vat_enc = get_qr_encoding(2, record.company_id.vat)
+                    time_sa = fields.Datetime.context_timestamp(self.with_context(tz='Asia/Riyadh'), record.l10n_sa_confirmation_datetime)
+                    timestamp_enc = get_qr_encoding(3, self.invoice_datetime.strftime('%Y-%m-%dT%H:%M:%SZ'))
+                    # invoice_total_enc = get_qr_encoding(4, float_repr(abs(record.amount_total_signed), 2))
+                    invoice_total_enc = get_qr_encoding(4, str(bt_112))
+                    # total_vat_enc = get_qr_encoding(5, float_repr(abs(record.amount_tax_signed), 2))
+                    total_vat_enc = get_qr_encoding(5, str(bt_110))
 
-        for record in self:
-            qr_code_str = ''
-            if record.l10n_sa_confirmation_datetime and record.company_id.vat:
-                seller_name_enc = get_qr_encoding(1, record.company_id.display_name)
-                company_vat_enc = get_qr_encoding(2, record.company_id.vat)
-                time_sa = fields.Datetime.context_timestamp(self.with_context(tz='Asia/Riyadh'), record.l10n_sa_confirmation_datetime)
-                timestamp_enc = get_qr_encoding(3, self.invoice_datetime.strftime('%Y-%m-%dT%H:%M:%SZ'))
-                # invoice_total_enc = get_qr_encoding(4, float_repr(abs(record.amount_total_signed), 2))
-                invoice_total_enc = get_qr_encoding(4, str(bt_112))
-                # total_vat_enc = get_qr_encoding(5, float_repr(abs(record.amount_tax_signed), 2))
-                total_vat_enc = get_qr_encoding(5, str(bt_110))
+                    invoice_hash = get_qr_encoding(6, record.zatca_invoice_hash)
+                    ecdsa_signature = get_qr_encoding(7, signature_value)
 
-                invoice_hash = get_qr_encoding(6, record.zatca_invoice_hash)
-                ecdsa_signature = get_qr_encoding(7, signature_value)
+                    conf = self.company_id.sudo()
+                    _zatca.info("zatca_cert_public_key:: %s", conf.zatca_cert_public_key)
+                    cert_pub_key = base64.b64decode(conf.zatca_cert_public_key)
+                    _zatca.info("cert_pub_key:: %s", cert_pub_key)
+                    ecdsa_public_key = get_qr_encoding(8, cert_pub_key)
+                    if not is_tax_invoice:
+                        _zatca.info("zatca_cert_sig_algo:: %s", conf.zatca_cert_sig_algo)
+                        ecdsa_cert_value = get_qr_encoding(9, binascii.unhexlify(conf.zatca_cert_sig_algo))
 
-                conf = self.company_id.sudo()
-                _zatca.info("zatca_cert_public_key:: %s", conf.zatca_cert_public_key)
-                cert_pub_key = base64.b64decode(conf.zatca_cert_public_key)
-                _zatca.info("cert_pub_key:: %s", cert_pub_key)
-                ecdsa_public_key = get_qr_encoding(8, cert_pub_key)
-                if not is_tax_invoice:
-                    _logger.info("zatca_cert_sig_algo:: %s", conf.zatca_cert_sig_algo)
-                    ecdsa_cert_value = get_qr_encoding(9, binascii.unhexlify(conf.zatca_cert_sig_algo))
-
-                str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
-                _zatca.info("str_to_encode:: %s", str_to_encode)
-                str_to_encode += invoice_hash + ecdsa_signature + ecdsa_public_key
-                _zatca.info("str_to_encode:: %s", str_to_encode)
-                if not is_tax_invoice:
-                    str_to_encode += ecdsa_cert_value
-                qr_code_str = base64.b64encode(str_to_encode).decode()
-            record.l10n_sa_qr_code_str = qr_code_str
-            record.sa_qr_code_str = qr_code_str
+                    str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
+                    _zatca.info("str_to_encode:: %s", str_to_encode)
+                    str_to_encode += invoice_hash + ecdsa_signature + ecdsa_public_key
+                    _zatca.info("str_to_encode:: %s", str_to_encode)
+                    if not is_tax_invoice:
+                        str_to_encode += ecdsa_cert_value
+                    qr_code_str = base64.b64encode(str_to_encode).decode()
+                record.l10n_sa_qr_code_str = qr_code_str
+                record.sa_qr_code_str = qr_code_str
+        except Exception as e:
+            _logger.info("QR code can't be generated via compute_qr_code_str " + str(e))
+            self.l10n_sa_qr_code_str = ""
+            self.sa_qr_code_str = ""
 
     def zatca_response(self):
         return {
@@ -1452,8 +1472,9 @@ class AccountMove(models.Model):
         print('Done')
 
     def action_post(self):
+        conf = self.company_id.sudo()
         res = super().action_post()
-        if self.l10n_sa_invoice_type and self.move_type in ['out_invoice', 'out_refund']:
+        if self.l10n_sa_invoice_type and self.move_type in ['out_invoice', 'out_refund'] and conf.is_zatca:
             self.create_xml_file()
             if self.env.company.zatca_send_from_pos:
                 if not self.zatca_onboarding_status:

@@ -7,9 +7,9 @@
         <field type="xml" name="arch">
             <xpath expr="//button[@name='action_post']" position="replace">
                 <button name="print_einv_standard" type="object" string="Print E-invoice Standard" class="oe_highlight"
-                        attrs="{'invisible':[ '|', ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Standard')]}"/>
+                        attrs="{'invisible':[ '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Standard')]}"/>
                 <button name="print_einv_b2c" type="object" string="Print E-invoice Simplified" class="oe_highlight"
-                        attrs="{'invisible':[ '|', ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Simplified')]}"/>
+                        attrs="{'invisible':[ '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Simplified')]}"/>
                 <!--                groups="tax_reports.group_e_invoice_b2c"/>-->
             </xpath>
             <xpath expr="//field[@name='invoice_date']" position="after">

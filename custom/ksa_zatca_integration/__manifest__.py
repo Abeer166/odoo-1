@@ -12,12 +12,13 @@
     'license': 'OPL-1',
     'images': ['static/description/cover.png'],
     'category': 'Invoicing',
-    'version': '16.2',
+    'version': '16.2.1',
     'price': 590, 'currency': 'USD',
     'depends': ['account', 'sale', 'l10n_sa', 'purchase', 'account_debit_note'],
     'external_dependencies': {
         'python': ['cryptography', 'lxml', 'qrcode']
     },
+    "post_init_hook": "post_init_hook",
     'data': [
         'data/data.xml',
         'views/res_partner.xml',

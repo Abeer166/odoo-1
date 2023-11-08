@@ -1,8 +1,13 @@
+from ..models.account_move import account_move_line_id_diff
 from odoo import api, fields, models, exceptions
+from odoo.tools import mute_logger
 from datetime import timedelta
 import lxml.etree as ET
+import logging
 import base64
 import qrcode
+
+_zatca = logging.getLogger('Zatca Debugger for account.move :')
 
 
 class AccountMoveReport(models.Model):
@@ -50,6 +55,7 @@ class AccountMoveReport(models.Model):
         return ksa_2
 
     def get_bt_131(self, id):
+        id = str(int(id) - account_move_line_id_diff)
         invoice = base64.b64decode(self.zatca_invoice).decode()
         xml_file = ET.fromstring(invoice).getroottree()
         # LineExtensionAmount
@@ -59,6 +65,7 @@ class AccountMoveReport(models.Model):
         return bt_131.text
 
     def get_bt_136(self, id):
+        id = str(int(id) - account_move_line_id_diff)
         invoice = base64.b64decode(self.zatca_invoice).decode()
         xml_file = ET.fromstring(invoice).getroottree()
         # LineExtensionAmount
@@ -71,6 +78,7 @@ class AccountMoveReport(models.Model):
         return bt_136.text
 
     def get_ksa_11(self, id):
+        id = str(int(id) - account_move_line_id_diff)
         invoice = base64.b64decode(self.zatca_invoice).decode()
         xml_file = ET.fromstring(invoice).getroottree()
         # LineExtensionAmount
@@ -83,6 +91,7 @@ class AccountMoveReport(models.Model):
         return ksa_11.text
 
     def get_ksa_12(self, id):
+        id = str(int(id) - account_move_line_id_diff)
         invoice = base64.b64decode(self.zatca_invoice).decode()
         xml_file = ET.fromstring(invoice).getroottree()
         # LineExtensionAmount
@@ -108,6 +117,7 @@ class AccountMoveReport(models.Model):
             bt_120_text += x.text + ", "
         return bt_120_text[:-2]
 
+    @mute_logger('Zatca Debugger for account.move :')
     def get_qrcode(self):
         # qr = qrcode.QRCode(version=1,
         #                    box_size=10,
@@ -126,6 +136,7 @@ class AccountMoveReport(models.Model):
             raise exceptions.MissingError("Qr code can't be created with CCSID.")
 
         self._compute_qr_code_str()
+        _zatca.info("l10n_sa_qr_code_str:: %s", self.l10n_sa_qr_code_str)
         qr = qrcode.make(self.l10n_sa_qr_code_str)
         from PIL import Image
         import io
@@ -140,4 +151,5 @@ class AccountMoveReport(models.Model):
             img_str = base64.b64encode(buffered.getvalue())
             return img_str
 
+        _zatca.info("image_to_byte_array(qr).decode():: %s", image_to_byte_array(qr).decode())
         return "data:image/png;base64," + image_to_byte_array(qr).decode()

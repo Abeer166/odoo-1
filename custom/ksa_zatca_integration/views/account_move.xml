@@ -21,26 +21,27 @@
                     <field name="zatca_compliance_invoices_api" invisible="1"/>
                     <field name="zatca_onboarding_status" invisible="1"/>
                     <field name="zatca_status_code" invisible="1"/>
+                    <field name="is_zatca" invisible="1"/>
 
 <!--                    <button name="create_xml_file" type="object" string="Generate Zatca XML" class="oe_highlight"/>-->
 <!--                    <button name="create_xml_file" type="object" string="Generate Zatca XML" class="oe_highlight"-->
 <!--                            attrs="{'invisible':['|', ('state','!=','posted'), ('zatca_invoice_name','not in', [0, None, '', False])]}"/>-->
 
                     <button name="send_for_compliance" type="object" string="Send to Zatca for Compliance" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', ('state','!=','posted'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', True)]}"/>
+                            attrs="{'invisible':['|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', True)]}"/>
                     <button name="send_for_clearance" type="object" string="Send to Zatca for Clearance" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Standard'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', False)]}"/>
+                            attrs="{'invisible':['|', '|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Standard'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', False)]}"/>
                     <button name="send_for_reporting" type="object" string="Send to Zatca for Reporting" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Simplified'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', False)]}"/>
+                            attrs="{'invisible':['|', '|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('l10n_sa_invoice_type','!=', 'Simplified'), ('zatca_compliance_invoices_api','not in', [0, None, '', False]), ('zatca_onboarding_status','=', False)]}"/>
 <!--                    Resend in case of 400-->
                     <button name="send_for_compliance" type="object" string="ReSend to Zatca for Compliance" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', True), ('zatca_status_code','!=','400')]}"
+                            attrs="{'invisible':['|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('zatca_onboarding_status','=', True), ('zatca_status_code','!=','400')]}"
                             context="{'xml_generate': 1}"/>
                     <button name="send_for_clearance" type="object" string="ReSend to Zatca for Clearance" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', False), ('l10n_sa_invoice_type','!=', 'Standard'), ('zatca_status_code','!=','400')]}"
+                            attrs="{'invisible':['|', '|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('zatca_onboarding_status','=', False), ('l10n_sa_invoice_type','!=', 'Standard'), ('zatca_status_code','!=','400')]}"
                             context="{'xml_generate': 1}"/>
                     <button name="send_for_reporting" type="object" string="ReSend to Zatca for Reporting" class="oe_highlight"
-                            attrs="{'invisible':['|', '|', '|', ('state','!=','posted'), ('zatca_onboarding_status','=', False), ('l10n_sa_invoice_type','!=', 'Simplified'), ('zatca_status_code','!=','400')]}"
+                            attrs="{'invisible':['|', '|', '|', '|', ('is_zatca', '=', False), ('state','!=','posted'), ('zatca_onboarding_status','=', False), ('l10n_sa_invoice_type','!=', 'Simplified'), ('zatca_status_code','!=','400')]}"
                             context="{'xml_generate': 1}"/>
 
 <!--                    <button name="send_for_compliance" type="object" string="Send to Zatca for Compliance" class="oe_highlight"/>-->
@@ -70,15 +71,18 @@
                     <field name="invoice_date" invisible="1"/>
                 </field>
                 <field name="payment_reference" position="after">
-                    <field name="l10n_payment_means_code" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="l10n_payment_means_code"
+                           attrs="{'readonly': [('state', '!=', 'draft')], 'readonly': [('state', '!=', 'draft')]}"/>
                 </field>
                 <xpath expr="//notebook//field[@name='invoice_line_ids']" position="after">
-                    <p>If no tax is selected then tax category 'O' is applied, with tax exemption text as "Not subject to VAT".</p>
-                    <p>but tax must be selected.</p>
+                    <span attrs="{'invisible': [('is_zatca', '=', False)]}">
+                        <p>If no tax is selected then tax category 'O' is applied, with tax exemption text as "Not subject to VAT".</p>
+                        <p>but tax must be selected.</p>
+                    </span>
                 </xpath>
                 <xpath expr="//notebook" position="before">
 <!--                <xpath expr="//group[@id='header_right_group']" position="after">-->
-                    <group string="Zatca Fields">
+                    <group string="Zatca Fields" attrs="{'invisible': [('is_zatca', '=', False)]}">
                         <group>
                             <field name="l10n_sa_invoice_type" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="l10n_is_third_party_invoice" attrs="{'readonly': [('state', '!=', 'draft')]}"/>

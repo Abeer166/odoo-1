@@ -46,7 +46,7 @@ class ResCompany(models.Model):
     building_no = fields.Integer('Building Number', help="https://splonline.com.sa/en/national-address-1/")
     additional_no = fields.Char('Additional Number', help="https://splonline.com.sa/en/national-address-1/")
     district = fields.Char('District')
-    country_id_name = fields.Char(related="country_id.name")
+    country_id_name = fields.Char(related="partner_id.country_id.name")
 
     @api.constrains('building_no', 'zip')
     def constrains_brksa64(self):
