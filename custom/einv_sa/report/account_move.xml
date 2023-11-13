@@ -267,7 +267,7 @@
                         <td class="text-left"><span t-field="line.name"/></td> -->
 
 
-                        <td class="text-left"><span t-field="line.name"/></td>
+                        <td class="text-left"><span t-field="line.product_id"/></td>
                         <td><span t-field="line.quantity"/></td>
                         <td><span t-field="line.price_unit"/></td>
                         <td><span t-field="line.einv_amount_tax"/></td>
