@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--we hid total-orders from close sisoin and hide all other  information by style="display: none;" and we delete the estmaited and diffrence field  accept counted field -->
+
 <templates id="template" xml:space="preserve">
     <t t-name="ClosePosPopupAuto" t-inherit="point_of_sale.ClosePosPopup" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[@class='total-orders']" position="replace">
         </xpath>
         <xpath expr="//main" position="replace">
+
             <t t-if="env.pos.config.hide_closing">
                 <div class="body">
                     <div class="text-center">
@@ -12,65 +15,65 @@
                     </div>
                     <textarea placeholder="Notes" class="closing-notes" t-model="state.notes" />
                 </div>
+
+
             </t>
-            <t t-else="">
+
+
                 <main class="body">
                     <div class="payment-methods-overview">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Payment Method</th>
-                                    <th>Expected</th>
+                                    <th style="display: none;">Payment Method</th>
+                                    <th style="display: none;">Expected</th>
                                     <th style="width: 25%">Counted</th>
-                                    <th style="width: 20%">Difference</th>
+                                    <th style="display: none;">Difference</th>
                                 </tr>
                             </thead>
                             <t t-if="cashControl">
                                 <tbody>
                                     <tr>
-                                        <td t-esc="defaultCashDetails.name"/>
-                                        <td t-esc="env.pos.format_currency(defaultCashDetails.amount)"/>
+                                        <td t-esc="defaultCashDetails.name" style="display: none;"/>
+                                        <td t-esc="env.pos.format_currency(defaultCashDetails.amount)" style="display: none;"/>
                                         <td class="flex" t-on-input="() => this.handleInputChange(defaultCashDetails.id)">
                                             <input class="pos-input" type="number" t-model.number="state.payments[defaultCashDetails.id].counted"/>
                                             <div class="button icon" t-on-click="openDetailsPopup">
                                                 <i class="fa fa-calculator" role="img" title="Open the money details popup"/>
                                             </div>
                                         </td>
-                                        <td t-esc="env.pos.format_currency(state.payments[defaultCashDetails.id].difference)" t-att-class="{'warning': state.payments[defaultCashDetails.id].difference}"/>
                                     </tr>
                                 </tbody>
                                 <tbody class="cash-overview">
                                     <tr>
-                                        <td>Opening</td>
-                                        <td t-esc="env.pos.format_currency(defaultCashDetails.opening)"/>
+                                        <td style="display: none;">Opening</td>
+                                        <td t-esc="env.pos.format_currency(defaultCashDetails.opening)" style="display: none;"/>
                                     </tr>
                                     <tr t-foreach="defaultCashDetails.moves" t-as="move" t-key="move_index">
-                                        <td>
+                                        <td style="display: none;">
                                             <div class="flex">
                                                 <div class="cash-sign" t-esc="move.amount &lt; 0 ? '-' : '+'"/>
                                                 <t t-esc="move.name"/>
                                             </div>
-                                        </td>
-                                        <td t-esc="env.pos.format_currency(Math.abs(move.amount))"/>
+                                        </td >
+                                        <td t-esc="env.pos.format_currency(Math.abs(move.amount))" style="display: none;"/>
                                     </tr>
                                     <tr t-if="defaultCashDetails.payment_amount">
-                                        <td>
+                                        <td style="display: none;">
                                             <div class="flex">
                                                 <div class="cash-sign" t-esc="defaultCashDetails.payment_amount &lt; 0 ? '-' : '+'"/>
                                                 Payments in <t t-esc="defaultCashDetails.name"/>
                                             </div>
                                         </td>
-                                        <td t-esc="env.pos.format_currency(Math.abs(defaultCashDetails.payment_amount))"/>
+                                        <td t-esc="env.pos.format_currency(Math.abs(defaultCashDetails.payment_amount))" style="display: none;"/>
                                     </tr>
                                 </tbody>
                             </t>
                             <tbody t-if="otherPaymentMethods.length &gt; 0">
                                 <tr t-foreach="otherPaymentMethods" t-as="pm" t-key="pm.id">
-                                    <td t-esc="pm.name"/>
-                                    <td t-esc="env.pos.format_currency(pm.amount)"/>
-                                    <t t-set="_showDiff" t-value="_getShowDiff(pm)" />
+                                    <td t-esc="pm.name" style="display: none;"/>
+                                    <td t-esc="env.pos.format_currency(pm.amount)" style="display: none;"/>
                                     <td t-if="_showDiff" t-on-input="() => this.handleInputChange(pm.id)"><input class="pos-input" type="number" t-model.number="state.payments[pm.id].counted"/></td>
-                                    <td t-if="_showDiff" t-esc="env.pos.format_currency(state.payments[pm.id].difference)" t-att-class="{'warning': state.payments[pm.id].difference}"/>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,8 +85,6 @@
                         <textarea class="closing-notes" placeholder="Add a closing note..." t-model="state.notes"/>
                     </div>
                 </main>
-            </t>
-
         </xpath>
     </t>
 </templates>

@@ -91,7 +91,19 @@
             </field>
         </record>
 
+     <!--thise view hide "creat invoice " button from qutation creat invoice and view just "create and veiw invoces button"-->
 
 
-
+       <record id="view_sale_advance_payment_inv_inherited" model="ir.ui.view">
+         <field name="name">Invoice Orders Inherited</field>
+        <field name="model">sale.advance.payment.inv</field>
+         <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"/>
+         <field name="arch" type="xml">
+            <data>
+               <xpath expr="//button[@id='create_invoice']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+               </xpath>
+            </data>
+        </field>
+        </record>
 </odoo>
