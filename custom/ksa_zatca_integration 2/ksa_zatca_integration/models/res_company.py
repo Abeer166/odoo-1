@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, exceptions, api
+from odoo.tools import mute_logger
 import requests
+import logging
 import base64
 import math
 import json
 import odoo
 import os
+
+_zatca = logging.getLogger('Zatca Debugger for res.company :')
 
 # ZATCA SDK Dummy Values
 zatca_sdk_private_key = "MHQCAQEEIDyLDaWIn/1/g3PGLrwupV4nTiiLKM59UEqUch1vDfhpoAcGBSuBBAAKoUQDQgAEYYMMoOaFYAhMO/steotf" \
@@ -109,6 +113,7 @@ class ResCompany(models.Model):
     zatca_cert_public_key = fields.Char()
     zatca_csr_base64 = fields.Char()
 
+#    @mute_logger('Zatca Debugger for res.company :')
     def generate_zatca_certificate(self):
         conf = self.sudo()
 
@@ -186,6 +191,7 @@ class ResCompany(models.Model):
             f = open('/tmp/zatca.cnf', 'w+')
             f.write(config_cnf)
             f.close()
+            _zatca.info("config_cnf:: %s", config_cnf)
 
             # Certificate calculation moved to new function
             if self.zatca_is_sandbox:
@@ -371,6 +377,7 @@ class ResCompany(models.Model):
                     conf.zatca_reqID = response['requestID']
                     conf.zatca_secret = response['secret']
                     conf.csr_certificate = base64.b64decode(conf.zatca_bsToken)
+                    _zatca.info("conf.zatca_sb_bsToken:: %s", conf.zatca_sb_bsToken)
                     self.register_certificate()
                 # if endpoint == '/compliance':
                 #     self.compliance_api('/production/csids')
@@ -437,12 +444,14 @@ class ResCompany(models.Model):
                                                      .replace('\n', '').replace(' ', '')
         conf.zatca_cert_public_key = zatca_cert_public_key
         cert = os.popen(certificate_signature_algorithm).read()
+        _zatca.info("cert:: %s", cert)
         cert_find = cert.rfind("Signature Algorithm: ecdsa-with-SHA256")
         if cert_find > 0 and cert_find + 38 < len(cert):
             cert_sig_algo = cert[cert.rfind("Signature Algorithm: ecdsa-with-SHA256") + 38:].replace('\n', '')\
                                                                                             .replace(':', '')\
                                                                                             .replace(' ', '')
             conf.zatca_cert_sig_algo = cert_sig_algo
+            _zatca.info("cert_sig_algo:: %s", cert_sig_algo)
         else:
             raise exceptions.ValidationError("Invalid Certificate (CSID) Provided.")
 
