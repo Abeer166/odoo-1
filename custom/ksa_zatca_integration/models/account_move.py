@@ -274,6 +274,7 @@ class AccountMove(models.Model):
         return str(value)
 
 
+    @mute_logger('Zatca Debugger for account.move :')
     def create_xml_file(self, previous_hash=0, pos_refunded_order_id=0):
         amount_verification = 0  # for debug mode
         conf = self.company_id.sudo()

@@ -113,7 +113,7 @@ class ResCompany(models.Model):
     zatca_cert_public_key = fields.Char()
     zatca_csr_base64 = fields.Char()
 
-#    @mute_logger('Zatca Debugger for res.company :')
+    @mute_logger('Zatca Debugger for res.company :')
     def generate_zatca_certificate(self):
         conf = self.sudo()
 
@@ -449,7 +449,8 @@ class ResCompany(models.Model):
         if cert_find > 0 and cert_find + 38 < len(cert):
             cert_sig_algo = cert[cert.rfind("Signature Algorithm: ecdsa-with-SHA256") + 38:].replace('\n', '')\
                                                                                             .replace(':', '')\
-                                                                                            .replace(' ', '')
+                                                                                            .replace(' ', '')\
+                                                                                            .replace('SignatureValue', '')
             conf.zatca_cert_sig_algo = cert_sig_algo
             _zatca.info("cert_sig_algo:: %s", cert_sig_algo)
         else:
