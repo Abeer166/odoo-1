@@ -65,24 +65,25 @@
                                         </p>
                                     </div>
 <!--                                        ONLY FOR DEBUGGING-->
-                                    <group invisible="1">
-<!--                                        <field name="zatca_icv_counter" readonly="1"/>-->
-<!--                                        <field name="zatca_onboarding_status" readonly="0"/>-->
-<!--                                        <field name="zatca_certificate_status" readonly="1"/>-->
-<!--                                        <field name="zatca_on_board_status_details"/>-->
-<!--                                        <span colspan="2">live</span>-->
-<!--                                        <field name="zatca_bsToken" readonly="0" style="word-wrap: anywhere;"/>-->
-<!--                                        <field name="zatca_reqID" readonly="0"/>-->
-<!--                                        <field name="zatca_secret" readonly="0"/>-->
-<!--                                        <span colspan="2">sandbox</span>-->
-<!--                                        <field name="zatca_sb_bsToken" readonly="0" style="word-wrap: anywhere;"/>-->
-<!--                                        <field name="zatca_sb_reqID" readonly="0"/>-->
-<!--                                        <field name="zatca_sb_secret" readonly="0"/>-->
-<!--                                        <span colspan="2">Sensitive Zatca fields</span>-->
-<!--                                        <field name="csr_certificate" required="0" force_save="1" style="word-wrap: anywhere;"-->
-<!--                                               attrs="{'readonly' :[('zatca_certificate_status', '=', True)]}"/>-->
-<!--                                        <field name="zatca_prod_private_key" readonly="0" style="word-wrap: anywhere;"/>-->
-<!--                                        <field name="zatca_csr_base64" readonly="0" style="word-wrap: anywhere;"/>-->
+                                    <group invisible="0">
+                             <field name="zatca_icv_counter" readonly="1"/>
+                                       <field name="zatca_onboarding_status" readonly="0"/>
+                                      <field name="zatca_certificate_status" readonly="1"/>
+                                        <field name="zatca_on_board_status_details"/>
+                                       <span colspan="2">live</span>
+                                       <field name="zatca_bsToken" readonly="0" style="word-wrap: anywhere;"/>
+                                      <field name="zatca_reqID" readonly="0"/>
+                                      <field name="zatca_secret" readonly="0"/>
+                                     <span colspan="2">sandbox</span>
+                                      <field name="zatca_sb_bsToken" readonly="0" style="word-wrap: anywhere;"/>
+                                       <field name="zatca_sb_reqID" readonly="0"/>
+                                     <field name="zatca_sb_secret" readonly="0"/>
+                                      <span colspan="2">Sensitive Zatca fields</span>
+                                      <field name="csr_certificate" required="0" force_save="1" style="word-wrap: anywhere;"
+                                             attrs="{'readonly' :[('zatca_certificate_status', '=', True)]}"/>
+                                       <field name="zatca_prod_private_key" readonly="0" style="word-wrap: anywhere;"/>
+                                       <field name="zatca_csr_base64" readonly="0" style="word-wrap: anywhere;"/>
+                                        <field name="zatca_cert_sig_algo" readonly="1"/>
                                     </group>
                                     <group>
                                         <group>
