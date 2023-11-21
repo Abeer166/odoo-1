@@ -117,7 +117,7 @@ class AccountMoveReport(models.Model):
             bt_120_text += x.text + ", "
         return bt_120_text[:-2]
 
-    @mute_logger('Zatca Debugger for account.move :')
+
     def get_qrcode(self):
         # qr = qrcode.QRCode(version=1,
         #                    box_size=10,
