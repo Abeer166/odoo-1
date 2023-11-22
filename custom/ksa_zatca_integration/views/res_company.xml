@@ -65,9 +65,9 @@
                                         </p>
                                     </div>
 <!--                                        ONLY FOR DEBUGGING-->
-                                    <group invisible="0">
+                                    <group invisible="1">
                              <field name="zatca_icv_counter" readonly="1"/>
-                                       <field name="zatca_onboarding_status" readonly="0"/>
+                                      <!-- <field name="zatca_onboarding_status" readonly="0"/>
                                       <field name="zatca_certificate_status" readonly="1"/>
                                         <field name="zatca_on_board_status_details"/>
                                        <span colspan="2">live</span>
@@ -83,7 +83,7 @@
                                              attrs="{'readonly' :[('zatca_certificate_status', '=', True)]}"/>
                                        <field name="zatca_prod_private_key" readonly="0" style="word-wrap: anywhere;"/>
                                        <field name="zatca_csr_base64" readonly="0" style="word-wrap: anywhere;"/>
-                                        <field name="zatca_cert_sig_algo" readonly="1"/>
+                                        <field name="zatca_cert_sig_algo" readonly="1"/> -->
                                     </group>
                                     <group>
                                         <group>
