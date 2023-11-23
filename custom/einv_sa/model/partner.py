@@ -9,7 +9,7 @@ from odoo.exceptions import ValidationError
 class Partner(models.Model):
     _name = "res.partner"
     _inherit = "res.partner"
-    building_no = fields.Char(string="Building no", help="Building No")
+    building_no = fields.Integer(string="Building no", help="Building No")
     district = fields.Char(string="District", help="District")
     code = fields.Char(string="Code", help="Code")
     additional_no = fields.Char(string="Additional no", help="Additional No")
@@ -21,7 +21,7 @@ class Partner(models.Model):
         for record in self:
             if len(record.vat) != 15:
                 raise ValidationError('يجب ان تتكون خانة الرقم الضريبي من ١٥ رقم ')
-    
+
     def test(self):
 
         pass

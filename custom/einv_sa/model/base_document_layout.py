@@ -13,7 +13,7 @@ class BaseDocumentLayout(models.TransientModel):
     company_registry = fields.Char(string="CR", related='company_id.company_registry', help="")
     vat = fields.Char(related='company_id.vat', readonly=True, compute="_check_vat")
 
-    building_no = fields.Char(string="Building no", related='partner_id.building_no', help="Building No")
+    building_no = fields.Integer(string="Building no", related='partner_id.building_no', help="Building No")
     district = fields.Char(string="District", related='company_id.district', help="District")
     code = fields.Char(string="Code", related='company_id.code', help="Code")
     additional_no = fields.Char(string="Additional no", related='company_id.additional_no', help="Additional No")

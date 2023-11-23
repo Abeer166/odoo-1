@@ -12,7 +12,7 @@ class Company(models.Model):
     namee = fields.Char(string=" name", related='partner_id.name')
     street = fields.Char(string=" name", related='partner_id.street')
 
-    building_no = fields.Char(string="Building no", related='partner_id.building_no', help="Building No")
+    building_no = fields.Integer(string="Building no", related='partner_id.building_no', help="Building No")
     district = fields.Char(string="District", related='partner_id.district', help="District")
     code = fields.Char(string="Code", related='partner_id.code', help="Code")
     additional_no = fields.Char(string="Additional no", related='partner_id.additional_no', help="Additional No")
