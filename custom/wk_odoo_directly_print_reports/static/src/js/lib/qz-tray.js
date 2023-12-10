@@ -22,7 +22,7 @@ var qz = (function() {
     }
 ///// PRIVATE METHODS /////
     var _qz = {
-        VERSION: "2.0.5",                              //must match @version above
+        VERSION: "2.2",                              //must match @version above
         DEBUG: false,
         log: {
             /** Debugging messages */
