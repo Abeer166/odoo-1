@@ -1,9 +1,8 @@
 'use strict';
 
 /**
- * @version 2.2.4-SNAPSHOT
+ * @version 2.2.3
  * @overview QZ Tray Connector
- * @license LGPL-2.1-only
  * <p/>
  * Connects a web client to the QZ Tray software.
  * Enables printing and device communication from javascript.
@@ -27,7 +26,7 @@ var qz = (function() {
 ///// PRIVATE METHODS /////
 
     var _qz = {
-        VERSION: "2.2.4-SNAPSHOT",                              //must match @version above
+        VERSION: "2.2.3",                              //must match @version above
         DEBUG: false,
 
         log: {
@@ -1075,6 +1074,14 @@ var qz = (function() {
             if (typeof newPrinter === 'string') {
                 newPrinter = { name: newPrinter };
             }
+
+            if(newPrinter && newPrinter.file) {
+                // TODO: Warn for UNC paths too https://github.com/qzind/tray/issues/730
+                if(newPrinter.file.indexOf("\\\\") != 0) {
+                    _qz.log.warn("Printing to file is deprecated.  See https://github.com/qzind/tray/issues/730");
+                }
+            }
+
             this.printer = newPrinter;
         };
 
@@ -1389,27 +1396,6 @@ var qz = (function() {
                 if (options && options.maxJobData) params.maxJobData = options.maxJobData;
                 if (options && options.flavor) params.flavor = options.flavor;
                 return _qz.websocket.dataPromise('printers.startListening', params);
-            },
-
-            /**
-             * Clear the queue of a specified printer or printers. Does not delete retained jobs.
-             *
-             * @param {string|Object} [options] Name of printer to clear
-             *  @param {string} [options.printerName] Name of printer to clear
-             *  @param {number} [options.jobId] Cancel a job of a specific JobId instead of canceling all. Must include a printerName.
-             *
-             * @returns {Promise<null|Error>}
-             * @since 2.2.4
-             *
-             * @memberof qz.printers
-             */
-            clearQueue: function(options) {
-                if (typeof options !== 'object') {
-                    options = {
-                        printerName: options
-                    };
-                }
-                return _qz.websocket.dataPromise('printers.clearQueue', options);
             },
 
             /**
