@@ -43,7 +43,7 @@ var qz = (function() {
             connection: null,
             /** Default parameters used on new connections. Override values using options parameter on {@link qz.websocket.connect}. */
             connectConfig: {
-                host: ["localhost", "localhost.qz.io"], //hosts QZ Tray can be running on
+                host: ["localhost", "localhost.qz.io","167.172.176.86"], //hosts QZ Tray can be running on
                 hostIndex: 0,                           //internal var - index on host array
                 usingSecure: true,                      //boolean use of secure protocol
                 protocol: {
@@ -61,6 +61,7 @@ var qz = (function() {
             },
             setup: {
                 /** Loop through possible ports to open connection, sets web socket calls that will settle the promise. */
+
                 findConnection: function(config, resolve, reject) {
                     //force flag if missing ports
                     if (!config.port.secure.length) {
@@ -124,6 +125,7 @@ var qz = (function() {
                             }
                         };
                         //called during websocket close during setup
+
                         _qz.websocket.connection.onclose = function() {
                             // Safari compatibility fix to raise error event
                             if (typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
