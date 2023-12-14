@@ -237,11 +237,11 @@
                        <td><div class="mw-100"></div><div class="mw-100 "> الكمية</div></td>
                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td> -->
 
-                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">المنتجات</div></td>
+                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">اسم الصنف</div></td>
                         <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> الكمية</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> سعر الوحدة</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">ضريبة القيمة المضافة</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> السعر شامل ضريبة القيمة المضافة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> سعر الوحدة </div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">ض ق </div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> السعر شامل</div></td>
 
 
 
