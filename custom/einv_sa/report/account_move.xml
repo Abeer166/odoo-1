@@ -45,14 +45,24 @@
                             <Strong>رقم الفاتورة</Strong>
                         </div>
                     </div>
-
-                    <div class="row">
+                     <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
                         <div class="col-12 text-center" style="font-size: 10px;">
                             <span t-field="doc.name"></span>
 
                         </div>
                     </div>
+
+                    <div class="row">
+                        <!--<div class="col-4"><Strong>Invoice Date</Strong></div>-->
+                        <div class="col-20 text-right" style="font-size: 10px;">
+                            <Strong>تاريخ الفاتورة </Strong>
+                            <span t-field="doc.invoice_date"></span>
+
+                        </div>
+                     </div>
+
+
 
                      <div class="row">
                         <!--<div class="col-4"><Strong>Invoice Number</Strong></div>-->
@@ -86,14 +96,7 @@
 
               <div class="row p-1 my-2">
                 <div class="col-20 text-center" >
-                     <div class="row">
-                        <!--<div class="col-4"><Strong>Invoice Date</Strong></div>-->
-                        <div class="col-20 text-right" style="font-size: 10px;">
-                            <Strong>تاريخ </Strong>
-                            <span t-field="doc.invoice_date"></span>
 
-                        </div>
-                     </div>
 
                     <div class="row">
                         <div class="col-20 text-right" style="font-size: 10px;">
@@ -211,7 +214,7 @@
         <template id="einv_sa.inv_lines" >
 
             <div class="row p-1 mt-3 bg-light">
-                   <div class="col-12 text-center" style="font-size: 13px;"><Strong>المنتجات</Strong></div>
+                   <div class="col-12 text-center" style="font-size: 10px; font-weight: bold;"><Strong>المنتجات</Strong></div>
                </div>
             
             <table class="table table-sm o_main_table " name="invoice_line_ids_table">
@@ -234,17 +237,17 @@
                        <td><div class="mw-100"></div><div class="mw-100 "> الكمية</div></td>
                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 ">المنتجات</div></td> -->
 
-                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;">المنتجات</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;"> الكمية</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;"> سعر الوحدة</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;">ضريبة القيمة المضافة</div></td>
-                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px;"> السعر شامل ضريبة القيمة المضافة</div></td>
+                        <td class="text-left"><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">المنتجات</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> الكمية</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> سعر الوحدة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;">ضريبة القيمة المضافة</div></td>
+                        <td><div class="mw-100"></div><div class="mw-100 " style="font-size: 10px; font-weight: bold;"> السعر شامل ضريبة القيمة المضافة</div></td>
 
 
 
                     </tr>
                 </thead>
-                <tbody class="invoice_line_ids_tbody text-center" style="font-size: 10px;">
+                <tbody class="invoice_line_ids_tbody text-center" style="font-size: 10px; font-weight: bold;">
                     <!-- foreach-->
                     <tr t-foreach="doc.invoice_line_ids" t-as="line">
                         <!--<td class="text-left"><span t-field="line.name"/></td>
@@ -289,7 +292,7 @@
                 </div> -->
                 <div class="row" >
                     <div class="col-2"></div>
-                    <div class="col-12 text-center" style="font-size: 12px;" >
+                    <div class="col-12 text-center" style="font-size: 10px; font-weight: bold; " >
                         <div class="row border border-top-0" >
                            <!-- <div class="col-4">Total (Excluding VAT)</div>-->
                             <div class="col-6 text-right" >اجمالي المبلغ الخاضع للضريبة</div>
