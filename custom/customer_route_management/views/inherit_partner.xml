@@ -31,19 +31,18 @@
                                       <field name="sequence" widget="handle"/>
                                        <field name="name" />
                                       <!-- <field name="statuss" widget="boolean_toggle"/>-->
-                                       <button name="%(sale.act_res_partner_2_sale_order)d"
+                                       <button name="%(editing.sale_order_mandob_report_action)d"
                                                string="بيع   "
                                                class="btn-primary"
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="action" icon="fa-file-text-o"
-                                               context="{'search_default_quotation': 1, 'default_type': 'quotation'}"/>
+                                               context="{'search_default_quotation': 1, 'default_type': 'quotation', 'default_partner_id': active_id}"/>
                                        <button name="open_map"
                                                string="الخريطة"
                                                class="btn-primary"
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="object"
                                                 />
-
                                 </tree>
 
                             </field>
