@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="report_supplier_monthly_statement">
+			<t t-call="web.external_layout">
+				<t t-set="doc" t-value="doc.with_context({'lang':doc.lang})" />
+				<div class="page">
+					<div>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+					</div>
+					<div class="oe_structure" />
+					<h2>
+							Monthly Supplier Statement:
+						<span t-esc="doc.name" />
+					</h2>
+					<br/>
+					<br/>
+					<h5>
+							Month:  <span t-esc="doc.month_name" />
+					</h5>
+					<div class="row">
+						<t t-set="i" t-value="0.0" />
+						<t t-set="j" t-value="0.0" />
+						<t t-set="k" t-value="0.0" />
+					</div>
+					<br/>
+					<br/>
+					<div class="row">
+						<t t-if ="doc.monthly_statement_line_ids.ids">
+							<table class="table table-condensed">
+								<thead>
+									<tr class="text-center">
+										<th>Date</th>
+										<th>Invoice Number</th>
+										<th>Origin</th>
+										<th>Invoices/Debits</th>
+										<th>Payments/Credits</th>
+										<th>Balance</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-set="call_method" t-value="doc.read()" />
+									<tr t-foreach="doc.monthly_statement_line_ids.sorted(key=lambda r: r.name)" t-as="line">
+										<t t-if="line.invoice_type == 'bill'">
+											<t t-if="line.invoice_date >= doc.start_date">
+												<t t-if="doc.end_date >= line.invoice_date">
+													<td>
+														<span t-esc="line.invoice_date" />
+													</td>
+													<td>
+														<span t-esc="line.name" />
+													</td>
+													<td>
+														<span t-esc="line.invoice_origin" />
+													</td>
+													<td class="text-right">
+														<span t-esc="line.amount_total_signed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+													</td>
+													<td class="text-right">
+														<span t-esc="line.credit_amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+													</td>
+													<td class="text-right">
+														<span t-esc="line.result" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+													</td>
+												</t>
+											</t>
+										</t>
+									</tr>
+								</tbody>
+							</table>
+						</t>
+					</div>
+					<div class="row" name="total">
+						<div class="col-xs-5 pull-right">
+							<table class="table table-condensed">
+								<tr class="border-black">
+									<td>
+										<strong>Total Supplier Amount OverDue :</strong>
+									</td>
+									<td class="text-right">
+										<span t-field="doc.monthly_payment_supplier_amount_overdue_amt" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}' />
+									</td>
+								</tr>
+								<tr class="border-black">
+									<td>
+										<strong>Supplier Balance Due :</strong>
+									</td>
+									<td class="text-right">
+										<span t-field="doc.monthly_payment_supplier_amount_due_amt" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}' />
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</t>
+		</template>
+
+		<template id="monthly_supplier_statement">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="account_statement.report_supplier_monthly_statement" t-lang="doc.lang" />
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

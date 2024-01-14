@@ -1,0 +1,23 @@
+16.0.0.1 ==> fixed issue for the total amount due and total overdue in Customer statements.
+16.0.0.2 ==> fixed issue of view of Total overdue amount and Balance Due field.
+16.0.0.3 ==> Added origin column in customer statment & supllier statement and also added origin column in all report.
+
+=> 16.0.0.4 : Improved an index as per latest changes.
+
+16.0.0.5 ==> Fixed issue of when print customer statement report in BALANCE,INVOICES/DEBIT PAYMENTS/CREDIT show more than two decimal point value.
+
+16.0.0.6 ==> Fixed issue of rounding in report.
+
+=> 16.0.0.7: Add portal and supplier report.
+
+=> 16.0.0.8 : Improved an index as per latest changes.
+
+16.0.0.9 ==> Fixed issue of when install module at that time trace back raised.
+
+16.0.1.0 ==> Fixed issue of when added credit notes at that time show wrong value in customer statement and customer statement report.
+
+16.0.1.1 ==> Fixed issue of when print Customer monthly report at that time trce back occur.
+
+16.0.1.2 ==> Update code for when run cron of monthly statement at that time takes too much time for sent mail and also fixed issue for when print any report from customer list view at that time show wrong data in report.
+
+16.0.1.3 ==> Fixed issue of when invoice payment already done but in monthly customer statement report show wrong values in amount due and amonut overdue.

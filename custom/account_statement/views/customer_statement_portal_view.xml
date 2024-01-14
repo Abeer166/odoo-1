@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_customer_statement_count_view" name="Portal My Home : Customer Statement" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-set="company" t-value="request.env.user.company_id"/>
+                    <t t-if ='company.is_customer_statement_portal'>
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Customer Statement</t>
+                            <t t-set="url" t-value="'/my/request'"/>
+                            <t t-set="placeholder_count" t-value="'customer_count'"/>
+                        </t>
+                    </t>
+           </xpath>
+    </template>
+
+     <template id="portal_customer_statement" name="Portal layout : Customer Statement" inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'request'" t-attf-class="breadcrumb-item #{'active ' if not customer else ''}">
+                <a t-if="customer" t-attf-href="/my/request?{{ keep_query() }}">Customer Statement</a>
+                <t t-else="">Customer Statement</t>
+            </li>   
+            <li t-if="customer" class="breadcrumb-item active">
+                <t t-esc="customer.name"/>
+            </li>
+        </xpath>
+    </template>
+    
+  
+    <template id="portal_customer_statement_view" name="Customer Statement">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Customer Statement</t>
+            </t>
+            <t t-if="customer_rq" t-call="portal.portal_table">
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" style="width:20%; float:right;">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a role="button" type="submit" class="btn btn-secondary btn-block o_download_btn" t-attf-href="/send_customer/send_mail" title="Send Mail"><i class="fa fa-envelope"/> Send Customer Statement </a>
+                    </div>
+                </div>
+
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" style="width:20%; float:right;">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a role="button" type="submit" class="btn btn-secondary btn-block o_download_btn mr16" t-attf-href="/customer_portal/download_pdf/" title="Download"><i class="fa fa-download"/> Print Customer Statement </a>
+                    </div>
+                </div>
+              
+                <thead>
+                    <tr class="active">
+                        <th class="text-center">Invoice/Bill Date</th>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Origin</th>
+                        <th class="text-center">Invoice/Debits</th>
+                        <th class="text-center">Payment/Credits</th>
+                        <th class="text-center">Balance</th> 
+                    </tr>
+                </thead>  
+                <t t-foreach="customer_rq" t-as="request">
+                    <tr>
+                        <td class="text-center"><span t-field="request.invoice_date"/></td>
+                        <td class="text-center"><span t-field="request.name"/></td>
+                        <td class="text-center"><span t-field="request.invoice_origin"/></td>
+                        <td class="text-center"><span t-field="request.amount_total_signed"/></td>
+                        <td class="text-center"><span t-field="request.credit_amount"/></td>
+                        <td class="text-center"><span t-field="request.result"/></td>
+                    </tr>
+               </t>
+            </t>
+        </t>
+    </template>
+    
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+        <li t-if="page_name == 'send_mail'" class="breadcrumb-item">Customer Statement</li>
+        <li t-if="page_name == 'send_sup_mail'" class="breadcrumb-item">Supplier Statement</li>
+        </xpath>
+    </template>
+
+    <template id="send_mail_success_page" name="send_mail">
+        <t t-call="portal.portal_layout">  
+            <div id="wrap">
+                 <div class="container pt128 pb128">
+                     <div class="col-md-12">
+                         <div class="alert alert-success text-center">
+                            <b><span style="font-size:21px;" >Sent successfully! Thank you.</span></b>
+                         </div>
+                    </div>
+               </div>
+           </div>
+        </t>
+    </template>
+
+
+    <template id="portal_suuplier_statement_count_view" name="Portal My Home : Supplier Statement" customize_show="True" inherit_id="portal.portal_my_home" priority="28">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-set="company" t-value="request.env.user.company_id"/>
+                    <t t-if ='company.is_supplier_statement_portal'>
+                        <t t-call="portal.portal_docs_entry">
+                            <t t-set="title">Supplier Statement</t>
+                            <t t-set="url" t-value="'/my/sup_request'"/>
+                            <t t-set="placeholder_count" t-value="'supplier_count'"/>
+                        </t>
+                    </t>
+           </xpath>
+    </template>
+
+     <template id="portal_supplier_statement" name="Portal layout : Supplier Statement" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'sup_request'" t-attf-class="breadcrumb-item #{'active ' if not supplier else ''}">
+                <a t-if="supplier" t-attf-href="/my/sup_request?{{ keep_query() }}">Supplier Statement</a>
+                <t t-else="">Supplier Statement</t>
+            </li>   
+            <li t-if="supplier" class="breadcrumb-item active">
+                <t t-esc="supplier.name"/>
+            </li>
+        </xpath>
+    </template>
+
+
+  
+  
+    <template id="portal_supplier_statement_view" name="Supplier Statement">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Supplier Statement</t>
+            </t>
+
+            <t t-if="supplier_rq" t-call="portal.portal_table">
+
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" style="width:20%; float:right;">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a role="button" type="submit" class="btn btn-secondary btn-block o_download_btn" t-attf-href="/send_supplier/send_mail" title="Send Mail"><i class="fa fa-envelope"/> Send Supplier Statement </a>
+                    </div>
+                </div>
+
+                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" style="width:20%; float:right;">
+                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                        <a role="button" type="submit" class="btn btn-secondary btn-block o_download_btn mr16" t-attf-href="/supplier_portal/download_pdf/" title="Download"><i class="fa fa-download"/> Print Supplier Statement </a>
+                    </div>
+                </div>
+  
+                <thead>
+                    <tr class="active">
+                        <th class="text-center">Invoice/Bill Date</th>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Origin</th>
+                        <th class="text-center">Invoice/Debits</th>
+                        <th class="text-center">Balance</th> 
+                    </tr>
+                </thead>  
+                <t t-foreach="supplier_rq" t-as="request">
+                    <tr>
+                        <td class="text-center"><span t-field="request.invoice_date"/></td>
+                        <td class="text-center"><span t-field="request.name"/></td>
+                        <td class="text-center"><span t-field="request.invoice_origin"/></td>
+                        <td class="text-center"><span t-field="request.amount_total_signed"/></td>
+                        <td class="text-center"><span t-field="request.amount_residual_signed"/></td>
+                    </tr>
+               </t>
+            </t>
+        </t>
+    </template>
+</odoo>
