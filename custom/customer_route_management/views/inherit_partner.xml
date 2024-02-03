@@ -16,6 +16,22 @@
                 </xpath>
             </field>
         </record>
+
+
+
+         <!-- step1 create a new window action with a new domain -->
+        <record id="new_act_res_partner_2_sale_order" model="ir.actions.act_window">
+          <field name="name">مبيعات اليوم</field>
+            <field name="type">ir.actions.act_window</field>
+           <field name="res_model">sale.order</field>
+           <field name="view_mode">tree,form</field>
+          <field name="domain">[('date_order', '&gt;=', (context_today().strftime('%Y-%m-%d') + ' 00:00:00')),
+                ('date_order', '&lt;=', (context_today().strftime('%Y-%m-%d') + ' 23:59:59'))
+                ]</field>
+        </record>
+
+
+
         <record id="delivery_route_lines_form" model="ir.ui.view">
             <field name="name">Route</field>
             <field name="model">route.lines</field>
@@ -31,18 +47,27 @@
                                       <field name="sequence" widget="handle"/>
                                        <field name="name" />
                                       <!-- <field name="statuss" widget="boolean_toggle"/>-->
-                                       <button name="%(sale.act_res_partner_2_sale_order)d"
+                                       <button name="%(new_act_res_partner_2_sale_order)d"
                                                string="بيع   "
                                                class="btn-primary"
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="action" icon="fa-file-text-o"
-                                               context="{'search_default_quotation': 1, 'default_type': 'quotation'}"/>
+                                               context="{'search_default_quotation': 1, 'default_type': 'quotation'}"
+                                                />
                                        <button name="open_map"
                                                string="الخريطة"
                                                class="btn-primary"
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
                                                type="object"
                                                 />
+
+                                       <button name="action_view_partner_invoices_custom"
+                                               string=" الفواتير الغير مسددة"
+                                               class="btn-primary"
+                                               style="background-color: red; border-radius: 50%; padding: 10px;"
+                                               type="object" icon="fa-file-text-o"
+                                       />
+
                                 </tree>
 
                             </field>

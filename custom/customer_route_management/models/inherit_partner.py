@@ -28,6 +28,27 @@ class ResPartner(models.Model):
     def open_map(self):
         super(ResPartner, self).open_map()
 
+    #we inhirit action_view_partner_invoices function and we add a new domain which is 'payment_state', '!=', 'paid'
+    def action_view_partner_invoices_custom(self):
+        self.ensure_one()
+        action = super(ResPartner, self).action_view_partner_invoices()
+
+        # Add your custom domain here
+        custom_domain = [('payment_state', '!=', 'paid')]
+
+        # Check if 'domain' key exists in action and add the custom domain
+        if 'domain' in action:
+            action['domain'].extend(custom_domain)
+        else:
+            action['domain'] = custom_domain
+
+        return action
+
+
+
+
+
+
 
 
 
