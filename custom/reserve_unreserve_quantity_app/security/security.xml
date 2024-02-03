@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+	<record id="group_manage_res_unres" model="res.groups">
+            <field name="name">Manage Reserve-Unreserve</field>
+    </record>
+
+</odoo>

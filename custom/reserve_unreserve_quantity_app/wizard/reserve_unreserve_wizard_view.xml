@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="reserve_unreserve_wizard_form_view" model="ir.ui.view">
+            <field name="name">reserve.unreserve.wizard.wizard</field>
+            <field name="model">reserve.unreserve.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="picking_ids" widget="many2many_tags" required="1"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <separator colspan="6"/>
+                    <footer>
+                        <button name="action_reserve_stock" string="Reserve" type="object" class="oe_highlight"/>
+                        <button name="action_unreserve_stock" string="Unreserve" type="object" class="oe_highlight"/>
+                        <button special="cancel" class="oe_highlight" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

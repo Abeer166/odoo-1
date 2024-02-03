@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_res_form_inherit" model="ir.ui.view">
+		<field name="name">purchase.order.form.inherit</field>
+		<field name="model">purchase.order</field>
+		<field name="inherit_id" ref="purchase.purchase_order_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+               <button type="object" class="oe_stat_button" icon="fa-dollar" groups="reserve_unreserve_quantity_app.group_manage_res_unres" name="action_view_sale_order">
+					<div class="o_form_field o_stat_info">
+						<span class="o_stat_value">
+							<field name="so_count"/>
+						</span>
+						<span class="o_stat_text">Sale Order</span>
+					</div>
+				</button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

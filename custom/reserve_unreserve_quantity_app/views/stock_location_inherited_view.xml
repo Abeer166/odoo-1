@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_location_form_inherit" model="ir.ui.view">
+		<field name="name">stock.location.form.inherit</field>
+		<field name="model">stock.location</field>
+		<field name="inherit_id" ref="stock.view_location_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="before">
+				<header>
+				   <button type="object"
+						   class="oe_highlight"
+						   string="Reserve"
+						   groups="reserve_unreserve_quantity_app.group_manage_res_unres"
+						   name="action_reserve_quantity"/>
+					 <button type="object"
+							 class="oe_highlight"
+							 string="Uneserve"
+						   groups="reserve_unreserve_quantity_app.group_manage_res_unres"
+						   name="action_unreserve_quantity"/>
+				</header>
+			</xpath>
+        </field>
+    </record>
+
+</odoo>

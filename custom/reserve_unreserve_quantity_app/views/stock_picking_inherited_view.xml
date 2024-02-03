@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_reserve_unreserve_wizard" model="ir.actions.server">
+        <field name="name">Reserve Unreserve</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_view_types">list</field>
+        <!-- <field name="view_id" ref="view_merge_invoice_form"/> -->
+        <field name="groups_id" eval="[(4, ref('reserve_unreserve_quantity_app.group_manage_res_unres'))]"/>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            action = records.action_open_reserve_wizard()
+        </field>
+    </record>
+</odoo>
