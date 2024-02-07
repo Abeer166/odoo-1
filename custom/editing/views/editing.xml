@@ -2,7 +2,7 @@
 
 <odoo>
     <data>
-
+<!--
         <record id="new_act_res_partner_2_sale_order" model="ir.actions.act_window">
           <field name="name">مبيعات اليوم</field>
             <field name="type">ir.actions.act_window</field>
@@ -11,7 +11,7 @@
           <field name="domain">[('date_order', '&gt;=', (context_today().strftime('%Y-%m-%d') + ' 00:00:00')),
                 ('date_order', '&lt;=', (context_today().strftime('%Y-%m-%d') + ' 23:59:59'))
                 ]</field>
-        </record>
+        </record>-->
 
 
    <!-- show button validate to only customer_route_management.group_rout_user -->
