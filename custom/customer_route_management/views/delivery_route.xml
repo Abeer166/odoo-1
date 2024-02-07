@@ -37,6 +37,7 @@
                                                type="object"
                                                 />
                                             <!--<field name="destination_route"/>-->
+                                            
                                         </tree>
                                     </field>
                                 </page>

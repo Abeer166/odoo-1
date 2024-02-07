@@ -10,7 +10,7 @@
     "license": 'OPL-1',
     "price": 25,
     "currency": "EUR",
-    'depends': ['sale','base','account','customer_route_management'],
+    'depends': ['sale','base','customer_route_management','stock'],
     'data': ['views/editing.xml'],
     'demo': [],
     'installable': True,
