@@ -28,7 +28,7 @@ class ResPartner(models.Model):
         super(ResPartner, self).open_map()
 
     #we inhirit action_view_partner_invoices function and we add a new domain which is 'payment_state', '!=', 'paid'
-    def action_view_partner_invoices(self):
+    def action_view_partner_invoices_custom(self):
         self.ensure_one()
         action = super(ResPartner, self).action_view_partner_invoices()
 
