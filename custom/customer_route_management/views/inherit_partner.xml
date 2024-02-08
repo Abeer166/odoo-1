@@ -61,12 +61,7 @@
                                                type="object"
                                                 />
 
-                                        <button name="action_view_partner_invoices_custom"
-                                               string=" الفواتير الغير مسددة"
-                                               class="btn-primary"
-                                               style="background-color: red; border-radius: 50%; padding: 10px;"
-                                               type="object" icon="fa-file-text-o"
-                                       />
+                                     
 
                                 </tree>
 
