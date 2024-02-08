@@ -65,7 +65,7 @@
                                                string=" الفواتير الغير مسددة"
                                                class="btn-primary"
                                                style="background-color: red; border-radius: 50%; padding: 10px;"
-                                               type="action"/>
+                                               type="object"/>
                                 </tree>
 
                             </field>
