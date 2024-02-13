@@ -9,16 +9,36 @@
     <field name="arch" type="xml">
         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="aljard"/>
+
         </xpath>
-
+         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
+            <field name="alsarf"/>
+        </xpath>
+         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
+            <field name="multiplied_field"/>
+        </xpath>
+        <xpath expr="//group[@name='sale_total']" position="inside">
+                <field name="total_multiplied_field"/>
+            </xpath>
          <!--To hide kanban view from phone and make just tree view-->
-
          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']"  position="attributes">
           <attribute name="mode">tree</attribute>
         </xpath>
 
     </field>
 </record>
+<record id="view_account_move_form_inherited" model="ir.ui.view">
+        <field name="name">account.move.form.inherited</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <!-- Add the total_multiplied_field to the account.move.form view -->
+            <xpath expr="//group[@name='other']" position="inside">
+                <field name="sale_order_id"/>
+                <field name="total_multiplied_field"/>
+            </xpath>
+        </field>
+    </record>
 
          <!-- step2 window action -->
 

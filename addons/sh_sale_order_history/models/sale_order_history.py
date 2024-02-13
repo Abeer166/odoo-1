@@ -186,13 +186,57 @@ class SaleOrderHistory(models.Model):
             'res_id': self.name.order_id.id,
         }
 
-
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    aljard = fields.Float('الجرد',store=True)
+    aljard = fields.Float('الجرد', store=True)
+    order_history_line = fields.One2many( 'sale.order.history', 'name', string='Order History Lines')
+    alsarf = fields.Float('الصرف', related='order_history_line.alsarf',store=True, readonly=True)
+    multiplied_field = fields.Float('Multiplied Field', compute='_compute_multiplied_field', store=True, readonly=True)
+    @api.onchange('aljard')
+    def _onchange_aljard(self):
+        if self.order_id:
+            previous_record = self.env['sale.order.history'].search([
+                ('order_id', '=', self.order_id.id),
+                ('product_id', '=', self.product_id.id)],
+                limit=1, order='id desc')
 
+            if previous_record:
+                alsarf_value = (previous_record.product_uom_qty + previous_record.product_uom_qtyy) - self.aljard
+                self.alsarf = alsarf_value
+            else:
+                self.alsarf = 0.0
 
+    @api.depends('alsarf', 'order_history_line.price_unit')
+    def _compute_multiplied_field(self):
+        for record in self:
+            record.multiplied_field = record.alsarf * record.order_history_line.price_unit
+
+    @api.model
+    def create(self, values):
+        # Call the parent create method
+        record = super(SaleOrderLine, self).create(values)
+
+        # Call the method to update the total in sale order
+        if record.order_id:
+            record.order_id._compute_total_multiplied_field()
+
+        return record
+
+    def write(self, values):
+        # Call the parent write method
+        result = super(SaleOrderLine, self).write(values)
+
+        # Call the method to update the total in sale order
+        if self.order_id:
+           self.order_id._compute_total_multiplied_field()
+
+        return result
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    total_multiplied_field = fields.Float('Total Multiplied Field', related='sale_order_id.total_multiplied_field', store=True, readonly=True)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -203,6 +247,18 @@ class SaleOrder(models.Model):
         string="Order History",
         compute="_compute_sale_order_history",
     )
+    total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
+                                          store=True, readonly=True)
+
+    @api.depends('order_line.multiplied_field')
+    def _compute_total_multiplied_field(self):
+        for order in self:
+            total_before_tax = sum(order.order_line.mapped('multiplied_field'))
+            tax_percentage = 0.15  # 15% tax
+
+            # Calculate the total including tax
+            order.total_multiplied_field = total_before_tax * (1 + tax_percentage)
+
 
     enable_reorder = fields.Boolean(
         "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
