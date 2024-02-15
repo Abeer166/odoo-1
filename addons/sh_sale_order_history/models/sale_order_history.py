@@ -264,7 +264,7 @@ class AccountMove(models.Model):
     total_multiplied_field_sale_order = fields.Float(
         string='المجموع المستحق لهذه الفاتوره ',
         store=True,readonly=True  )
-    
+
     # ovirraide the function that is in account move and add eidt
     # it that make the value in total_multiplied_field in sale order visible in new field in account move total_multiplied_field_sale_order.
 
