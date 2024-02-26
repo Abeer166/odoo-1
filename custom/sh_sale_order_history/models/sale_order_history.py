@@ -345,13 +345,21 @@ class AccountMove(models.Model):
     # to find total_balance for all invoice
     @api.depends('total_balance')
     def _compute_sum_total_balance(self):
-        all_moves = self.env['account.move'].search([])
-        total_balance_sum = sum(all_moves.mapped('total_balance'))
         for move in self:
-            move.sum_total_balance = total_balance_sum
+            # Filter account moves based on the partner_id
+            moves_with_same_partner = self.env['account.move'].search([
+                ('partner_id', '=', move.partner_id.id),
+            ])
+
+            # Calculate the total_balance for the filtered account moves
+            total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
+
+            # Update the sum_total_balance for all moves with the same partner_id
+            for move_with_same_partner in moves_with_same_partner:
+                move_with_same_partner.sum_total_balance = total_balance_sum
 
 
-    #--------------------------------------------------
+#--------------------------------------------------
 
 
 class SaleOrder(models.Model):
