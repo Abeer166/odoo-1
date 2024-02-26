@@ -56,6 +56,9 @@
 
 
         </xpath>
+         <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/label[1]" position="before">
+             s<field name="sum_total_balance"  widget="monetary" options="{'currency_field': 'currency_id'}"  />
+                  </xpath>
     </field>
 </record>
 
