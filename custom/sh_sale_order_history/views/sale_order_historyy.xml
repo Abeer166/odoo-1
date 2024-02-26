@@ -50,7 +50,7 @@
 
              <group>
                  <field name="total_balance" widget="monetary" options="{'currency_field': 'currency_id'}"  />
-                <field name="sum_total_balance" force_save="1" widget="monetary" options="{'currency_field': 'currency_id'}"  />
+                <field name="sum_total_balance"  widget="monetary" options="{'currency_field': 'currency_id'}"  />
 
             </group>
 
