@@ -24,6 +24,7 @@
                             <field name="product_uom" string="Unit" optional="show" />
                             <field name="discount" optional="show" />
                             <field name="price_subtotal" optional="show" />
+
                             <field name="enable_reorder" invisible="1" />
                             <field name="status" decoration-success="status == 'sale' or status == 'done'" decoration-info="status == 'draft' or status == 'sent'" widget="badge" />
                              <field name="product_uom_qtyy"   attrs="{'readonly': [('status', '!=', 'draft')]}"/>
