@@ -250,26 +250,7 @@ class SaleOrderLine(models.Model):
 
 
     #_______________________________________________________
-class AccountPayment(models.Model):
-    _inherit = 'account.payment'
 
-    @api.model
-    def create(self, vals):
-        # Call the original create method
-        payment = super(AccountPayment, self).create(vals)
-
-        # Subtract amount_company_currency_signed from sum_total_balance
-        if payment.partner_id:
-            moves_with_same_partner = self.env['account.move'].search([
-                ('partner_id', '=', payment.partner_id.id),
-            ])
-
-            total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
-
-            for move_with_same_partner in moves_with_same_partner:
-                move_with_same_partner.sum_total_balance -= payment.amount_company_currency_signed
-
-        return payment
 
 
 class AccountMove(models.Model):
