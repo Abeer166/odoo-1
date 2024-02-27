@@ -250,7 +250,26 @@ class SaleOrderLine(models.Model):
 
 
     #_______________________________________________________
+class AccountPayment(models.Model):
+    _inherit = 'account.payment'
 
+    @api.model
+    def create(self, vals):
+        # Call the original create method
+        payment = super(AccountPayment, self).create(vals)
+
+        # Subtract amount_company_currency_signed from sum_total_balance
+        if payment.partner_id:
+            moves_with_same_partner = self.env['account.move'].search([
+                ('partner_id', '=', payment.partner_id.id),
+            ])
+
+            total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
+
+            for move_with_same_partner in moves_with_same_partner:
+                move_with_same_partner.sum_total_balance -= payment.amount_company_currency_signed
+
+        return payment
 
 
 class AccountMove(models.Model):
@@ -262,7 +281,6 @@ class AccountMove(models.Model):
         string='Sale Order',
         help='Link to the corresponding sale order.',
     )
-
 
     # We creat new field name total_multiplied_field_sale_order to add value that in sale order inside it ..
 
@@ -291,8 +309,6 @@ class AccountMove(models.Model):
         if sale_order:
             # Assign the value of total_multiplied_field from Sale Order to Account Move
             self.total_multiplied_field_sale_order = sale_order.total_multiplied_field
-
-
 
         return result
 
@@ -328,9 +344,7 @@ class AccountMove(models.Model):
     def _compute_sum_total_balance(self):
         for move in self:
             # Filter account moves based on the partner_id
-            moves_with_same_partner = self.env['account.move'].search([
-                ('partner_id', '=', move.partner_id.id),
-            ])
+            moves_with_same_partner = self.env['account.move'].search([('partner_id', '=', move.partner_id.id), ])
 
             # Calculate the total_balance for the filtered account moves
             total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
