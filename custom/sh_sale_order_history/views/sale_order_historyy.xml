@@ -45,7 +45,8 @@
                 <field name="sum_total_balance"/>
             </group>
 
-
+        </xpath>
+             
 
     </field>
 </record>
