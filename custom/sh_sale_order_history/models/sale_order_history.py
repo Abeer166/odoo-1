@@ -326,7 +326,7 @@ class AccountMove(models.Model):
 
     sum_total_balance = fields.Float(
         string='Sum Total Balance',
-        compute='_compute_sum_total_balance',
+       # compute='_compute_sum_total_balance',
         store=True,
         readonly=True,
         help='Sum of total_balance for all records.'
