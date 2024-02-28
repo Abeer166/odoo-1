@@ -42,14 +42,13 @@
                                               ('payment_state' ,'=', 'invoicing_legacy')]}">
                 <field name="sale_order_id" widget="many2one" options="{'no_create_edit': True}" domain="[('state','=','sale')]" context="{'default_state': 'sale'}" invisible="1"/>
                 <field name="total_multiplied_field_sale_order"/>
-                 <field name="total_multiplied_field_sale_order"/>
             </group>
         </xpath>
 
         <xpath expr="//group/group[@id='header_left_group']/field[@name='partner_id']" position="after">
              <group>
-                <field name="sum_total_balance" />
-                   <field name="total_multiplied_field_sale_order"/>
+                <field name="sum_total_balance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
              </group>
         </xpath>
 

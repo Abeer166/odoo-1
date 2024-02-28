@@ -19,7 +19,7 @@ Last Sales Order History Module, SO Reorder Product Lines,
 Client Quotation History, Find History From SO App,
 Get Last Sale Order History Application, Search Customer Last Quote History Odoo.
 """,
-    "depends": ['base',"sale_management","account"],
+    "depends": ['base',"sale_management","account","sale"],
     "data": [
         "security/ir.model.access.csv",
         "security/stages_security.xml",
