@@ -42,6 +42,7 @@
                                               ('payment_state' ,'=', 'invoicing_legacy')]}">
                 <field name="sale_order_id" widget="many2one" options="{'no_create_edit': True}" domain="[('state','=','sale')]" context="{'default_state': 'sale'}" invisible="1"/>
                 <field name="total_multiplied_field_sale_order"/>
+                 <field name="total_multiplied_field_sale_order"/>
             </group>
         </xpath>
 
