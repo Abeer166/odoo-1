@@ -190,7 +190,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     aljard = fields.Float('الجرد', store=True)
-
+'''
     #NOW LIN ORDER_ID IN SALE HISTOR "NAME" TO SALE ORDER LINE
     order_history_line = fields.One2many( 'sale.order.history', 'name', string='Order History Lines')
     #----------------------------------------------
@@ -199,7 +199,7 @@ class SaleOrderLine(models.Model):
     alsarf = fields.Float('الصرف', related='order_history_line.alsarf',store=True, readonly=True)
     #---------------------------------------------
     #value from multiplied alsarf .
-    multiplied_field = fields.Float('Multiplied Field', compute='_compute_multiplied_field', store=True, readonly=True)
+  ##  multiplied_field = fields.Float('Multiplied Field', compute='_compute_multiplied_field', store=True, readonly=True)
 
     #-----------------------------------
     #this method to show vlue and updat the record for field alsarf in sales order line whenever user add new vallue in aljard field .
@@ -250,7 +250,8 @@ class SaleOrderLine(models.Model):
 
 
     #_______________________________________________________
-class AccountPayment(models.Model):
+    '''
+'''class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
     @api.model
@@ -355,7 +356,7 @@ class AccountMove(models.Model):
 
 
 #--------------------------------------------------
-
+'''
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -370,10 +371,10 @@ class SaleOrder(models.Model):
     #--------------------------------------------------------------
     #We add total_multiplied_field to sale order which  comput sum for total multiple field that is defid already in sales order line.
 
-    total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
-                                          store=True, readonly=True)
+   # total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
+          #                                store=True, readonly=True)
 
-    @api.model
+  '''  @api.model
     @api.depends('order_line.multiplied_field')
     def _compute_total_multiplied_field(self):
         for order in self:
@@ -381,7 +382,7 @@ class SaleOrder(models.Model):
             tax_percentage = 0.15  # 15% tax
 
             # Calculate the total including tax
-            order.total_multiplied_field = total_before_tax * (1 + tax_percentage)
+            order.total_multiplied_field = total_before_tax * (1 + tax_percentage)'''
     #-----------------------------------------------------------------------
 
 
