@@ -368,13 +368,14 @@ class SaleOrder(models.Model):
         compute="_compute_sale_order_history",
     )
 
+    '''
     #--------------------------------------------------------------
-    #We add total_multiplied_field to sale order which  comput sum for total multiple field that is defid already in sales order line.
+    We add total_multiplied_field to sale order which  comput sum for total multiple field that is defid already in sales order line.
 
-   # total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
-          #                                store=True, readonly=True)
+   total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
+                                        store=True, readonly=True)
 
-  '''  @api.model
+    @api.model
     @api.depends('order_line.multiplied_field')
     def _compute_total_multiplied_field(self):
         for order in self:
@@ -383,8 +384,6 @@ class SaleOrder(models.Model):
 
             # Calculate the total including tax
             order.total_multiplied_field = total_before_tax * (1 + tax_percentage)'''
-    #-----------------------------------------------------------------------
-
 
     enable_reorder = fields.Boolean(
         "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
