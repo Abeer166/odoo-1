@@ -190,7 +190,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     aljard = fields.Float('الجرد', store=True)
-'''
+
     #NOW LIN ORDER_ID IN SALE HISTOR "NAME" TO SALE ORDER LINE
     order_history_line = fields.One2many( 'sale.order.history', 'name', string='Order History Lines')
     #----------------------------------------------
@@ -199,7 +199,7 @@ class SaleOrderLine(models.Model):
     alsarf = fields.Float('الصرف', related='order_history_line.alsarf',store=True, readonly=True)
     #---------------------------------------------
     #value from multiplied alsarf .
-  ##  multiplied_field = fields.Float('Multiplied Field', compute='_compute_multiplied_field', store=True, readonly=True)
+    multiplied_field = fields.Float('Multiplied Field', compute='_compute_multiplied_field', store=True, readonly=True)
 
     #-----------------------------------
     #this method to show vlue and updat the record for field alsarf in sales order line whenever user add new vallue in aljard field .
@@ -250,27 +250,6 @@ class SaleOrderLine(models.Model):
 
 
     #_______________________________________________________
-    '''
-'''class AccountPayment(models.Model):
-    _inherit = 'account.payment'
-
-    @api.model
-    def create(self, vals):
-        # Call the original create method
-        payment = super(AccountPayment, self).create(vals)
-
-        # Subtract amount_company_currency_signed from sum_total_balance
-        if payment.partner_id:
-            moves_with_same_partner = self.env['account.move'].search([
-                ('partner_id', '=', payment.partner_id.id),
-            ])
-
-            total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
-
-            for move_with_same_partner in moves_with_same_partner:
-                move_with_same_partner.sum_total_balance -= payment.amount_company_currency_signed
-
-        return payment
 
 
 class AccountMove(models.Model):
@@ -317,46 +296,46 @@ class AccountMove(models.Model):
         # the way to show to balance of each invoice
         # --------------------------------------------------
 
-    total_balance = fields.Float(
-        string='Total Balance',
-        compute='_compute_total_balance',
-        store=True,
-        readonly=True,
-        help='Sum of total_multiplied_field_sale_order for all invoices.'
-    )
+        # total_balance = fields.Float(
+        #    string='Total Balance',
+        #   compute='_compute_total_balance',
+        #    store=True,
+        #        help='Sum of total_multiplied_field_sale_order for all invoices.'
+        # )
 
-    sum_total_balance = fields.Float(
-        string='Sum Total Balance',
-        compute='_compute_sum_total_balance',
-        store=True,
-        readonly=True,
-        help='Sum of total_balance for all records.'
-    )
+        sum_total_balance = fields.Float(
+            string='Total Balance',
+            compute='_compute_sum_total_balance',
+            store=True,
+            readonly=True,
+            help='Sum of total_balance for all records.'
+        )
 
-    # to find total_multiplied_field_sale_order for each invoice
-    @api.depends('total_multiplied_field_sale_order')
-    def _compute_total_balance(self):
-        for move in self:
-            total_balance = sum(move.mapped('total_multiplied_field_sale_order'))
-            move.total_balance = total_balance
+        # to find total_multiplied_field_sale_order for each invoice
+        #  @api.depends('total_multiplied_field_sale_order')
+        #  def _compute_total_balance(self):
+        #   for move in self:
+        #   total_balance = sum(move.mapped('total_multiplied_field_sale_order'))
+        #   move.total_balance = total_balance
 
-    # to find total_balance for all invoice
-    @api.depends('total_balance')
-    def _compute_sum_total_balance(self):
-        for move in self:
-            # Filter account moves based on the partner_id
-            moves_with_same_partner = self.env['account.move'].search([('partner_id', '=', move.partner_id.id), ])
+        # to find total_balance for all invoice
+        @api.depends('sale_order_id', 'sale_order_id.total_multiplied_field')
+        def _compute_sum_total_balance(self):
+            for move in self:
+                # Filter account moves based on the partner_id
+                moves_with_same_partner = self.env['account.move'].search([
+                    ('partner_id', '=', move.partner_id.id),
+                ])
 
-            # Calculate the total_balance for the filtered account moves
-            total_balance_sum = sum(moves_with_same_partner.mapped('total_balance'))
+                # Calculate the total_balance for the filtered account moves
+                total_balance_sum = sum(moves_with_same_partner.mapped('sale_order_id.total_multiplied_field'))
 
-            # Update the sum_total_balance for all moves with the same partner_id
-            for move_with_same_partner in moves_with_same_partner:
-                move_with_same_partner.sum_total_balance = total_balance_sum
+                # Update the sum_total_balance for all moves with the same partner_id
+                for move_with_same_partner in moves_with_same_partner:
+                    move_with_same_partner.sum_total_balance = total_balance_sum
 
 
 #--------------------------------------------------
-'''
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -367,12 +346,10 @@ class SaleOrder(models.Model):
         string="Order History",
         compute="_compute_sale_order_history",
     )
+    #----------------------------------------
+    # We add total_multiplied_field to sale order which comput sum for total multiple field that is defid already in sales order line
 
-    '''
-    #--------------------------------------------------------------
-    We add total_multiplied_field to sale order which  comput sum for total multiple field that is defid already in sales order line.
-
-   total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
+    total_multiplied_field = fields.Float('Total Multiplied Field', compute='_compute_total_multiplied_field',
                                         store=True, readonly=True)
 
     @api.model
@@ -383,7 +360,7 @@ class SaleOrder(models.Model):
             tax_percentage = 0.15  # 15% tax
 
             # Calculate the total including tax
-            order.total_multiplied_field = total_before_tax * (1 + tax_percentage)'''
+            order.total_multiplied_field = total_before_tax * (1 + tax_percentage)
 
     enable_reorder = fields.Boolean(
         "Enable Reorder Button for Sale Order History", related="company_id.enable_reorder")
@@ -414,7 +391,7 @@ class SaleOrder(models.Model):
                 self.write({'order_line': [(0, 0, vals)]})
                 self._cr.commit()
 
-        return {"type": "ir.actions.client", "tag": "reload"}
+        return{"type": "ir.actions.client", "tag": "reload"}
 
     @api.model
     @api.onchange("partner_id")
@@ -566,4 +543,3 @@ class SaleOrder(models.Model):
                                     }
                                     res = self.env['sale.order.history'].sudo().create(
                                         history_vals)
-

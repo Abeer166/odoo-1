@@ -14,13 +14,13 @@
          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="alsarf"/>
         </xpath>
-  <!--       <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
+         <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
             <field name="multiplied_field"/>
         </xpath>
         <xpath expr="//group[@name='sale_total']" position="inside">
                 <field name="total_multiplied_field"/>
             </xpath>
-          --><!--To hide kanban view from phone and make just tree view-->
+          <!--To hide kanban view from phone and make just tree view-->
 
          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']"  position="attributes">
           <attribute name="mode">tree</attribute>
@@ -30,7 +30,7 @@
 </record>
 
  <!--show field total_multiplied_field_sale_order in account move form -->
-<!--
+
   <record id="view_account_move_line_form_inherit" model="ir.ui.view">
     <field name="name">account.move.line.form.inherit</field>
     <field name="model">account.move</field>
@@ -48,13 +48,15 @@
 
         <xpath expr="//group/group[@id='header_left_group']/field[@name='partner_id']" position="after">
              <group>
+                  <label for="sum_total_balance" string="sum_total_balance" style="font-weight:bold;"
+                                       attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
                 <field name="sum_total_balance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
 
              </group>
         </xpath>
 
     </field>
-</record>-->
+</record>
 
      <!---->
 
