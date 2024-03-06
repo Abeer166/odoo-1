@@ -303,7 +303,7 @@ class AccountMove(models.Model):
         #        help='Sum of total_multiplied_field_sale_order for all invoices.'
         # )
 
-        sum_total_balance = fields.Float(
+    sum_total_balance = fields.Float(
             string='Total Balance',
             compute='_compute_sum_total_balance',
             store=True,
@@ -319,8 +319,8 @@ class AccountMove(models.Model):
         #   move.total_balance = total_balance
 
         # to find total_balance for all invoice
-        @api.depends('sale_order_id', 'sale_order_id.total_multiplied_field')
-        def _compute_sum_total_balance(self):
+    @api.depends('sale_order_id', 'sale_order_id.total_multiplied_field')
+    def _compute_sum_total_balance(self):
             for move in self:
                 # Filter account moves based on the partner_id
                 moves_with_same_partner = self.env['account.move'].search([

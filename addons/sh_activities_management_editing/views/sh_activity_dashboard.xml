@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="sh_crm_db_activity_todo_tbl_inherit" inherit_id="sh_activities_management.sh_crm_db_activity_todo_tbl">
+    <xpath expr="//button[@class='btn-success mark-edit']" position="attributes">
+        <attribute name="groups">sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager</attribute>
+        <!-- Add other modifications if needed -->
+    </xpath>
+
+</template>
+<template id="sh_crm_db_activity_all_tbl_inherit" inherit_id="sh_activities_management.sh_crm_db_activity_all_tbl">
+    <xpath expr="//button[@class='btn-success mark-edit']" position="attributes">
+        <attribute name="groups">sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager</attribute>
+        <!-- Add other modifications if needed -->
+    </xpath>
+
+</template>
+    <template id="sh_crm_db_activity_overdue_tbl_inherit" inherit_id="sh_activities_management.sh_crm_db_activity_overdue_tbl">
+    <xpath expr="//button[@class='btn-success mark-edit']" position="attributes">
+        <attribute name="groups">sh_activities_management.group_activity_supervisor,sh_activities_management.group_activity_manager</attribute>
+        <!-- Add other modifications if needed -->
+    </xpath>
+
+</template>
+</odoo>
