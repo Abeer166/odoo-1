@@ -251,6 +251,28 @@ class SaleOrderLine(models.Model):
 
     #_______________________________________________________
 
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    total_multiplied_field_sum = fields.Float(
+        string='المجموع المستحق للشريك',
+        compute='_compute_total_multiplied_field_sum',
+        store=True,
+        help='Sum of total_multiplied_field_sale_order for all invoices related to the partner.'
+    )
+
+    # Define a related field to access the invoices related to the partner
+    invoice_ids = fields.One2many(
+        'account.move',
+        'partner_id',
+        string='Invoices',
+        help='Invoices related to the partner.'
+    )
+
+    @api.depends('invoice_ids.total_multiplied_field_sale_order')
+    def _compute_total_multiplied_field_sum(self):
+        for partner in self:
+            partner.total_multiplied_field_sum = sum(partner.invoice_ids.mapped('total_multiplied_field_sale_order'))
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -296,6 +318,30 @@ class AccountMove(models.Model):
         # the way to show to balance of each invoice
         # --------------------------------------------------
 
+    partner_id = fields.Many2one(
+            'res.partner',
+            string='Partner',
+            store=True,
+        )
+
+        # Add a related field to display total_multiplied_field_sum from res.partner on account.move
+    total_multiplied_field_partner = fields.Float(
+            string='المجموع المستحق للشريك',
+            related='partner_id.total_multiplied_field_sum',
+            store=True,
+        )
+
+    @api.model
+    def create(self, vals):
+            move = super(AccountMove, self).create(vals)
+            move.partner_id.total_multiplied_field_sum += move.total_multiplied_field_sale_order
+            return move
+
+    def write(self, vals):
+            res = super(AccountMove, self).write(vals)
+            for move in self:
+                move.partner_id.total_multiplied_field_sum += move.total_multiplied_field_sale_order
+            return res
         # total_balance = fields.Float(
         #    string='Total Balance',
         #   compute='_compute_total_balance',
@@ -305,12 +351,12 @@ class AccountMove(models.Model):
 
         # New field to sum total_multiplied_field_sale_order for the same partner
 
-    total_multiplied_field_partner = fields.Float(
-            string='المجموع المستحق لهذا الشريك',
-            compute='_compute_total_multiplied_field_partner',
-            store=True, readonly=True,
-            help='Sum of total_multiplied_field_sale_order for the same partner.'
-        )
+   # total_multiplied_field_partner = fields.Float(
+      #      string='المجموع المستحق لهذا الشريك',
+      #      compute='_compute_total_multiplied_field_partner',
+      #      store=True, readonly=True,
+      #      help='Sum of total_multiplied_field_sale_order for the same partner.'
+      #  )
 
         # to find total_multiplied_field_sale_order for each invoice
         #  @api.depends('total_multiplied_field_sale_order')
@@ -320,21 +366,21 @@ class AccountMove(models.Model):
         #   move.total_balance = total_balance
 
         # to find total_balance for all invoice
-    @api.depends('total_multiplied_field_sale_order')
-    def _compute_total_multiplied_field_partner(self):
-        for move in self:
+   # @api.depends('total_multiplied_field_sale_order')
+   # def _compute_total_multiplied_field_partner(self):
+      #  for move in self:
             # Filter account moves based on the partner_id
-            moves_with_same_partner = self.env['account.move'].search([
-                ('partner_id', '=', move.partner_id.id),
-            ])
+         #   moves_with_same_partner = self.env['account.move'].search([
+          #      ('partner_id', '=', move.partner_id.id),
+          #  ])
 
             # Calculate the total_multiplied_field_sale_order for the filtered account moves
-            total_multiplied_field_partner_sum = sum(
-                moves_with_same_partner.mapped('total_multiplied_field_sale_order'))
+          #  total_multiplied_field_partner_sum = sum(
+           #     moves_with_same_partner.mapped('total_multiplied_field_sale_order'))
 
             # Update the total_multiplied_field_partner for all moves with the same partner_id
-            for move_with_same_partner in moves_with_same_partner:
-                move_with_same_partner.total_multiplied_field_partner = total_multiplied_field_partner_sum
+          #  for move_with_same_partner in moves_with_same_partner:
+          #      move_with_same_partner.total_multiplied_field_partner = total_multiplied_field_partner_sum
 
 #--------------------------------------------------
 
