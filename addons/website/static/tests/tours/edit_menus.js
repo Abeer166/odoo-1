@@ -42,11 +42,10 @@ wTourUtils.registerWebsitePreviewTour('edit_menus', {
         run: () => {}, // It's a check.
     },
     // Add a menu item in edit mode.
-    wTourUtils.clickOnEdit(),
+    ...wTourUtils.clickOnEditAndWaitEditMode(),
     {
         content: "Click on a menu item",
         trigger: 'iframe #top_menu .nav-item a',
-        extra_trigger: '#oe_snippets.o_loaded',
     },
     {
         content: "Click on Edit Menu",
@@ -115,10 +114,9 @@ wTourUtils.registerWebsitePreviewTour('edit_menus', {
         run: () => {}, // it's a check
     },
     // Edit the menu item from the "edit menu" popover button
-    wTourUtils.clickOnEdit(),
+    ...wTourUtils.clickOnEditAndWaitEditMode(),
     {
         content: "Click on the 'Modnar' link",
-        extra_trigger: "#oe_snippets.o_loaded",
         trigger: 'iframe #top_menu .nav-item a:contains("Modnar")',
     },
     {
@@ -262,5 +260,18 @@ wTourUtils.registerWebsitePreviewTour('edit_menus', {
         trigger: 'iframe #top_menu .nav-item:has(a.o_mega_menu_toggle:contains("Megaaaaa!")) ' +
                  '.s_mega_menu_odoo_menu',
         run: () => {}, // It's a check.
-    }
+    },
+    ...wTourUtils.clickOnEditAndWaitEditMode(),
+    {
+        content: "Open nested menu item",
+        trigger: 'iframe #top_menu .nav-item:contains("Home"):nth(1) .dropdown-toggle',
+    },
+    {
+        // If this step fails, it means that a patch inside bootstrap was lost.
+        content: "Press the 'down arrow' key.",
+        trigger: 'iframe #top_menu .nav-item:contains("Home") li:contains("Contact us")',
+        run: function (actions) {
+            this.$anchor[0].dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowDown" }));
+        },
+    },
 ]);

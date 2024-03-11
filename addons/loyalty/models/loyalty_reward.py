@@ -129,7 +129,7 @@ class LoyaltyReward(models.Model):
 
     @api.depends('discount_product_domain')
     def _compute_reward_product_domain(self):
-        compute_all_discount_product = self.env['ir.config_parameter'].get_param('loyalty.compute_all_discount_product_ids', 'enabled')
+        compute_all_discount_product = self.env['ir.config_parameter'].sudo().get_param('loyalty.compute_all_discount_product_ids', 'enabled')
         for reward in self:
             if compute_all_discount_product == 'enabled':
                 reward.reward_product_domain = "null"
@@ -138,7 +138,7 @@ class LoyaltyReward(models.Model):
 
     @api.depends('discount_product_ids', 'discount_product_category_id', 'discount_product_tag_id', 'discount_product_domain')
     def _compute_all_discount_product_ids(self):
-        compute_all_discount_product = self.env['ir.config_parameter'].get_param('loyalty.compute_all_discount_product_ids', 'enabled')
+        compute_all_discount_product = self.env['ir.config_parameter'].sudo().get_param('loyalty.compute_all_discount_product_ids', 'enabled')
         for reward in self:
             if compute_all_discount_product == 'enabled':
                 reward.all_discount_product_ids = self.env['product.product'].search(reward._get_discount_product_domain())
@@ -166,9 +166,9 @@ class LoyaltyReward(models.Model):
                 if len(products) == 0:
                     reward_string = _('Free Product')
                 elif len(products) == 1:
-                    reward_string = _('Free Product - %s', reward.reward_product_id.name)
+                    reward_string = _('Free Product - %s', reward.reward_product_id.with_context(display_default_code=False).display_name)
                 else:
-                    reward_string = _('Free Product - [%s]', ', '.join(products.mapped('name')))
+                    reward_string = _('Free Product - [%s]', ', '.join(products.with_context(display_default_code=False).mapped('display_name')))
             elif reward.reward_type == 'discount':
                 format_string = '%(amount)g %(symbol)s'
                 if reward.currency_id.position == 'before':
@@ -187,7 +187,7 @@ class LoyaltyReward(models.Model):
                 elif reward.discount_applicability == 'specific':
                     product_available = self.env['product.product'].search(reward._get_discount_product_domain(), limit=2)
                     if len(product_available) == 1:
-                        reward_string += product_available.name
+                        reward_string += product_available.with_context(display_default_code=False).display_name
                     else:
                         reward_string += _('specific products')
                 if reward.discount_max_amount:
@@ -230,6 +230,11 @@ class LoyaltyReward(models.Model):
             # Keep the name of our discount product up to date
             for reward in self:
                 reward.discount_line_product_id.write({'name': reward.description})
+        if 'active' in vals:
+            if vals['active']:
+                self.reward_product_id.action_unarchive()
+            else:
+                self.reward_product_id.action_archive()
         return res
 
     def unlink(self):

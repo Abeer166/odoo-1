@@ -6,6 +6,7 @@ var publicWidget = require('web.public.widget');
 var animations = require('website.content.snippets.animation');
 const extraMenuUpdateCallbacks = [];
 const weUtils = require('web_editor.utils');
+const dom = require('web.dom');
 
 const BaseAnimatedHeader = animations.Animation.extend({
     disabledInEditableMode: false,
@@ -32,6 +33,10 @@ const BaseAnimatedHeader = animations.Animation.extend({
      * @override
      */
     start: function () {
+        // Used to prevent the editor's unbreakable protection from restoring
+        // the menu's auto-hide updates in edit mode.
+        this.el.addEventListener("autoMoreMenu.willAdapt", () => this.options.wysiwyg
+            && this.options.wysiwyg.odooEditor.unbreakableStepUnactive());
         this.$main = this.$el.next('main');
         this.isOverlayHeader = !!this.$el.closest('.o_header_overlay, .o_header_overlay_theme').length;
         this.$dropdowns = this.$el.find('.dropdown, .dropdown-menu');
@@ -79,17 +84,7 @@ const BaseAnimatedHeader = animations.Animation.extend({
      * @private
      */
     _adaptFixedHeaderPosition() {
-        // Compensate scrollbar
-        this.el.style.removeProperty('right');
-        if (this.fixedHeader) {
-            const scrollableEl = $(this.el).parent().closestScrollable()[0];
-            const style = window.getComputedStyle(this.el);
-            const borderLeftWidth = parseInt(style.borderLeftWidth.replace('px', ''));
-            const borderRightWidth = parseInt(style.borderRightWidth.replace('px', ''));
-            const bordersWidth = borderLeftWidth + borderRightWidth;
-            const newValue = parseInt(style['right']) + scrollableEl.offsetWidth - scrollableEl.clientWidth - bordersWidth;
-            this.el.style.setProperty('right', `${newValue}px`, 'important');
-        }
+        dom.compensateScrollbar(this.el, this.fixedHeader, false, 'right');
     },
     /**
      * @private
@@ -540,7 +535,7 @@ publicWidget.registry.menuDirection = publicWidget.Widget.extend({
      * @private
      */
     _onDropdownShow: function (ev) {
-        const $dropdown = $(ev.target).closest('.dropdown');
+        const $dropdown = $(ev.target).closest('.dropdown, .dropup');
         var $menu = $dropdown.children('.dropdown-menu');
         var liOffset = $dropdown.offset().left;
         var liWidth = $dropdown.outerWidth();
@@ -631,6 +626,24 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
             Dropdown.getOrCreateInstance(toggleEl).hide();
         }
     },
+    /**
+     * @private
+     * @param {Event} ev
+     * @param {String} method bootstrap dropdowns method name
+     */
+    _updateDropdownVisibility: function (ev, method) {
+        const { currentTarget } = ev;
+        if (config.device.size_class <= config.device.SIZES.SM) {
+            return;
+        }
+        if (currentTarget.classList.contains('o_extra_menu_items')) {
+            return;
+        }
+        const dropdownToggle = currentTarget.querySelector('.dropdown-toggle');
+        if (dropdownToggle) {
+            Dropdown.getOrCreateInstance(dropdownToggle)[method]();
+        }
+    },
 
     //--------------------------------------------------------------------------
     // Handlers
@@ -647,13 +660,21 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
                 return;
             }
         }
+        // Get the previously focused element of the page.
+        const focusedEl = this.el.ownerDocument.querySelector(":focus")
+            || window.frameElement && window.frameElement.ownerDocument.querySelector(":focus");
+
         // The user must click on the dropdown if he is on mobile (no way to
         // hover) or if the dropdown is the extra menu ('+').
-        if (config.device.size_class <= config.device.SIZES.SM ||
-            ev.currentTarget.classList.contains('o_extra_menu_items')) {
-            return;
+        this._updateDropdownVisibility(ev, 'show');
+
+        // Keep the focus on the previously focused element if any, otherwise do
+        // not focus the dropdown on hover.
+        if (focusedEl) {
+            focusedEl.focus();
+        } else {
+            ev.currentTarget.querySelector(".dropdown-toggle").blur();
         }
-        Dropdown.getOrCreateInstance(ev.currentTarget.querySelector('.dropdown-toggle')).show();
     },
     /**
      * @private
@@ -664,11 +685,7 @@ publicWidget.registry.hoverableDropdown = animations.Animation.extend({
             // Cancel handling from view mode.
             return;
         }
-        if (config.device.size_class <= config.device.SIZES.SM ||
-            ev.currentTarget.classList.contains('o_extra_menu_items')) {
-            return;
-        }
-        Dropdown.getOrCreateInstance(ev.currentTarget.querySelector('.dropdown-toggle')).hide();
+        this._updateDropdownVisibility(ev, 'hide');
     },
     /**
      * Called when the page is clicked anywhere.

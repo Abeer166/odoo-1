@@ -19,6 +19,7 @@ import {
     rightPos,
     moveNodes,
     nodeSize,
+    paragraphRelatedElements,
     prepareUpdate,
     setSelection,
     isMediaElement,
@@ -26,6 +27,8 @@ import {
     isNotEditableNode,
     createDOMPathGenerator,
     closestElement,
+    closestBlock,
+    getOffsetAndCharSize,
 } from '../utils/utils.js';
 
 Text.prototype.oDeleteBackward = function (offset, alreadyMoved = false) {
@@ -38,8 +41,9 @@ Text.prototype.oDeleteBackward = function (offset, alreadyMoved = false) {
         return;
     }
     // Get the size of the unicode character to remove.
-    const charSize = [...this.nodeValue.slice(0, offset)].pop().length;
-    deleteText.call(this, charSize, offset - charSize, DIRECTIONS.LEFT, alreadyMoved);
+    // If the current offset split an emoji in the middle , we need to change offset to the end of the emoji
+    const [newOffset, charSize] = getOffsetAndCharSize(this.nodeValue, offset, DIRECTIONS.LEFT);
+    deleteText.call(this, charSize, newOffset - charSize, DIRECTIONS.LEFT, alreadyMoved);
 };
 
 const isDeletable = (node) => {
@@ -91,7 +95,22 @@ HTMLElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false, 
         if (isUnbreakable(this) && (REGEX_BOOTSTRAP_COLUMN.test(this.className) || !isEmptyBlock(this))) {
             throw UNBREAKABLE_ROLLBACK_CODE;
         }
-        const parentEl = this.parentNode;
+        const parentEl = this.parentElement;
+        // Handle editable sub-nodes
+        if (
+            parentEl &&
+            parentEl.getAttribute("contenteditable") === "true" &&
+            parentEl.oid !== "root" &&
+            parentEl.parentElement &&
+            !parentEl.parentElement.isContentEditable &&
+            paragraphRelatedElements.includes(this.tagName) &&
+            !this.previousElementSibling
+        ) {
+            // The first child element of a contenteditable="true" zone which
+            // itself is contained in a contenteditable="false" zone can not be
+            // removed if it is paragraph-like.
+            throw UNREMOVABLE_ROLLBACK_CODE;
+        }
         const closestLi = closestElement(this, 'li');
         if ((closestLi && !closestLi.previousElementSibling) || !isBlock(this) || isVisibleEmpty(this)) {
             /**
@@ -122,6 +141,29 @@ HTMLElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false, 
                 }
             }
             parentEl.oDeleteBackward(parentOffset, alreadyMoved);
+            return;
+        }
+
+        /** If we are at the beninning of a block node,
+         *  And the previous node is empty, remove it.
+         *
+         *   E.g. (previousEl == empty)
+         *        <p><br></p><h1>[]def</h1> + BACKSPACE
+         *   <=>  <h1>[]def</h1>
+         *
+         *   E.g. (previousEl != empty)
+         *        <h3>abc</h3><h1>[]def</h1> + BACKSPACE
+         *   <=>  <h3>abc[]def</h3>
+        */
+        const previousElementSiblingClosestBlock = closestBlock(this.previousElementSibling);
+        if (
+            previousElementSiblingClosestBlock &&
+            (isEmptyBlock(previousElementSiblingClosestBlock) ||
+                previousElementSiblingClosestBlock.textContent === '\u200B') &&
+            paragraphRelatedElements.includes(this.nodeName)
+        ) {
+            previousElementSiblingClosestBlock.remove();
+            setSelection(this, 0);
             return;
         }
 
@@ -218,13 +260,14 @@ HTMLElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false, 
 };
 
 HTMLLIElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false) {
-    if (offset > 0 || this.previousElementSibling) {
-        // If backspace inside li content or if the li is not the first one,
-        // it behaves just like in a normal element.
-        HTMLElement.prototype.oDeleteBackward.call(this, offset, alreadyMoved);
+    // If the deleteBackward is performed at the begening of a LI element,
+    // we take the current LI out of the list.
+    if (offset === 0) {
+        this.oToggleList(offset);
         return;
     }
-    this.oShiftTab(offset);
+    // Otherwise, call the HTMLElement deleteBackward method.
+    HTMLElement.prototype.oDeleteBackward.call(this, offset, alreadyMoved);
 };
 
 HTMLBRElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false) {
