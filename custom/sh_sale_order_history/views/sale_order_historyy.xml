@@ -15,7 +15,7 @@
             <field name="alsarf"/>
         </xpath>
          <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='name']" position="after">
-            <field name="multiplied_field"/>
+            <field name="multiplied_field" invisible="1"/>
         </xpath>
         <xpath expr="//group[@name='sale_total']" position="inside">
                 <field name="total_multiplied_field"/>
@@ -48,9 +48,8 @@
 
         <xpath expr="//group/group[@id='header_left_group']/field[@name='partner_id']" position="after">
              <group>
-                  <label for="sum_total_balance" string="sum_total_balance" style="font-weight:bold;"
-                                       attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt'))]}"/>
-                <field name="sum_total_balance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                <field name="total_multiplied_field_partner" widget="monetary" options="{'currency_field': 'company_currency_id'}"/>
 
              </group>
         </xpath>
