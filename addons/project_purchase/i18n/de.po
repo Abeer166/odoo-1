@@ -41,12 +41,12 @@ msgstr "Projekt"
 #: code:addons/project_purchase/models/project.py:0
 #, python-format
 msgid "Purchase Order Items"
-msgstr "Kaufauftragspositionen"
+msgstr "Bestellpositionen"
 
 #. module: project_purchase
 #: model:ir.model,name:project_purchase.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Bestellposition"
+msgstr "Bestellzeile"
 
 #. module: project_purchase
 #: code:addons/project_purchase/models/project.py:0

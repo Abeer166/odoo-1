@@ -201,16 +201,11 @@ function makeActionManager(env) {
             // do nothing, the action might simply not be serializable
         }
         action.context = makeContext([context, action.context], env.services.user.context);
-        if (action.domain) {
-            const domain = action.domain || [];
-            action.domain =
-                typeof domain === "string"
-                    ? evaluateExpr(
-                          domain,
-                          Object.assign({}, env.services.user.context, action.context)
-                      )
-                    : domain;
-        }
+        const domain = action.domain || [];
+        action.domain =
+            typeof domain === "string"
+                ? evaluateExpr(domain, Object.assign({}, env.services.user.context, action.context))
+                : domain;
         if (action.help) {
             const htmlHelp = document.createElement("div");
             htmlHelp.innerHTML = action.help;
@@ -426,6 +421,7 @@ function makeActionManager(env) {
                     name: v.display_name.toString(),
                     type: v.type,
                     multiRecord: v.multiRecord,
+                    accessKey: v.accessKey,
                 };
                 if (view.type === v.type) {
                     viewSwitcherEntry.active = true;
@@ -447,12 +443,12 @@ function makeActionManager(env) {
             resModel: action.res_model,
             type: view.type,
             selectRecord: async (resId, { activeIds, mode }) => {
-                if (_getView("form")) {
+                if (target !== "new" && _getView("form")) {
                     await switchView("form", { mode, resId, resIds: activeIds });
                 }
             },
             createRecord: async () => {
-                if (_getView("form")) {
+                if (target !== "new" && _getView("form")) {
                     await switchView("form", { resId: false });
                 }
             },
@@ -807,6 +803,7 @@ function makeActionManager(env) {
             Component: ControllerComponent,
             componentProps: controller.props,
         };
+        env.services.dialog.closeAll();
         env.bus.trigger("ACTION_MANAGER:UPDATE", controller.__info__);
         return Promise.all([currentActionProm, closingProm]).then((r) => r[0]);
     }
@@ -1526,6 +1523,7 @@ export const actionService = {
         "view", // for legacy view compatibility #action-serv-leg-compat-js-class
         "ui",
         "user",
+        "dialog",
     ],
     start(env) {
         return makeActionManager(env);
