@@ -322,13 +322,14 @@ class AccountMove(models.Model):
             'res.partner',
             string='Partner',
             store=True,
-        )
+     readonly = True,
+    )
 
         # Add a related field to display total_multiplied_field_sum from res.partner on account.move
     total_multiplied_field_partner = fields.Float(
             string='المجموع المستحق للشريك',
             related='partner_id.total_multiplied_field_sum',
-            store=True,
+            store=True,readonly = True,
         )
 
     @api.model
